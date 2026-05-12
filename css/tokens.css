@@ -1,5 +1,5 @@
 :root {
-	--site-header-height: 4.5rem;
+	--site-header-height: 4.4rem;
 	--site-mega-flyout-rate: 300ms;
 	--site-mega-flyout-ease: cubic-bezier(.32, .15, 0, 1.01);
 	--mega-panel-inner-max: 80rem;
