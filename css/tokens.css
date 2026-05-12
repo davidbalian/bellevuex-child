@@ -1,3 +1,9 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+	font-family: 'Manrope', system-ui, sans-serif;
+}
+
 :root {
 	--site-header-height: 5rem;
 	--site-header-height-scrolled: 4rem;
