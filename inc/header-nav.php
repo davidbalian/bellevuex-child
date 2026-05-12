@@ -167,7 +167,7 @@ function chic_output_custom_header(): void {
 
 			<a class="site-header__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
 				<img
-					src="https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-athens-logo-2.png"
+					src="https://davidb1553.sg-host.com/wp-content/uploads/only-logo-favicon.png"
 					alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
 					class="site-header__logo"
 					loading="eager"

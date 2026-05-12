@@ -14,6 +14,7 @@ header.banner.navbar-default {
 	background: #fff;
 	border-bottom: 1px solid #e8e8e8;
 	min-height: var(--site-header-height);
+	padding-block: 0.5rem;
 }
 
 .site-header__inner {
@@ -38,7 +39,7 @@ header.banner.navbar-default {
 }
 
 .site-header__brand img {
-	height: 2.5rem;
+	height: 4rem;
 	width: auto;
 	display: block;
 }
