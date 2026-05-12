@@ -48,9 +48,9 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content">
-					<h1 class="home-hero__title fade-in">Stay in the Heart of Athens</h1>
-					<p class="home-hero__text fade-in">Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.</p>
-					<div class="home-hero__ctas fade-in">
+					<h1 class="home-hero__title fade-in fade-in-delay-0">Stay in the Heart of Athens</h1>
+					<p class="home-hero__text fade-in fade-in-delay-1">Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.</p>
+					<div class="home-hero__ctas fade-in fade-in-delay-2">
 						<a
 							class="home-hero__cta"
 							href="https://direct-book.com/properties/chiccentresuitesathens"
@@ -62,7 +62,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 			</div>
 			<a
 				href="#home-intro"
-				class="home-hero__scroll-down js-hero-scroll-next fade-in"
+				class="home-hero__scroll-down js-hero-scroll-next fade-in fade-in-delay-2"
 				aria-label="Scroll to next section"
 			>
 				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -77,8 +77,8 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<section class="home-intro" id="home-intro">
 		<div class="home-intro__inner">
-			<h2 class="home-intro__title fade-in">Welcome</h2>
-			<p class="home-intro__lede fade-in">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
+			<h2 class="home-intro__title fade-in fade-in-delay-0">Welcome</h2>
+			<p class="home-intro__lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
 		</div>
 	</section>
 

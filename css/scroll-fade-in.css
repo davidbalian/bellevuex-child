@@ -1,6 +1,6 @@
 /* ── Scroll fade-in entrance animations ───────────────────────────────────── */
-/* Applied globally. Opt in by adding class `fade-in` (+ optional delay class). */
-/* Auto-stagger: put `data-fade-stagger` on a parent; direct children get classes. */
+/* Opt in: add class `fade-in`. Stagger capped at 3 elements (delay-0/1/2 only). */
+/* Auto-stagger: put `data-fade-stagger` on a parent; JS adds fade-in + delay-N.  */
 
 @keyframes fade-in-up {
 	from { opacity: 0; translate: 0 24px; }
@@ -18,18 +18,10 @@
 	animation-delay: var(--fade-in-delay, 0s);
 }
 
-/* Stagger delay tokens */
-.fade-in-delay-0  { --fade-in-delay: 0s; }
-.fade-in-delay-1  { --fade-in-delay: 0.1s; }
-.fade-in-delay-2  { --fade-in-delay: 0.2s; }
-.fade-in-delay-3  { --fade-in-delay: 0.3s; }
-.fade-in-delay-4  { --fade-in-delay: 0.4s; }
-.fade-in-delay-5  { --fade-in-delay: 0.5s; }
-.fade-in-delay-6  { --fade-in-delay: 0.6s; }
-.fade-in-delay-7  { --fade-in-delay: 0.7s; }
-.fade-in-delay-8  { --fade-in-delay: 0.8s; }
-.fade-in-delay-9  { --fade-in-delay: 0.9s; }
-.fade-in-delay-10 { --fade-in-delay: 1.0s; }
+/* Stagger delay tokens — max 3 levels, 100ms total spread */
+.fade-in-delay-0 { --fade-in-delay: 0s; }
+.fade-in-delay-1 { --fade-in-delay: 0.05s; }
+.fade-in-delay-2 { --fade-in-delay: 0.1s; }
 
 /* Collapse stagger on mobile — staggered entrances feel laggy on small screens */
 @media (max-width: 768px) {

@@ -1,10 +1,10 @@
 ( function () {
 	var THRESHOLD = 0.15;
 
-	// Auto-stagger: direct children of [data-fade-stagger] get fade-in (no delays)
+	// Auto-stagger: direct children of [data-fade-stagger] get fade-in + capped delay
 	document.querySelectorAll( '[data-fade-stagger]' ).forEach( function ( parent ) {
-		Array.from( parent.children ).forEach( function ( child ) {
-			child.classList.add( 'fade-in' );
+		Array.from( parent.children ).forEach( function ( child, i ) {
+			child.classList.add( 'fade-in', 'fade-in-delay-' + Math.min( i, 2 ) );
 		} );
 	} );
 
