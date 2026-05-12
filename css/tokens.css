@@ -1,7 +1,10 @@
 *, *::before, *::after { box-sizing: border-box; }
 
-html, body {
-	font-family: 'Manrope', system-ui, sans-serif;
+body, h1, h2, h3, h4, h5, h6,
+p, a, span, li, td, th, dt, dd, caption, blockquote, figcaption,
+label, legend, input, button, select, textarea,
+div, section, article, aside, header, footer, nav, main {
+	font-family: 'Manrope', system-ui, sans-serif !important;
 }
 
 :root {
