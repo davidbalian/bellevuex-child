@@ -134,12 +134,9 @@ function chic_render_item_row( $i, array $item ): void {
 			</div>
 
 			<div class="chic-mega-groups"<?php echo ! $is_mega ? ' style="display:none"' : ''; ?>>
-				<div class="chic-buildings-list">
-					<?php foreach ( $groups as $j => $bldg ) :
-						chic_render_building_row( $i, $j, $bldg );
-					endforeach; ?>
-				</div>
-				<button type="button" class="button chic-add-building">+ Add Building</button>
+				<p class="description" style="margin:8px 0;padding:8px 12px;background:#f0f6fc;border-left:3px solid #2271b1;border-radius:2px;">
+					Buildings and suites are auto-populated from MotoPress Accommodation Categories. New suites appear automatically.
+				</p>
 			</div>
 		</div>
 	</div>

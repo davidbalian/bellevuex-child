@@ -48,7 +48,7 @@ $hero_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 	<!-- ── Buildings + Suite grids ─────────────────────────────────────── -->
 
 	<?php foreach ( chic_home_buildings() as $building ) :
-		$suites = chic_home_get_suites( $building['term'] );
+		$suites = chic_home_get_suites( $building['term'], 'large' );
 		if ( empty( $suites ) ) continue;
 	?>
 

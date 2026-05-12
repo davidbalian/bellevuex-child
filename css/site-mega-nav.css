@@ -177,6 +177,19 @@
 		transition-delay: calc(var(--site-mega-flyout-rate) * .2);
 	}
 
+	.mega-panel__preview-group {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		pointer-events: none;
+		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
+	}
+
+	.mega-panel__preview-group.is-active {
+		opacity: 1;
+		pointer-events: auto;
+	}
+
 	.mega-panel__preview-img {
 		position: absolute;
 		inset: 0;

@@ -4,14 +4,32 @@ export function initSiteMegaNav() {
 
 export function initMegaTabs() {
 	document.querySelectorAll('.mega-panel__tabs').forEach(tabsRow => {
-		const panel    = tabsRow.closest('.mega-panel');
+		const panel         = tabsRow.closest('.mega-panel');
 		if ( ! panel ) return;
-		const tabs     = tabsRow.querySelectorAll('.mega-panel__tab');
-		const panels   = panel.querySelectorAll('.mega-panel__panel');
-		const previews = panel.querySelectorAll('.mega-panel__preview-img');
-		const heightEl = panel.querySelector('[data-mega-height]');
-		const surface  = panel.querySelector('.mega-panel__surface');
+		const tabs          = tabsRow.querySelectorAll('.mega-panel__tab');
+		const panels        = panel.querySelectorAll('.mega-panel__panel');
+		const previewGroups = panel.querySelectorAll('.mega-panel__preview-group');
+		const heightEl      = panel.querySelector('[data-mega-height]');
+		const surface       = panel.querySelector('.mega-panel__surface');
 
+		function activateSuitePreview( bIdx, sIdx ) {
+			const group = panel.querySelector( `.mega-panel__preview-group[data-mega-preview-group="${bIdx}"]` );
+			if ( ! group ) return;
+			const target = `${bIdx}-${sIdx}`;
+			group.querySelectorAll('.mega-panel__preview-img').forEach(img => {
+				img.classList.toggle('is-active', img.dataset.megaPreviewSuite === target);
+			});
+		}
+
+		function resetGroupToFirst( bIdx ) {
+			const group = panel.querySelector( `.mega-panel__preview-group[data-mega-preview-group="${bIdx}"]` );
+			if ( ! group ) return;
+			group.querySelectorAll('.mega-panel__preview-img').forEach((img, i) => {
+				img.classList.toggle('is-active', i === 0);
+			});
+		}
+
+		// ── Tab switch ────────────────────────────────────────────────────────
 		tabs.forEach(tab => {
 			tab.addEventListener('click', e => {
 				e.preventDefault();
@@ -24,13 +42,34 @@ export function initMegaTabs() {
 					t.setAttribute('aria-selected', on ? 'true' : 'false');
 				});
 				panels.forEach(p => p.classList.toggle('is-active', p.dataset.megaPanel === idx));
-				previews.forEach(p => p.classList.toggle('is-active', p.dataset.megaPreview === idx));
+
+				// Switch preview group; reset newly visible group back to first suite.
+				previewGroups.forEach(g => {
+					const on = g.dataset.megaPreviewGroup === idx;
+					g.classList.toggle('is-active', on);
+					if ( on ) resetGroupToFirst( idx );
+				});
 
 				// Remeasure desktop fixed panel height if it is currently sized open.
 				if ( heightEl && surface && heightEl.style.height && heightEl.style.height !== '0px' ) {
 					heightEl.style.height = surface.scrollHeight + 'px';
 				}
 			});
+		});
+
+		// ── Suite link hover / focus → swap preview image ─────────────────────
+		panel.querySelectorAll('[data-mega-preview-target]').forEach(link => {
+			const [bIdx, sIdx] = link.dataset.megaPreviewTarget.split('-');
+			link.addEventListener('mouseenter', () => activateSuitePreview(bIdx, sIdx));
+			link.addEventListener('focusin',    () => activateSuitePreview(bIdx, sIdx));
+		});
+
+		// ── Mouse leaves a suite list → reset to first suite of that building ─
+		panel.querySelectorAll('.mega-panel__list').forEach(list => {
+			const parentPanel = list.closest('[data-mega-panel]');
+			if ( ! parentPanel ) return;
+			const bIdx = parentPanel.dataset.megaPanel;
+			list.addEventListener('mouseleave', () => resetGroupToFirst(bIdx));
 		});
 	});
 }

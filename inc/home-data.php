@@ -7,19 +7,22 @@
 function chic_home_buildings(): array {
 	return [
 		[
-			'term'  => 'thiseos-11',
-			'label' => '11 Thiseos, Floor 1, 10562 Athens',
-			'maps'  => 'https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7',
+			'term'        => 'thiseos-11',
+			'short_label' => 'Thiseos 11',
+			'label'       => '11 Thiseos, Floor 1, 10562 Athens',
+			'maps'        => 'https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7',
 		],
 		[
-			'term'  => 'thiseos13',
-			'label' => '13 Thiseos, Floor 4, 10562 Athens',
-			'maps'  => 'https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A',
+			'term'        => 'thiseos13',
+			'short_label' => 'Thiseos 13',
+			'label'       => '13 Thiseos, Floor 4, 10562 Athens',
+			'maps'        => 'https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A',
 		],
 		[
-			'term'  => 'chavriou2',
-			'label' => '2 Chavriou, Floor 2, 10562 Athens',
-			'maps'  => 'https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8',
+			'term'        => 'chavriou2',
+			'short_label' => 'Chavriou 2',
+			'label'       => '2 Chavriou, Floor 2, 10562 Athens',
+			'maps'        => 'https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8',
 		],
 	];
 }
@@ -27,10 +30,11 @@ function chic_home_buildings(): array {
 /**
  * Returns simplified card data for all suites in a given building taxonomy term.
  *
- * @param string $term_slug  mphb_room_type_category slug (e.g. 'thiseos-11').
+ * @param string $term_slug   mphb_room_type_category slug (e.g. 'thiseos-11').
+ * @param string $image_size  WP image size for thumb_url. Default 'medium_large'.
  * @return array[]  Each item: { id, title, permalink, thumb_url, capacity_label }
  */
-function chic_home_get_suites( string $term_slug ): array {
+function chic_home_get_suites( string $term_slug, string $image_size = 'medium_large' ): array {
 	$query = new WP_Query( [
 		'post_type'      => 'mphb_room_type',
 		'posts_per_page' => -1,
@@ -63,7 +67,7 @@ function chic_home_get_suites( string $term_slug ): array {
 			'id'              => $post->ID,
 			'title'           => get_the_title( $post ),
 			'permalink'       => get_permalink( $post ),
-			'thumb_url'       => get_the_post_thumbnail_url( $post->ID, 'large' ) ?: '',
+			'thumb_url'       => get_the_post_thumbnail_url( $post->ID, $image_size ) ?: '',
 			'capacity_label'  => $capacity,
 		];
 	}
