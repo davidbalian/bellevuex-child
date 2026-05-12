@@ -1,0 +1,186 @@
+<?php
+
+add_action( 'wp_enqueue_scripts', 'enqueue_child_theme_style', 9999 );
+function enqueue_child_theme_style() {
+	wp_enqueue_style( 'dtbwp_css_child', get_stylesheet_directory_uri() . '/style.css', array(
+		'dtbwp_style',
+	), 1.0 );
+}
+add_filter( 'the_title', 'woo_title_order_received', 10, 2 );
+
+function woo_title_order_received( $title, $id ) {
+	if ( function_exists( 'is_order_received_page' ) && 
+	     is_order_received_page() && get_the_ID() === $id ) {
+		$title = "Thank you for your reservation!";
+	}
+	return $title;
+}
+add_filter('woocommerce_thankyou_order_received_text', 'woo_change_order_received_text', 10, 2 );
+function woo_change_order_received_text( $str, $order ) {
+    $new_str = 'Thank you for your reservation! Booking receipt and booking details will be emailed to you shortly.';
+    return $new_str;
+}
+add_filter('woocommerce_order_details__title', 'woo_change_order_received_texttitle', 10, 2 );
+function woo_change_order_received_texttitle( $str, $order ) {
+    $new_str = 'Payment Details: ';
+    return $new_str;
+}
+
+include( STYLESHEETPATH . '/customizer-polylang.php');
+
+add_filter( 'woocommerce_order_button_text', 'bbloomer_rename_place_order_button', 9999 );
+  
+function bbloomer_rename_place_order_button() {
+    echo '<script>document.getElementsByClassName("payment_method_cardlink_payment_gateway_woocommerce")[0].getElementsByTagName("img")[0].src="https://chiccentresuites.com/wp-content/uploads/cardlinkLogo.svg";</script>';
+   return 'CardLink Payment Gateway'; 
+}
+add_filter( 'mphb_sc_checkout_submit_wrapper_frm_submit_button', 'mphb_sc_checkout_submit_wrapper_frm_submit_buttonm', 9999 );
+  
+function mphb_sc_checkout_submit_wrapper_frm_submit_buttonm() {
+   return 'Billing Details'; 
+}
+
+function my_custom_function() {
+if (is_page(20900)) {
+    echo '
+    <script>
+   if (document.readyState === "complete") {
+    // Document already fully loaded
+    showhide();
+} else {
+    // Add event listener for DOMContentLoaded (fires when document is fully loaded)
+    document.addEventListener("DOMContentLoaded", showhide);
+}
+
+function showhide() {
+//document.getElementsByTagName("select")[0].options[0].innerText=" ";
+document.getElementsByClassName("frm_button_submit")[0].style.float="right";
+var url_string = window.location.href;
+var url = new URL(url_string);
+var bid = url.searchParams.get("bid");
+var email = url.searchParams.get("email");
+document.getElementById("field_nq1zi").value=bid;
+document.getElementById("field_m4ts8").value=email;
+    document.getElementById("frm_field_55_container").style.display="none";
+     document.getElementById("frm_field_56_container").style.display="none";
+     document.getElementById("frm_field_57_container").style.display="none";
+    document.getElementById("field_hx6n7_label").setAttribute ("style", "text-align: center !important;color: red !important;border:none;background:none;font-size:17px");
+    document.getElementById("field_hx6n7").disabled=true,
+    document.getElementById("field_hx6n7").setAttribute ("style", "display: none !important;");
+
+document.getElementsByTagName("select")[0].onmouseleave = function(){
+    
+   
+if(document.getElementsByTagName("select")[0].value == "Request Special Services") {
+  document.getElementById("frm_field_55_container").style.display="block";
+  document.getElementById("frm_field_56_container").style.display="none";
+  document.getElementById("frm_field_57_container").style.display="none"
+}else{
+document.getElementById("frm_field_55_container").style.display="none"
+}
+if(document.getElementsByTagName("select")[0].value == "Cancelation of Booking") {
+  document.getElementById("frm_field_56_container").style.display="block";
+  document.getElementById("frm_field_55_container").style.display="none";
+  document.getElementById("frm_field_57_container").style.display="none";
+}else{
+document.getElementById("frm_field_56_container").style.display="none"
+}
+
+if(document.getElementsByTagName("select")[0].value == "Change Dates") {
+  document.getElementById("frm_field_57_container").style.display="block"
+  document.getElementById("frm_field_56_container").style.display="none";
+  document.getElementById("frm_field_55_container").style.display="none"
+}else{
+document.getElementById("frm_field_57_container").style.display="none"
+}
+
+};
+}
+
+</script>
+
+    
+    ';
+}
+if (is_page(20819)) {
+    echo '<script>
+       if (document.readyState === "complete") {
+    // Document already fully loaded
+    changeText();
+} else {
+    // Add event listener for DOMContentLoaded (fires when document is fully loaded)
+    document.addEventListener("DOMContentLoaded", changeText);
+}
+
+function changeText() {
+    
+    
+    if (document.getElementsByClassName("mphb_sc_search_results-info")[0].innerText.includes("No accommodations found")){
+document.getElementsByClassName("mphb_sc_search_results-info")[0].innerText = "Sorry there is no availability on selected dates. Please Choose alternative dates or suite"
+}
+
+}</script>';
+}
+}
+add_action( 'wp_head', 'my_custom_function' );
+
+add_filter ('mphb_sc_search_results_room_top','theme_wrap_image_sc_search_results_room_top');
+
+function theme_wrap_image_sc_search_results_room_top(){
+echo '<div class="theme-room-type-images-wrapper">';
+}
+
+add_filter ('mphb_sc_search_results_before_info','theme_wrap_info_sc_search_results_before_info');
+
+function theme_wrap_info_sc_search_results_before_info(){
+echo '</div>';
+echo '<div class="theme-room-type-info-wrapper">';
+}
+
+add_filter ('mphb_sc_search_results_after_info','theme_wrap_info_sc_search_results_after_info');
+
+function theme_wrap_info_sc_search_results_after_info(){
+echo '</div>';
+}
+
+function Calendar_Sync() {
+    $current_user = wp_get_current_user();
+    $user_id = $current_user->ID;
+
+    //echo "Logged-in User ID: $user_id";
+	if($user_id == 7){
+		echo '<script>
+		setInterval(function() {
+     window.location.href="https://chiccentresuites.com/wp-admin/admin.php?page=mphb_ical_import&action=sync&accommodation_ids=all";
+	}, 80 * 1000); 
+		</script>';
+	}
+}
+add_action('admin_notices', 'Calendar_Sync');
+
+
+function hide_booking_form() {
+
+
+    echo '<script>
+       if (document.readyState === "complete") {
+    // Document already fully loaded
+    hide_booking_form();
+} else {
+    // Add event listener for DOMContentLoaded (fires when document is fully loaded)
+    document.addEventListener("DOMContentLoaded", hide_booking_form);
+}
+
+function hide_booking_form() {
+    
+if( window.location.href.includes("accommodation")){
+console.log("HIDE BOOKINGS --> FUnctions.php Script Line 177");
+   document.getElementsByClassName("elementor-section")[2].style.display="none";
+document.getElementsByClassName("elementor-section")[3].style.display="none"
+}
+
+}</script>';
+
+}
+add_action( 'wp_head', 'hide_booking_form' );
+

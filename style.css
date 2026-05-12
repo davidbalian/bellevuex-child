@@ -1,0 +1,21 @@
+/*
+Theme Name:     Bellevue - Child Theme
+Theme URI:      http://themovation.com
+Template:       bellevuex
+Author:         Themovation
+Author URI:     http://themovation.com
+Version:        3.0
+Text Domain:    bellevue
+Domain Path:    /languages/
+*/
+
+
+/* = Theme customization starts here
+-------------------------------------------------------------- */
+
+.top-nav-icon-blocks .fa-instagram {
+	color:#ed4135;
+}
+.top-nav-icon-blocks .fa-facebook {
+	color:#224195;
+}
