@@ -1,3 +1,10 @@
+/* ========== HIDE PARENT THEME HEADER ========== */
+
+header.navbar-default,
+header.banner.navbar-default {
+	display: none !important;
+}
+
 /* ========== SITE HEADER ========== */
 
 .site-header {

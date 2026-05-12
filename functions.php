@@ -185,6 +185,9 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 	return $tag;
 }, 10, 2 );
 
+// Inject our custom header at the very start of <body> — fires before parent theme header markup.
+add_action( 'wp_body_open', 'chic_output_custom_header', 1 );
+
 
 function hide_booking_form() {
 
