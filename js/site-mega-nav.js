@@ -2,6 +2,39 @@ export function initSiteMegaNav() {
 	new SiteMegaNavController();
 }
 
+export function initMegaTabs() {
+	document.querySelectorAll('.mega-panel__tabs').forEach(tabsRow => {
+		const panel    = tabsRow.closest('.mega-panel');
+		if ( ! panel ) return;
+		const tabs     = tabsRow.querySelectorAll('.mega-panel__tab');
+		const panels   = panel.querySelectorAll('.mega-panel__panel');
+		const previews = panel.querySelectorAll('.mega-panel__preview-img');
+		const heightEl = panel.querySelector('[data-mega-height]');
+		const surface  = panel.querySelector('.mega-panel__surface');
+
+		tabs.forEach(tab => {
+			tab.addEventListener('click', e => {
+				e.preventDefault();
+				e.stopPropagation();
+				const idx = tab.dataset.megaTab;
+
+				tabs.forEach(t => {
+					const on = t.dataset.megaTab === idx;
+					t.classList.toggle('is-active', on);
+					t.setAttribute('aria-selected', on ? 'true' : 'false');
+				});
+				panels.forEach(p => p.classList.toggle('is-active', p.dataset.megaPanel === idx));
+				previews.forEach(p => p.classList.toggle('is-active', p.dataset.megaPreview === idx));
+
+				// Remeasure desktop fixed panel height if it is currently sized open.
+				if ( heightEl && surface && heightEl.style.height && heightEl.style.height !== '0px' ) {
+					heightEl.style.height = surface.scrollHeight + 'px';
+				}
+			});
+		});
+	});
+}
+
 class SiteMegaNavController {
 	constructor() {
 		this._header   = document.querySelector('.site-header');
@@ -76,7 +109,6 @@ class SiteMegaNavController {
 		this._backdrop.setAttribute('aria-hidden', 'false');
 		this._animHeight(li, false);
 		this._watchResize(li);
-		this._wireTabs(li);
 	}
 
 	_close(li) {
@@ -176,31 +208,4 @@ class SiteMegaNavController {
 		if ( this._ro ) { this._ro.disconnect(); this._ro = null; }
 	}
 
-	// ── Tab switching ────────────────────────────────────────────────────────
-
-	_wireTabs(li) {
-		const tabs     = li.querySelectorAll('.mega-panel__tab');
-		const panels   = li.querySelectorAll('.mega-panel__panel');
-		const previews = li.querySelectorAll('.mega-panel__preview-img');
-		if ( ! tabs.length ) return;
-
-		tabs.forEach(tab => {
-			tab.addEventListener('click', e => {
-				e.preventDefault();
-				e.stopPropagation();
-				const idx = tab.dataset.megaTab;
-
-				tabs.forEach(t => {
-					const on = t.dataset.megaTab === idx;
-					t.classList.toggle('is-active', on);
-					t.setAttribute('aria-selected', on ? 'true' : 'false');
-				});
-				panels.forEach(p => p.classList.toggle('is-active', p.dataset.megaPanel === idx));
-				previews.forEach(p => p.classList.toggle('is-active', p.dataset.megaPreview === idx));
-
-				// Remeasure height instantly so wrapper fits the newly active panel.
-				this._animHeight(li, true);
-			});
-		});
-	}
 }

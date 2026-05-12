@@ -33,6 +33,56 @@
 	background: #f4f4f4;
 }
 
+/* ── Tabs — shared across desktop and mobile ── */
+.mega-panel__tabs {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 0;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+.mega-panel__tab {
+	appearance: none;
+	background: none;
+	border: none;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
+	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: #888;
+	cursor: pointer;
+	transition:
+		color 160ms ease,
+		border-color 160ms ease;
+	white-space: nowrap;
+}
+
+.mega-panel__tab:hover {
+	color: #333;
+}
+
+.mega-panel__tab.is-active {
+	color: #111;
+	font-weight: 700;
+	border-bottom-color: #111;
+}
+
+/* ── Suite panels — shared: only active panel visible ── */
+.mega-panel__panel {
+	display: none;
+}
+
+.mega-panel__panel.is-active {
+	display: block;
+}
+
+/* Building eyebrow is shown by the tab — hide it in the panel */
+.mega-panel__panel .mega-panel__eyebrow {
+	display: none;
+}
+
 /* ── Backdrop ── */
 .site-mega-backdrop {
 	position: fixed;
@@ -98,7 +148,7 @@
 		align-items: start;
 	}
 
-	/* ── Left column: tabs + suite list ── */
+	/* Left column: tabs + suite list */
 	.mega-panel__main {
 		display: flex;
 		flex-direction: column;
@@ -111,56 +161,7 @@
 		opacity: 1;
 	}
 
-	/* Tab row */
-	.mega-panel__tabs {
-		display: flex;
-		flex-direction: row;
-		gap: 0;
-		border-bottom: 1px solid #e8e8e8;
-	}
-
-	.mega-panel__tab {
-		appearance: none;
-		background: none;
-		border: none;
-		border-bottom: 2px solid transparent;
-		margin-bottom: -1px;
-		padding: 0.5rem 1rem;
-		font-size: 0.875rem;
-		font-weight: 500;
-		color: #888;
-		cursor: pointer;
-		transition:
-			color 160ms ease,
-			border-color 160ms ease;
-		white-space: nowrap;
-	}
-
-	.mega-panel__tab:hover {
-		color: #333;
-	}
-
-	.mega-panel__tab.is-active {
-		color: #111;
-		font-weight: 700;
-		border-bottom-color: #111;
-	}
-
-	/* Suite panels — only active one visible */
-	.mega-panel__panel {
-		display: none;
-	}
-
-	.mega-panel__panel.is-active {
-		display: block;
-	}
-
-	/* Building eyebrow is shown by the tab — hide it in the panel on desktop */
-	.mega-panel__panel .mega-panel__eyebrow {
-		display: none;
-	}
-
-	/* ── Right column: building image ── */
+	/* Right column: building image */
 	.mega-panel__preview {
 		position: relative;
 		border-radius: 0.5rem;
@@ -215,31 +216,24 @@
 		padding: 0;
 	}
 
-	/* Hide tab row on mobile — all buildings show stacked */
+	/* Tabs: right-aligned to match the mobile menu's overall direction */
 	.mega-panel__tabs {
-		display: none;
+		justify-content: flex-end;
+		border-bottom-color: #e0e0e0;
+		padding: 0 1rem;
 	}
 
-	/* All panels visible when accordion is open */
-	.mega-panel__panel {
-		display: block !important;
+	.mega-panel__tab {
+		font-size: 0.8125rem;
+		padding: 0.4rem 0.625rem;
 	}
 
-	/* Building name shown as section heading on mobile */
-	.mega-panel__panel .mega-panel__eyebrow {
-		display: block;
-		text-align: right;
-		padding: 0.75rem 1rem 0.25rem;
-		margin: 0;
-		border-top: 1px solid #ebebeb;
-	}
-
-	/* Preview image pointless on mobile — hide it */
+	/* Preview image hidden on mobile */
 	.mega-panel__preview {
 		display: none;
 	}
 
-	/* Suite links: right-aligned, indented feel */
+	/* Suite links: right-aligned, muted */
 	.mega-panel__list .menu-item a {
 		text-align: right;
 		color: #666;

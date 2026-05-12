@@ -1,9 +1,10 @@
-import { initSiteMegaNav } from './site-mega-nav.js';
+import { initSiteMegaNav, initMegaTabs } from './site-mega-nav.js';
 
 document.addEventListener('DOMContentLoaded', initMobileNav);
 
 export function initMobileNav() {
 	initSiteMegaNav();
+	initMegaTabs();
 	initMegaPanelPlaceholderLinks();
 	MobileNavSubmenuAccordion.init();
 	MobileNavOverlayController.init();
