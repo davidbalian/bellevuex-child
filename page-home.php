@@ -2,46 +2,83 @@
 /**
  * Template Name: Home
  *
- * Clean homepage template. Hero background = page featured image.
+ * Homepage template. Hero = full-bleed Swiper slider (slides managed via
+ * "Home Hero Slides" meta box in WP admin; falls back to featured image).
  * Suites pulled dynamically from MotoPress Hotel Booking (mphb_room_type CPT).
- * Map embed: replace the src below with your Google Maps embed URL.
  */
 
 require_once __DIR__ . '/inc/home-data.php';
 
 get_header();
 
-$hero_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
+$hero_slides = chic_home_hero_slides( get_the_ID() );
 ?>
 
 <main class="page-home">
 
 	<!-- ── Hero ────────────────────────────────────────────────────────── -->
 
-	<section
-		class="home-hero"
-		<?php if ( $hero_img ) : ?>
-			style="--hero-bg-url: url('<?php echo esc_url( $hero_img ); ?>')"
-		<?php endif; ?>
-	>
-		<div class="home-hero__inner">
-			<h1 class="home-hero__title">Stay in the Heart of Athens</h1>
-			<span class="home-hero__tagline"></span>
-			<a
-				class="home-hero__cta"
-				href="https://direct-book.com/properties/chiccentresuitesathens"
-				target="_blank"
-				rel="noopener noreferrer"
-			>Book Now</a>
+	<section class="home-hero">
+
+		<div class="home-hero__slider-bleed js-hero-parallax">
+			<div class="swiper home-hero__carousel js-hero-swiper" aria-label="Chic Centre Suites hero photos">
+				<div class="swiper-wrapper">
+
+					<?php foreach ( $hero_slides as $slide ) : ?>
+					<div class="swiper-slide">
+						<div class="home-hero__slide">
+							<picture>
+								<source media="(max-width: 768px)" srcset="<?php echo esc_url( $slide['mobile'] ); ?>">
+								<img
+									src="<?php echo esc_url( $slide['desktop'] ); ?>"
+									alt="<?php echo esc_attr( $slide['alt'] ); ?>"
+									loading="eager"
+									decoding="async"
+									fetchpriority="<?php echo esc_attr( $slide['fetchpriority'] ); ?>"
+								>
+							</picture>
+						</div>
+					</div>
+					<?php endforeach; ?>
+
+				</div>
+			</div>
 		</div>
+
+		<div class="home-hero__overlay">
+			<div class="home-hero__inner">
+				<div class="home-hero__content">
+					<h1 class="home-hero__title fade-in fade-in-delay-0">Stay in the Heart of Athens</h1>
+					<p class="home-hero__text fade-in fade-in-delay-1">Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.</p>
+					<div class="home-hero__ctas fade-in fade-in-delay-2">
+						<a
+							class="home-hero__cta"
+							href="https://direct-book.com/properties/chiccentresuitesathens"
+							target="_blank"
+							rel="noopener noreferrer"
+						>Book Now</a>
+					</div>
+				</div>
+			</div>
+			<a
+				href="#home-intro"
+				class="home-hero__scroll-down js-hero-scroll-next fade-in fade-in-delay-3"
+				aria-label="Scroll to next section"
+			>
+				<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<polyline points="6 9 12 15 18 9"></polyline>
+				</svg>
+			</a>
+		</div>
+
 	</section>
 
 	<!-- ── Intro ───────────────────────────────────────────────────────── -->
 
-	<section class="home-intro">
+	<section class="home-intro" id="home-intro">
 		<div class="home-intro__inner">
-			<h2 class="home-intro__title">Welcome</h2>
-			<p class="home-intro__lede">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
+			<h2 class="home-intro__title fade-in fade-in-delay-0">Welcome</h2>
+			<p class="home-intro__lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
 		</div>
 	</section>
 
@@ -52,7 +89,7 @@ $hero_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 		if ( empty( $suites ) ) continue;
 	?>
 
-	<section class="home-building">
+	<section class="home-building fade-in">
 		<div class="home-building__inner">
 			<p class="home-building__address"><?php echo esc_html( $building['label'] ); ?></p>
 			<a
@@ -66,7 +103,7 @@ $hero_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 
 	<section class="home-suites">
 		<div class="home-suites__inner">
-			<ul class="home-suites__grid">
+			<ul class="home-suites__grid" data-fade-stagger>
 				<?php foreach ( $suites as $suite ) : ?>
 				<li>
 					<article class="home-suite-card">
@@ -101,7 +138,7 @@ $hero_img = get_the_post_thumbnail_url( get_the_ID(), 'full' );
 
 	<!-- ── Map ─────────────────────────────────────────────────────────── -->
 
-	<section class="home-map">
+	<section class="home-map fade-in">
 		<!-- Replace the src with your Google Maps embed URL: Maps → Share → Embed a map → copy iframe src -->
 		<iframe
 			class="home-map__frame"

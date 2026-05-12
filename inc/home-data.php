@@ -74,3 +74,45 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
 
 	return $cards;
 }
+
+/**
+ * Returns hero slide data for the home page.
+ * Reads attachment IDs stored in _chic_home_hero_slides post meta (JSON array).
+ * Falls back to the page featured image so the slider always has at least one slide.
+ *
+ * @param int $post_id  The Home page post ID.
+ * @return array[]  Each item: { id, alt, desktop, mobile, fetchpriority }
+ */
+function chic_home_hero_slides( int $post_id ): array {
+	$raw = get_post_meta( $post_id, '_chic_home_hero_slides', true );
+	$ids = is_string( $raw ) ? json_decode( $raw, true ) : null;
+
+	if ( empty( $ids ) || ! is_array( $ids ) ) {
+		$thumb = get_the_post_thumbnail_url( $post_id, 'full' );
+		if ( ! $thumb ) return [];
+		return [ [
+			'id'            => get_post_thumbnail_id( $post_id ),
+			'alt'           => '',
+			'desktop'       => $thumb,
+			'mobile'        => $thumb,
+			'fetchpriority' => 'high',
+		] ];
+	}
+
+	$slides = [];
+	foreach ( array_values( $ids ) as $index => $id ) {
+		$id = (int) $id;
+		if ( $id <= 0 ) continue;
+		$desktop = wp_get_attachment_image_url( $id, 'full' );
+		if ( ! $desktop ) continue;
+		$slides[] = [
+			'id'            => $id,
+			'alt'           => (string) get_post_meta( $id, '_wp_attachment_image_alt', true ),
+			'desktop'       => $desktop,
+			'mobile'        => wp_get_attachment_image_url( $id, 'medium_large' ) ?: $desktop,
+			'fetchpriority' => 0 === $index ? 'high' : ( 1 === $index ? 'auto' : 'low' ),
+		];
+	}
+
+	return $slides;
+}

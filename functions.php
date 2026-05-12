@@ -164,8 +164,15 @@ require_once __DIR__ . '/inc/header-acf.php';
 require_once __DIR__ . '/inc/header-nav.php';
 require_once __DIR__ . '/inc/header-admin-ui.php';
 
-// ── Home page template data helpers ───────────────────────────────────────────
+// ── Home page template helpers ────────────────────────────────────────────────
 require_once __DIR__ . '/inc/home-data.php';
+require_once __DIR__ . '/inc/home-admin-ui.php';
+
+// ── Fade-in boot guard: add `fade-in-ready` to <html> before any CSS loads ────
+// Without this, no-JS users would see .fade-in elements stuck at opacity: 0.
+add_action( 'wp_head', function () {
+	echo "<script>document.documentElement.classList.add('fade-in-ready');</script>\n";
+}, 1 );
 
 add_action( 'wp_enqueue_scripts', function () {
 	$dir = get_stylesheet_directory_uri();
@@ -178,11 +185,17 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'chic-header-dropdowns',  "$dir/css/site-header-dropdowns.css",   [ 'chic-site-header' ], $ver );
 	wp_enqueue_style( 'chic-header-toolbar',    "$dir/css/site-header-toolbar.css",     [ 'chic-site-header' ], $ver );
 
+	wp_enqueue_style(  'chic-scroll-fade-in', "$dir/css/scroll-fade-in.css", [], $ver );
+	wp_enqueue_script( 'chic-scroll-fade-in', "$dir/js/scroll-fade-in.js",   [], $ver, true );
+
 	wp_enqueue_script( 'chic-mobile-nav', "$dir/js/mobile-nav.js", [], $ver, true );
 
 	if ( is_page_template( 'page-home.php' ) ) {
-		wp_enqueue_style(  'chic-page-home',    "$dir/css/page-home.css", [ 'chic-tokens' ], $ver );
-		wp_enqueue_script( 'chic-page-home-js', "$dir/js/page-home.js",  [],               $ver, true );
+		wp_enqueue_style(  'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                    $ver );
+		wp_enqueue_script( 'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                    $ver, true );
+		wp_enqueue_style(  'chic-page-home',       "$dir/css/page-home.css",                          [ 'chic-tokens' ],                     $ver );
+		wp_enqueue_style(  'chic-page-home-hero',  "$dir/css/page-home-hero.css",                     [ 'chic-tokens', 'chic-swiper' ],       $ver );
+		wp_enqueue_script( 'chic-page-home-hero',  "$dir/js/page-home-hero.js",                       [ 'chic-swiper', 'chic-scroll-fade-in' ], $ver, true );
 	}
 }, 20 );
 
