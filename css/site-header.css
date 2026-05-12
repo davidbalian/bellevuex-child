@@ -7,6 +7,10 @@ header.banner.navbar-default {
 
 /* ========== SITE HEADER ========== */
 
+html.is-header-scrolled {
+	--site-header-height: var(--site-header-height-scrolled);
+}
+
 .site-header {
 	position: sticky;
 	top: 0;
@@ -14,6 +18,7 @@ header.banner.navbar-default {
 	background: #fff;
 	border-bottom: 1px solid #e8e8e8;
 	height: var(--site-header-height);
+	transition: height var(--site-header-shrink-rate) var(--site-mega-flyout-ease);
 }
 
 .site-header__inner {
@@ -41,6 +46,7 @@ header.banner.navbar-default {
 	height: calc(var(--site-header-height) * 0.9);
 	width: auto;
 	display: block;
+	transition: height var(--site-header-shrink-rate) var(--site-mega-flyout-ease);
 }
 
 .site-header__brand-text {
@@ -235,5 +241,12 @@ header.banner.navbar-default {
 
 	.nav-menu {
 		display: none;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.site-header,
+	.site-header__brand img {
+		transition: none;
 	}
 }

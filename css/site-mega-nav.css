@@ -111,6 +111,7 @@
 		right: 0;
 		z-index: var(--z-mega-panel);
 		pointer-events: none;
+		transition: top var(--site-header-shrink-rate) var(--site-mega-flyout-ease);
 	}
 
 	.menu-item.is-mega-open > .nav-submenu-clip.mega-panel {
