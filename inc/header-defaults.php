@@ -96,6 +96,8 @@ add_action( 'admin_init', 'chic_header_seed_defaults_once' );
 function chic_header_seed_defaults_once() {
 	if ( get_option( 'chic_header_defaults_seeded' ) ) return;
 	if ( ! function_exists( 'update_field' ) ) return;
-	update_field( 'menu_items', chic_header_default_menu(), 'option' );
+	$post_id = chic_header_config_id();
+	if ( ! $post_id ) return;
+	update_field( 'menu_items', chic_header_default_menu(), $post_id );
 	update_option( 'chic_header_defaults_seeded', 1, true );
 }

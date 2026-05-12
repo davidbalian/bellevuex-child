@@ -3,6 +3,11 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'CHIC_PLACEHOLDER_IMG', 'https://davidb1553.sg-host.com/wp-content/uploads/off-your-first-reservation.jpg' );
 
+// Thin wrapper so header-nav.php callers don't need to know about header-acf.php.
+function chic_header_get_config_id(): int {
+	return chic_header_config_id();
+}
+
 function chic_header_item_href( array $item ): string {
 	$type = $item['link_type'] ?? 'placeholder';
 	if ( 'page' === $type && ! empty( $item['page'] ) ) {
@@ -16,7 +21,7 @@ function chic_header_item_href( array $item ): string {
 }
 
 function chic_header_render_items( bool $mobile = false ): void {
-	$items = get_field( 'menu_items', 'option' );
+	$items = get_field( 'menu_items', chic_header_config_id() );
 	if ( empty( $items ) ) return;
 
 	foreach ( $items as $item ) {
@@ -44,7 +49,6 @@ function chic_header_render_items( bool $mobile = false ): void {
 }
 
 function chic_header_render_mega_panel( array $groups ): void {
-	// Flatten all suites for the preview column.
 	$all_suites = [];
 	foreach ( $groups as $g ) {
 		foreach ( ( $g['suites'] ?? [] ) as $s ) {
@@ -102,10 +106,19 @@ function chic_header_render_mega_panel( array $groups ): void {
 	<?php
 }
 
+function chic_header_book_now_url(): string {
+	$items = get_field( 'menu_items', chic_header_config_id() );
+	if ( ! empty( $items ) ) {
+		foreach ( $items as $item ) {
+			if ( 'book now' === strtolower( trim( $item['label'] ?? '' ) ) ) {
+				return chic_header_item_href( $item );
+			}
+		}
+	}
+	return '#';
+}
+
 function chic_output_custom_header(): void {
-	static $done = false;
-	if ( $done ) return;
-	$done = true;
 	?>
 	<header class="site-header chic-site-header" id="site-header">
 		<div class="site-header__inner">
@@ -166,16 +179,4 @@ function chic_output_custom_header(): void {
 		</div>
 	</div>
 	<?php
-}
-
-function chic_header_book_now_url(): string {
-	$items = get_field( 'menu_items', 'option' );
-	if ( ! empty( $items ) ) {
-		foreach ( $items as $item ) {
-			if ( 'book now' === strtolower( trim( $item['label'] ?? '' ) ) ) {
-				return chic_header_item_href( $item );
-			}
-		}
-	}
-	return '#';
 }

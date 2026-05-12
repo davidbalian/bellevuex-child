@@ -185,8 +185,26 @@ add_filter( 'script_loader_tag', function ( $tag, $handle ) {
 	return $tag;
 }, 10, 2 );
 
-// Inject our custom header at the very start of <body> — fires before parent theme header markup.
-add_action( 'wp_body_open', 'chic_output_custom_header', 1 );
+// Inject our custom header immediately after <body> via output buffering.
+// This works even on parent themes that don't call wp_body_open().
+add_action( 'template_redirect', 'chic_header_start_buffer' );
+function chic_header_start_buffer() {
+	if ( is_admin() ) return;
+	// Pre-generate header HTML while all WP functions are available.
+	ob_start();
+	chic_output_custom_header();
+	$GLOBALS['chic_header_html'] = ob_get_clean();
+
+	// Buffer the full page output and splice our header in after <body ...>.
+	ob_start( 'chic_header_inject_into_body' );
+}
+
+function chic_header_inject_into_body( string $buffer ): string {
+	$html = $GLOBALS['chic_header_html'] ?? '';
+	if ( '' === $html ) return $buffer;
+	// Insert once, right after the opening <body ...> tag.
+	return preg_replace( '/(<body[^>]*>)/i', '$1' . $html, $buffer, 1 );
+}
 
 
 function hide_booking_form() {

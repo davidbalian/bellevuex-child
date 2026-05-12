@@ -1,25 +1,88 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-add_action( 'acf/init', 'chic_header_register_options_page' );
-function chic_header_register_options_page() {
-	if ( ! function_exists( 'acf_add_options_page' ) ) return;
-	acf_add_options_page( [
-		'page_title' => 'Header Settings',
-		'menu_title' => 'Header',
-		'menu_slug'  => 'header-settings',
-		'capability' => 'manage_options',
-		'icon_url'   => 'dashicons-menu-alt',
-		'redirect'   => false,
-		'position'   => 4,
+// ── Hidden CPT to hold header settings (works with ACF Free) ─────────────────
+
+add_action( 'init', 'chic_header_register_cpt' );
+function chic_header_register_cpt() {
+	register_post_type( 'chic_header_cfg', [
+		'public'       => false,
+		'show_ui'      => true,
+		'show_in_menu' => false,
+		'supports'     => [ 'title' ],
+		'labels'       => [
+			'name'          => 'Header Config',
+			'singular_name' => 'Header Config',
+			'edit_item'     => 'Header Settings',
+		],
 	] );
 }
+
+function chic_header_config_id(): int {
+	static $id = null;
+	if ( null !== $id ) return $id;
+
+	$posts = get_posts( [
+		'post_type'      => 'chic_header_cfg',
+		'numberposts'    => 1,
+		'post_status'    => 'publish',
+		'fields'         => 'ids',
+	] );
+
+	if ( ! empty( $posts ) ) {
+		$id = (int) $posts[0];
+	} else {
+		$id = (int) wp_insert_post( [
+			'post_type'   => 'chic_header_cfg',
+			'post_title'  => 'Header Settings',
+			'post_status' => 'publish',
+		] );
+	}
+
+	return $id;
+}
+
+// ── Admin sidebar: top-level "Header" item that redirects to the CPT edit page ─
+
+add_action( 'admin_menu', 'chic_header_admin_menu' );
+function chic_header_admin_menu() {
+	add_menu_page(
+		'Header Settings',
+		'Header',
+		'manage_options',
+		'chic-header-settings',
+		'__return_false',
+		'dashicons-menu-alt',
+		4
+	);
+}
+
+add_action( 'admin_init', 'chic_header_admin_redirect' );
+function chic_header_admin_redirect() {
+	if ( ! isset( $_GET['page'] ) || 'chic-header-settings' !== $_GET['page'] ) return;
+	if ( ! current_user_can( 'manage_options' ) ) return;
+	$post_id = chic_header_config_id();
+	wp_safe_redirect( admin_url( 'post.php?post=' . $post_id . '&action=edit' ) );
+	exit;
+}
+
+// Keep "Header" highlighted in the sidebar when editing the config post.
+add_filter( 'parent_file', 'chic_header_highlight_menu' );
+function chic_header_highlight_menu( string $parent_file ): string {
+	global $post;
+	if ( $post && 'chic_header_cfg' === $post->post_type ) {
+		return 'chic-header-settings';
+	}
+	return $parent_file;
+}
+
+// ── ACF field group (attached to the CPT, not an options page) ───────────────
 
 add_action( 'acf/init', 'chic_header_register_field_group' );
 function chic_header_register_field_group() {
 	if ( ! function_exists( 'acf_add_local_field_group' ) ) return;
 
-	$suite_link_choices = [
+	$link_choices = [
 		'url'         => 'Custom URL',
 		'page'        => 'Page',
 		'placeholder' => 'Placeholder (#)',
@@ -38,7 +101,7 @@ function chic_header_register_field_group() {
 			'label'         => 'Link Type',
 			'name'          => 'link_type',
 			'type'          => 'select',
-			'choices'       => $suite_link_choices,
+			'choices'       => $link_choices,
 			'default_value' => 'url',
 			'return_format' => 'value',
 		],
@@ -85,12 +148,6 @@ function chic_header_register_field_group() {
 		],
 	];
 
-	$item_link_choices = [
-		'url'         => 'Custom URL',
-		'page'        => 'Page',
-		'placeholder' => 'Placeholder (#)',
-	];
-
 	$item_fields = [
 		[
 			'key'      => 'field_chic_item_label',
@@ -104,7 +161,7 @@ function chic_header_register_field_group() {
 			'label'         => 'Link Type',
 			'name'          => 'link_type',
 			'type'          => 'select',
-			'choices'       => $item_link_choices,
+			'choices'       => $link_choices,
 			'default_value' => 'url',
 			'return_format' => 'value',
 		],
@@ -157,9 +214,9 @@ function chic_header_register_field_group() {
 			],
 		],
 		'location' => [ [ [
-			'param'    => 'options_page',
+			'param'    => 'post_type',
 			'operator' => '==',
-			'value'    => 'header-settings',
+			'value'    => 'chic_header_cfg',
 		] ] ],
 		'active'   => true,
 	] );
