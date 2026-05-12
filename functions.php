@@ -164,6 +164,9 @@ require_once __DIR__ . '/inc/header-acf.php';
 require_once __DIR__ . '/inc/header-nav.php';
 require_once __DIR__ . '/inc/header-admin-ui.php';
 
+// ── Home page template data helpers ───────────────────────────────────────────
+require_once __DIR__ . '/inc/home-data.php';
+
 add_action( 'wp_enqueue_scripts', function () {
 	$dir = get_stylesheet_directory_uri();
 	$ver = wp_get_theme()->get( 'Version' );
@@ -176,6 +179,11 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'chic-header-toolbar',    "$dir/css/site-header-toolbar.css",     [ 'chic-site-header' ], $ver );
 
 	wp_enqueue_script( 'chic-mobile-nav', "$dir/js/mobile-nav.js", [], $ver, true );
+
+	if ( is_page_template( 'page-home.php' ) ) {
+		wp_enqueue_style(  'chic-page-home',    "$dir/css/page-home.css", [ 'chic-tokens' ], $ver );
+		wp_enqueue_script( 'chic-page-home-js', "$dir/js/page-home.js",  [],               $ver, true );
+	}
 }, 20 );
 
 // ES module: add type="module" to the script tag so it can use import statements.
