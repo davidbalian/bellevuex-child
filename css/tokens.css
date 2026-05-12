@@ -9,6 +9,7 @@ div, section, article, aside, header, footer, nav, main {
 
 :root {
 	--site-header-height: 5rem;
+	--site-header-height-initial: 5rem;
 	--site-header-height-scrolled: 4rem;
 	--site-header-shrink-rate: 280ms;
 	--site-mega-flyout-rate: 300ms;
