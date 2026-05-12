@@ -99,7 +99,7 @@ function chic_header_render_mega_panel( array $groups ): void {
 										role="tabpanel"
 									>
 										<?php if ( ! empty( $group['building_label'] ) ) : ?>
-											<p class="mega-panel__eyebrow"><?php echo esc_html( $group['building_label'] ); ?></p>
+											<p class="mega-panel__eyebrow chic-type-meta"><?php echo esc_html( $group['building_label'] ); ?></p>
 										<?php endif; ?>
 										<ul class="mega-panel__list" role="list">
 											<?php foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :

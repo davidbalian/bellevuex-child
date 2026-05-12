@@ -78,7 +78,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 	<section class="home-intro" id="home-intro">
 		<div class="home-intro__inner">
 			<h2 class="home-intro__title fade-in fade-in-delay-0">Welcome</h2>
-			<p class="home-intro__lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
+			<p class="home-intro__lede chic-type-lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
 		</div>
 	</section>
 
@@ -93,7 +93,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 		<div class="home-building__inner">
 			<p class="home-building__address"><?php echo esc_html( $building['label'] ); ?></p>
 			<a
-				class="home-building__map-link"
+				class="home-building__map-link chic-type-meta"
 				href="<?php echo esc_url( $building['maps'] ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"
@@ -122,9 +122,9 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 							<div class="home-suite-card__body">
 								<h3 class="home-suite-card__title"><?php echo esc_html( $suite['title'] ); ?></h3>
 								<?php if ( $suite['capacity_label'] ) : ?>
-									<p class="home-suite-card__capacity"><?php echo esc_html( $suite['capacity_label'] ); ?></p>
+									<p class="home-suite-card__capacity chic-type-meta"><?php echo esc_html( $suite['capacity_label'] ); ?></p>
 								<?php endif; ?>
-								<span class="home-suite-card__cta">View this room</span>
+								<span class="home-suite-card__cta chic-type-meta">View this room</span>
 							</div>
 						</a>
 					</article>

@@ -2,7 +2,6 @@
 
 /* ── Shared typography ── */
 .mega-panel__eyebrow {
-	font-size: 0.6875rem;
 	font-weight: 700;
 	letter-spacing: .08em;
 	text-transform: uppercase;
@@ -25,7 +24,6 @@
 	border-radius: 0.3125rem;
 	text-decoration: none;
 	color: inherit;
-	font-size: 0.9375rem;
 	transition: background 120ms ease;
 }
 
@@ -49,7 +47,6 @@
 	border-bottom: 2px solid transparent;
 	margin-bottom: -1px;
 	padding: 0.5rem 1rem;
-	font-size: 0.875rem;
 	font-weight: 500;
 	color: #888;
 	cursor: pointer;
@@ -238,7 +235,6 @@
 	}
 
 	.mega-panel__tab {
-		font-size: 0.8125rem;
 		padding: 0.4rem 0.625rem;
 	}
 

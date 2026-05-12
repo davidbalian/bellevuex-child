@@ -1,5 +1,14 @@
 *, *::before, *::after { box-sizing: border-box; }
 
+/* Fluid root: px-based clamp so `rem` scales smoothly site-wide. */
+html {
+	font-size: clamp(15px, 0.35vw + 14px, 18px) !important;
+}
+
+body {
+	font-size: 1rem !important;
+}
+
 body, h1, h2, h3, h4, h5, h6,
 p, a, span, li, td, th, dt, dd, caption, blockquote, figcaption,
 label, legend, input, button, select, textarea,
@@ -23,4 +32,53 @@ div, section, article, aside, header, footer, nav, main {
 	--z-mega-panel: 1001;
 	--z-mega-backdrop: 999;
 	--z-mobile-overlay: 1100;
+}
+
+/* ── Global fluid type: headings + two utilities; everything else inherits ─ */
+
+h1 {
+	font-size: clamp(1.6rem, 4vw, 2.5rem) !important;
+	line-height: 1.1;
+}
+
+@media (max-width: 48rem) {
+	h1 {
+		font-size: clamp(1.3rem, 5.5vw, 1.95rem) !important;
+	}
+}
+
+h2 {
+	font-size: clamp(1.35rem, 2.2vw + 0.75rem, 1.9rem) !important;
+	line-height: 1.2;
+}
+
+h3 {
+	font-size: clamp(0.9375rem, 0.88rem + 0.25vw, 1rem) !important;
+	line-height: 1.25;
+}
+
+.chic-type-lede {
+	font-size: clamp(0.9375rem, 0.88rem + 0.32vw, 1.0625rem) !important;
+	line-height: 1.75;
+}
+
+.chic-type-meta {
+	font-size: clamp(11px, 0.72rem + 0.2vw, 0.875rem) !important;
+	line-height: 1.4;
+}
+
+/* Header + mobile drawer share one scale (sibling of header in DOM). */
+.site-header,
+.mobile-nav-overlay {
+	font-size: clamp(0.9rem, 0.84rem + 0.25vw, 1rem) !important;
+}
+
+.site-header__brand-text {
+	font-size: 1.15em !important;
+	font-weight: 700;
+}
+
+.site-header button,
+.mobile-nav-overlay button {
+	font: inherit;
 }

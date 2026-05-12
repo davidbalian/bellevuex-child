@@ -116,13 +116,13 @@
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
+	font-size: clamp(0.875rem, 0.82rem + 0.45vw, 1.05rem);
 }
 
 /* ── Typography ──────────────────────────────────────────────────────────── */
 
 .home-hero__title {
 	font-family: var(--home-font-heading);
-	font-size: clamp(2rem, 5.5vw, 3.4rem);
 	font-weight: 400;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
@@ -133,7 +133,6 @@
 }
 
 .home-hero__text {
-	font-size: clamp(0.9rem, 1.6vw, 1.1rem);
 	color: rgba(255, 255, 255, 0.85);
 	margin-bottom: 1.75rem;
 	line-height: 1.6;
@@ -153,7 +152,7 @@
 	background: #fff;
 	color: var(--home-color-primary);
 	font-family: var(--home-font-heading);
-	font-size: 0.875rem;
+	font-size: 0.9em;
 	font-weight: 700;
 	letter-spacing: 0.1em;
 	text-transform: uppercase;
@@ -230,7 +229,6 @@
 	}
 
 	.home-hero__title {
-		font-size: clamp(1.5rem, 7vw, 2.25rem);
 		margin-bottom: 0.75rem;
 	}
 
