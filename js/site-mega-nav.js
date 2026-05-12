@@ -86,6 +86,8 @@ class SiteMegaNavController {
 		this._openItem  = null;
 		this._ro        = null;
 		this._reduced   = window.matchMedia('(prefers-reduced-motion: reduce)');
+		this._megaSpacer        = null;
+		this._megaScrollLockY   = null;
 
 		this._onMegaClick   = this._onMegaClick.bind(this);
 		this._onDocClick    = this._onDocClick.bind(this);
@@ -144,7 +146,29 @@ class SiteMegaNavController {
 		this._openItem = li;
 		li.classList.add('is-mega-open');
 		li.querySelector(':scope > a').setAttribute('aria-expanded', 'true');
-		this._header.classList.add('site-header--mega-open');
+
+		const alreadyPinned = this._header.classList.contains( 'site-header--mega-open' );
+		if ( this._mq.matches ) {
+			if ( ! alreadyPinned ) {
+				this._megaScrollLockY = window.scrollY;
+				const h = this._header.getBoundingClientRect().height;
+				this._insertOrUpdateMegaSpacer( h );
+			} else {
+				const h = this._header.getBoundingClientRect().height;
+				this._insertOrUpdateMegaSpacer( h );
+			}
+		}
+		this._header.classList.add( 'site-header--mega-open' );
+		if ( this._mq.matches && ! alreadyPinned && this._megaScrollLockY !== null ) {
+			const h = this._megaSpacer ? this._megaSpacer.getBoundingClientRect().height : this._header.getBoundingClientRect().height;
+			requestAnimationFrame( () => {
+				const target = this._megaScrollLockY + h;
+				if ( Math.abs( window.scrollY - target ) > 2 ) {
+					window.scrollTo( { top: target, behavior: 'instant' } );
+				}
+			} );
+		}
+
 		this._backdrop.setAttribute('aria-hidden', 'false');
 		document.documentElement.classList.add( 'is-menu-scroll-lock' );
 		this._animHeight(li, false);
@@ -157,6 +181,11 @@ class SiteMegaNavController {
 		const a = li.querySelector(':scope > a');
 		if ( a ) a.setAttribute('aria-expanded', 'false');
 		this._header.classList.remove('site-header--mega-open');
+		this._removeMegaSpacer();
+		if ( this._megaScrollLockY !== null ) {
+			window.scrollTo( { top: this._megaScrollLockY, behavior: 'instant' } );
+			this._megaScrollLockY = null;
+		}
 		this._backdrop.setAttribute('aria-hidden', 'true');
 		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
 		this._animHeight(li, false, true);
@@ -173,6 +202,11 @@ class SiteMegaNavController {
 		const a = li.querySelector(':scope > a');
 		if ( a ) a.setAttribute('aria-expanded', 'false');
 		this._header.classList.remove('site-header--mega-open');
+		this._removeMegaSpacer();
+		if ( this._megaScrollLockY !== null ) {
+			window.scrollTo( { top: this._megaScrollLockY, behavior: 'instant' } );
+			this._megaScrollLockY = null;
+		}
 		this._backdrop.setAttribute('aria-hidden', 'true');
 		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
 		this._stopResize();
@@ -248,6 +282,24 @@ class SiteMegaNavController {
 
 	_stopResize() {
 		if ( this._ro ) { this._ro.disconnect(); this._ro = null; }
+	}
+
+	_insertOrUpdateMegaSpacer( heightPx ) {
+		if ( ! this._megaSpacer ) {
+			const el = document.createElement( 'div' );
+			el.className = 'site-header-mega-spacer';
+			el.setAttribute( 'aria-hidden', 'true' );
+			this._header.parentNode.insertBefore( el, this._header );
+			this._megaSpacer = el;
+		}
+		this._megaSpacer.style.height = heightPx + 'px';
+	}
+
+	_removeMegaSpacer() {
+		if ( this._megaSpacer ) {
+			this._megaSpacer.remove();
+			this._megaSpacer = null;
+		}
 	}
 
 }

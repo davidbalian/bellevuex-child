@@ -21,6 +21,24 @@ html.is-header-scrolled {
 	transition: height var(--site-header-shrink-rate) var(--site-mega-flyout-ease);
 }
 
+/* Spacer reserves layout height while the bar is fixed (mega open + scroll lock). */
+.site-header-mega-spacer {
+	flex-shrink: 0;
+	width: 100%;
+	pointer-events: none;
+	visibility: hidden;
+}
+
+@media (min-width: 48.0625rem) {
+	.site-header.site-header--mega-open {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		width: 100%;
+	}
+}
+
 .site-header__inner {
 	display: flex;
 	align-items: center;
