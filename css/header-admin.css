@@ -1,0 +1,135 @@
+/* Header Admin UI */
+
+#chic-header-builder {
+	margin-top: 12px;
+}
+
+.chic-items-list,
+.chic-buildings-list,
+.chic-suites-list {
+	margin-bottom: 8px;
+}
+
+/* ── Cards ───────────────────────────────────────────────────────────────── */
+
+.chic-row {
+	border: 1px solid #c3c4c7;
+	border-radius: 4px;
+	background: #fff;
+	margin-bottom: 10px;
+	overflow: hidden;
+}
+
+.chic-row--building {
+	background: #f6f7f7;
+	border-color: #b5bcc2;
+	margin-left: 16px;
+}
+
+.chic-row--suite {
+	background: #f0f0f1;
+	border-color: #a7afb7;
+	margin-left: 32px;
+}
+
+/* ── Row head ─────────────────────────────────────────────────────────────── */
+
+.chic-row__head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 8px 12px;
+	background: #f0f0f1;
+	border-bottom: 1px solid #c3c4c7;
+	gap: 8px;
+}
+
+.chic-row--building .chic-row__head { background: #e8eaec; }
+.chic-row--suite    .chic-row__head { background: #e0e2e4; }
+
+.chic-row__title {
+	font-weight: 600;
+	font-size: 13px;
+	flex: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.chic-remove {
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: #b32d2e;
+	font-size: 18px;
+	line-height: 1;
+	padding: 0 4px;
+	flex-shrink: 0;
+}
+
+.chic-remove:hover { color: #8a1f20; }
+
+/* ── Row body ─────────────────────────────────────────────────────────────── */
+
+.chic-row__body {
+	padding: 12px;
+}
+
+/* ── Fields ───────────────────────────────────────────────────────────────── */
+
+.chic-field {
+	margin-bottom: 10px;
+}
+
+.chic-field label {
+	display: block;
+	font-weight: 600;
+	font-size: 12px;
+	margin-bottom: 3px;
+}
+
+.chic-field input[type="text"],
+.chic-field input[type="url"],
+.chic-field input[type="number"],
+.chic-field select {
+	width: 100%;
+	max-width: 480px;
+}
+
+/* ── Mega groups container ────────────────────────────────────────────────── */
+
+.chic-mega-groups {
+	margin-top: 12px;
+	padding-top: 12px;
+	border-top: 1px dashed #c3c4c7;
+}
+
+/* ── Image picker ─────────────────────────────────────────────────────────── */
+
+.chic-image-picker {
+	display: flex;
+	align-items: flex-start;
+	gap: 8px;
+	flex-wrap: wrap;
+}
+
+.chic-image-preview {
+	width: 80px;
+	height: 60px;
+	object-fit: cover;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	flex-shrink: 0;
+}
+
+/* ── Add buttons ──────────────────────────────────────────────────────────── */
+
+.chic-add-item {
+	margin-top: 4px;
+}
+
+.chic-add-building,
+.chic-add-suite {
+	margin-top: 6px;
+	font-size: 12px;
+}

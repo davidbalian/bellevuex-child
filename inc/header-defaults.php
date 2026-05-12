@@ -94,11 +94,9 @@ function chic_header_default_menu() {
 
 add_action( 'admin_init', 'chic_header_seed_defaults_once' );
 function chic_header_seed_defaults_once() {
-	if ( ! function_exists( 'get_field' ) || ! function_exists( 'update_field' ) ) return;
 	$post_id = chic_header_config_id();
 	if ( ! $post_id ) return;
-	// Seed only when no data exists — avoids stale option-flag issues across refactors.
-	$existing = get_field( 'menu_items', $post_id );
+	$existing = get_post_meta( $post_id, '_chic_header_menu', true );
 	if ( ! empty( $existing ) ) return;
-	update_field( 'menu_items', chic_header_default_menu(), $post_id );
+	update_post_meta( $post_id, '_chic_header_menu', chic_header_default_menu() );
 }

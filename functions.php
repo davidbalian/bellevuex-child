@@ -162,6 +162,7 @@ add_action('admin_notices', 'Calendar_Sync');
 require_once __DIR__ . '/inc/header-defaults.php';
 require_once __DIR__ . '/inc/header-acf.php';
 require_once __DIR__ . '/inc/header-nav.php';
+require_once __DIR__ . '/inc/header-admin-ui.php';
 
 add_action( 'wp_enqueue_scripts', function () {
 	$dir = get_stylesheet_directory_uri();

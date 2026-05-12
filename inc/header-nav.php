@@ -20,8 +20,13 @@ function chic_header_item_href( array $item ): string {
 	return '#';
 }
 
+function chic_header_get_menu(): array {
+	$items = get_post_meta( chic_header_config_id(), '_chic_header_menu', true );
+	return is_array( $items ) ? $items : [];
+}
+
 function chic_header_render_items( bool $mobile = false ): void {
-	$items = get_field( 'menu_items', chic_header_config_id() );
+	$items = chic_header_get_menu();
 	if ( empty( $items ) ) return;
 
 	foreach ( $items as $item ) {
@@ -88,7 +93,9 @@ function chic_header_render_mega_panel( array $groups ): void {
 									<img src="<?php echo esc_url( CHIC_PLACEHOLDER_IMG ); ?>" alt="" loading="lazy">
 								</div>
 								<?php foreach ( $all_suites as $suite ) :
-									$img  = ! empty( $suite['image'] ) ? $suite['image'] : CHIC_PLACEHOLDER_IMG;
+									$img_id  = isset( $suite['image'] ) ? (int) $suite['image'] : 0;
+									$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : '';
+									$img     = $img_url ?: CHIC_PLACEHOLDER_IMG;
 									$stxt = trim( $suite['label'] ?? '' );
 								?>
 									<div class="mega-panel__preview-img" data-mega-preview-for="<?php echo esc_attr( $stxt ); ?>">
@@ -107,7 +114,7 @@ function chic_header_render_mega_panel( array $groups ): void {
 }
 
 function chic_header_book_now_url(): string {
-	$items = get_field( 'menu_items', chic_header_config_id() );
+	$items = chic_header_get_menu();
 	if ( ! empty( $items ) ) {
 		foreach ( $items as $item ) {
 			if ( 'book now' === strtolower( trim( $item['label'] ?? '' ) ) ) {
