@@ -13,8 +13,7 @@ header.banner.navbar-default {
 	z-index: var(--z-site-header);
 	background: #fff;
 	border-bottom: 1px solid #e8e8e8;
-	min-height: var(--site-header-height);
-	padding-block: 0.2rem;
+	height: var(--site-header-height);
 }
 
 .site-header__inner {
@@ -22,7 +21,7 @@ header.banner.navbar-default {
 	align-items: center;
 	justify-content: space-between;
 	gap: 1.5rem;
-	min-height: var(--site-header-height);
+	height: 100%;
 	padding-inline: 1.5rem;
 	max-width: var(--mega-panel-inner-max);
 	margin-inline: auto;
@@ -39,7 +38,7 @@ header.banner.navbar-default {
 }
 
 .site-header__brand img {
-	height: 4rem;
+	height: calc(var(--site-header-height) * 0.9);
 	width: auto;
 	display: block;
 }
