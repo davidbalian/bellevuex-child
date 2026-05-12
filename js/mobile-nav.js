@@ -93,7 +93,7 @@ const MobileNavOverlayController = {
 		this.overlay.classList.add('is-open');
 		this.overlay.setAttribute('aria-hidden', 'false');
 		this.toggleBtn.setAttribute('aria-expanded', 'true');
-		document.body.style.overflow = 'hidden';
+		document.documentElement.classList.add( 'is-menu-scroll-lock' );
 	},
 
 	close() {
@@ -101,7 +101,7 @@ const MobileNavOverlayController = {
 		this.overlay.classList.remove('is-open');
 		this.overlay.setAttribute('aria-hidden', 'true');
 		this.toggleBtn.setAttribute('aria-expanded', 'false');
-		document.body.style.overflow = '';
+		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
 		// Reset all accordion states.
 		this.overlay.querySelectorAll('.is-submenu-open').forEach(el => {
 			el.classList.remove('is-submenu-open');

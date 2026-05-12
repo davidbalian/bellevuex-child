@@ -146,6 +146,7 @@ class SiteMegaNavController {
 		li.querySelector(':scope > a').setAttribute('aria-expanded', 'true');
 		this._header.classList.add('site-header--mega-open');
 		this._backdrop.setAttribute('aria-hidden', 'false');
+		document.documentElement.classList.add( 'is-menu-scroll-lock' );
 		this._animHeight(li, false);
 		this._watchResize(li);
 	}
@@ -157,6 +158,7 @@ class SiteMegaNavController {
 		if ( a ) a.setAttribute('aria-expanded', 'false');
 		this._header.classList.remove('site-header--mega-open');
 		this._backdrop.setAttribute('aria-hidden', 'true');
+		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
 		this._animHeight(li, false, true);
 		this._stopResize();
 		this._openItem = null;
@@ -172,6 +174,7 @@ class SiteMegaNavController {
 		if ( a ) a.setAttribute('aria-expanded', 'false');
 		this._header.classList.remove('site-header--mega-open');
 		this._backdrop.setAttribute('aria-hidden', 'true');
+		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
 		this._stopResize();
 		this._openItem = null;
 	}

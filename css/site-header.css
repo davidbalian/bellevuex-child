@@ -245,3 +245,10 @@ html.is-header-scrolled {
 		transition: none;
 	}
 }
+
+/* Lock document scroll while mobile drawer or desktop mega menu is open */
+html.is-menu-scroll-lock,
+html.is-menu-scroll-lock body {
+	overflow: hidden;
+	overscroll-behavior: none;
+}
