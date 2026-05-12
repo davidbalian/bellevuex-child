@@ -56,6 +56,7 @@ function chic_header_menu_box_render( WP_Post $post ): void {
 		<template id="chic-tpl-building">
 			<?php chic_render_building_row( '{{i}}', '{{j}}', [
 				'building_label' => '',
+				'image'          => 0,
 				'suites'         => [],
 			] ); ?>
 		</template>
@@ -146,9 +147,11 @@ function chic_render_item_row( $i, array $item ): void {
 }
 
 function chic_render_building_row( $i, $j, array $bldg ): void {
-	$label  = $bldg['building_label'] ?? '';
-	$suites = $bldg['suites'] ?? [];
-	$base   = "chic_header[items][$i][mega_groups][$j]";
+	$label     = $bldg['building_label'] ?? '';
+	$suites    = $bldg['suites'] ?? [];
+	$image_id  = (int) ( $bldg['image'] ?? 0 );
+	$img_url   = $image_id ? wp_get_attachment_image_url( $image_id, 'thumbnail' ) : '';
+	$base      = "chic_header[items][$i][mega_groups][$j]";
 	?>
 	<div class="chic-row chic-row--building" data-level="building">
 		<div class="chic-row__head">
@@ -160,6 +163,18 @@ function chic_render_building_row( $i, $j, array $bldg ): void {
 				<label>Building Name</label>
 				<input type="text" name="<?php echo esc_attr( $base ); ?>[building_label]"
 					value="<?php echo esc_attr( $label ); ?>" class="widefat chic-building-label">
+			</div>
+			<div class="chic-field chic-field-image">
+				<label>Building Image</label>
+				<div class="chic-image-picker">
+					<input type="hidden" name="<?php echo esc_attr( $base ); ?>[image]"
+						value="<?php echo esc_attr( $image_id ); ?>" class="chic-image-id">
+					<img class="chic-image-preview"
+						src="<?php echo esc_url( $img_url ?: CHIC_PLACEHOLDER_IMG ); ?>"
+						alt="" style="width:80px;height:60px;object-fit:cover;display:block;margin-bottom:4px;">
+					<button type="button" class="button chic-pick-image">Choose Image</button>
+					<button type="button" class="button chic-clear-image"<?php echo $image_id ? '' : ' style="display:none"'; ?>>Remove</button>
+				</div>
 			</div>
 			<div class="chic-suites-list">
 				<?php foreach ( $suites as $k => $suite ) :
@@ -290,8 +305,13 @@ function chic_header_sanitize_items( array $rows ): array {
 						];
 					}
 				}
+				$bldg_img = (int) ( $bldg['image'] ?? 0 );
+				if ( $bldg_img && ! wp_get_attachment_url( $bldg_img ) ) {
+					$bldg_img = 0;
+				}
 				$groups[] = [
 					'building_label' => $blabel,
+					'image'          => $bldg_img,
 					'suites'         => array_values( $suites ),
 				];
 			}

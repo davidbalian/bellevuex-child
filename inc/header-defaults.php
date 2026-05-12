@@ -29,6 +29,7 @@ function chic_header_default_menu() {
 			'mega_groups' => [
 				[
 					'building_label' => 'Chavriou 2',
+					'image'          => 0,
 					'suites'         => [
 						[ 'label' => 'Suite 1', 'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],
 						[ 'label' => 'Suite 2', 'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],
@@ -40,6 +41,7 @@ function chic_header_default_menu() {
 				],
 				[
 					'building_label' => 'Thiseos 11',
+					'image'          => 0,
 					'suites'         => [
 						[ 'label' => 'Avra Suite',      'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],
 						[ 'label' => 'Zakynthos Suite', 'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],
@@ -55,6 +57,7 @@ function chic_header_default_menu() {
 				],
 				[
 					'building_label' => 'Thiseos 13',
+					'image'          => 0,
 					'suites'         => [
 						[ 'label' => 'Ocean Suite',    'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],
 						[ 'label' => 'Ginger Suite',   'link_type' => 'url', 'url' => $ph, 'page' => 0, 'image' => 0 ],

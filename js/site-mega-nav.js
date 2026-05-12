@@ -76,7 +76,7 @@ class SiteMegaNavController {
 		this._backdrop.setAttribute('aria-hidden', 'false');
 		this._animHeight(li, false);
 		this._watchResize(li);
-		this._wirePreview(li);
+		this._wireTabs(li);
 	}
 
 	_close(li) {
@@ -176,28 +176,31 @@ class SiteMegaNavController {
 		if ( this._ro ) { this._ro.disconnect(); this._ro = null; }
 	}
 
-	// ── Preview image swap ───────────────────────────────────────────────────
+	// ── Tab switching ────────────────────────────────────────────────────────
 
-	_wirePreview(li) {
-		const list    = li.querySelector('.mega-panel__list');
-		const preview = li.querySelector('.mega-panel__preview');
-		if ( ! list || ! preview ) return;
+	_wireTabs(li) {
+		const tabs     = li.querySelectorAll('.mega-panel__tab');
+		const panels   = li.querySelectorAll('.mega-panel__panel');
+		const previews = li.querySelectorAll('.mega-panel__preview-img');
+		if ( ! tabs.length ) return;
 
-		const defaultSlide = () => preview.querySelector('.mega-panel__preview-img:not([data-mega-preview-for])');
-		const clearActive  = () => preview.querySelectorAll('.mega-panel__preview-img--active').forEach(el => el.classList.remove('mega-panel__preview-img--active'));
+		tabs.forEach(tab => {
+			tab.addEventListener('click', e => {
+				e.preventDefault();
+				e.stopPropagation();
+				const idx = tab.dataset.megaTab;
 
-		list.addEventListener('mouseenter', e => {
-			const a = e.target.closest('.menu-item a');
-			if ( ! a ) return;
-			const label = (a.querySelector('.mega-panel__link-text') ?? a).textContent.trim();
-			const slide = preview.querySelector(`[data-mega-preview-for="${CSS.escape(label)}"]`);
-			if ( slide ) { clearActive(); slide.classList.add('mega-panel__preview-img--active'); }
-		}, true);
+				tabs.forEach(t => {
+					const on = t.dataset.megaTab === idx;
+					t.classList.toggle('is-active', on);
+					t.setAttribute('aria-selected', on ? 'true' : 'false');
+				});
+				panels.forEach(p => p.classList.toggle('is-active', p.dataset.megaPanel === idx));
+				previews.forEach(p => p.classList.toggle('is-active', p.dataset.megaPreview === idx));
 
-		list.addEventListener('mouseleave', () => {
-			clearActive();
-			const def = defaultSlide();
-			if ( def ) def.classList.add('mega-panel__preview-img--active');
+				// Remeasure height instantly so wrapper fits the newly active panel.
+				this._animHeight(li, true);
+			});
 		});
 	}
 }

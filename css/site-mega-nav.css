@@ -43,7 +43,7 @@
 	-webkit-backdrop-filter: blur(var(--chrome-overlay-blur));
 	opacity: 0;
 	pointer-events: none;
-	transition: opacity var(--site-mega-backdrop-transition);
+	transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 }
 
 .site-mega-backdrop[aria-hidden="false"] {
@@ -71,7 +71,7 @@
 	.mega-panel__height {
 		height: 0;
 		overflow: hidden;
-		transition: height var(--site-mega-flyout-rate) ease;
+		transition: height var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
 
 	.mega-panel__height--instant,
@@ -92,48 +92,98 @@
 		padding: 2rem 1.5rem;
 		box-sizing: border-box;
 		width: 100%;
-	}
-
-	/* Grid: 3 building columns + 1 preview column */
-	.mega-panel__grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr) 1fr;
+		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		align-items: start;
 	}
 
-	/* Column fade-in when panel opens */
-	.mega-panel__column {
+	/* ── Left column: tabs + suite list ── */
+	.mega-panel__main {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
 		opacity: 0;
-		transition: opacity var(--site-mega-flyout-rate) ease;
+		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
 
-	.menu-item.is-mega-open .mega-panel__column {
+	.menu-item.is-mega-open .mega-panel__main {
 		opacity: 1;
 	}
 
-	/* Preview column fades slightly later */
-	.menu-item.is-mega-open .mega-panel__column.mega-panel__preview {
-		transition-delay: calc(var(--site-mega-flyout-rate) * .3);
+	/* Tab row */
+	.mega-panel__tabs {
+		display: flex;
+		flex-direction: row;
+		gap: 0;
+		border-bottom: 1px solid #e8e8e8;
 	}
 
-	/* Preview image column */
+	.mega-panel__tab {
+		appearance: none;
+		background: none;
+		border: none;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -1px;
+		padding: 0.5rem 1rem;
+		font-size: 0.875rem;
+		font-weight: 500;
+		color: #888;
+		cursor: pointer;
+		transition:
+			color 160ms ease,
+			border-color 160ms ease;
+		white-space: nowrap;
+	}
+
+	.mega-panel__tab:hover {
+		color: #333;
+	}
+
+	.mega-panel__tab.is-active {
+		color: #111;
+		font-weight: 700;
+		border-bottom-color: #111;
+	}
+
+	/* Suite panels — only active one visible */
+	.mega-panel__panel {
+		display: none;
+	}
+
+	.mega-panel__panel.is-active {
+		display: block;
+	}
+
+	/* Building eyebrow is shown by the tab — hide it in the panel on desktop */
+	.mega-panel__panel .mega-panel__eyebrow {
+		display: none;
+	}
+
+	/* ── Right column: building image ── */
 	.mega-panel__preview {
 		position: relative;
 		border-radius: 0.5rem;
 		overflow: hidden;
 		background: #f0f0f0;
 		aspect-ratio: 4 / 3;
+		opacity: 0;
+		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
+	}
+
+	.menu-item.is-mega-open .mega-panel__preview {
+		opacity: 1;
+		transition-delay: calc(var(--site-mega-flyout-rate) * .2);
 	}
 
 	.mega-panel__preview-img {
 		position: absolute;
 		inset: 0;
 		opacity: 0;
-		transition: opacity var(--site-mega-flyout-rate) ease;
+		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
 
-	.mega-panel__preview-img--active {
+	.mega-panel__preview-img.is-active {
 		opacity: 1;
 	}
 
@@ -161,24 +211,32 @@
 	}
 
 	.mega-panel__layout {
+		display: block;
 		padding: 0;
 	}
 
-	/* Stack building columns vertically */
-	.mega-panel__grid {
-		display: flex;
-		flex-direction: column;
-		gap: 0;
-	}
-
-	/* Preview image is pointless on mobile — hide it */
-	.mega-panel__preview {
+	/* Hide tab row on mobile — all buildings show stacked */
+	.mega-panel__tabs {
 		display: none;
 	}
 
-	/* Columns always visible when accordion is open */
-	.mega-panel__column {
-		opacity: 1;
+	/* All panels visible when accordion is open */
+	.mega-panel__panel {
+		display: block !important;
+	}
+
+	/* Building name shown as section heading on mobile */
+	.mega-panel__panel .mega-panel__eyebrow {
+		display: block;
+		text-align: right;
+		padding: 0.75rem 1rem 0.25rem;
+		margin: 0;
+		border-top: 1px solid #ebebeb;
+	}
+
+	/* Preview image pointless on mobile — hide it */
+	.mega-panel__preview {
+		display: none;
 	}
 
 	/* Suite links: right-aligned, indented feel */
@@ -186,12 +244,5 @@
 		text-align: right;
 		color: #666;
 		padding-inline-end: 1rem;
-	}
-
-	.mega-panel__eyebrow {
-		text-align: right;
-		padding: 0.75rem 1rem 0.25rem;
-		margin: 0;
-		border-top: 1px solid #ebebeb;
 	}
 }

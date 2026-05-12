@@ -54,57 +54,69 @@ function chic_header_render_items( bool $mobile = false ): void {
 }
 
 function chic_header_render_mega_panel( array $groups ): void {
-	$all_suites = [];
-	foreach ( $groups as $g ) {
-		foreach ( ( $g['suites'] ?? [] ) as $s ) {
-			$all_suites[] = $s;
-		}
-	}
 	?>
 	<div class="nav-submenu-clip mega-panel mobile-disclosure__panel" data-mega-clip>
 		<div class="mega-panel__body nav-submenu-body mobile-disclosure__inner">
 			<div class="mega-panel__height" data-mega-height>
 				<div class="mega-panel__surface">
 					<div class="mega-panel__layout">
-						<div class="mega-panel__grid">
 
-							<?php foreach ( $groups as $group ) : ?>
-								<div class="mega-panel__column">
-									<?php if ( ! empty( $group['building_label'] ) ) : ?>
-										<p class="mega-panel__eyebrow"><?php echo esc_html( $group['building_label'] ); ?></p>
-									<?php endif; ?>
-									<ul class="mega-panel__list" role="list">
-										<?php foreach ( ( $group['suites'] ?? [] ) as $suite ) :
-											$suite_href = chic_header_item_href( $suite );
-											$suite_text = trim( $suite['label'] ?? '' );
-										?>
-											<li class="menu-item">
-												<a href="<?php echo esc_attr( $suite_href ); ?>">
-													<span class="mega-panel__link-text"><?php echo esc_html( $suite_text ); ?></span>
-												</a>
-											</li>
-										<?php endforeach; ?>
-									</ul>
-								</div>
-							<?php endforeach; ?>
-
-							<div class="mega-panel__column mega-panel__preview" aria-hidden="true">
-								<div class="mega-panel__preview-img mega-panel__preview-img--active">
-									<img src="<?php echo esc_url( CHIC_PLACEHOLDER_IMG ); ?>" alt="" loading="lazy">
-								</div>
-								<?php foreach ( $all_suites as $suite ) :
-									$img_id  = isset( $suite['image'] ) ? (int) $suite['image'] : 0;
-									$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : '';
-									$img     = $img_url ?: CHIC_PLACEHOLDER_IMG;
-									$stxt = trim( $suite['label'] ?? '' );
-								?>
-									<div class="mega-panel__preview-img" data-mega-preview-for="<?php echo esc_attr( $stxt ); ?>">
-										<img src="<?php echo esc_url( $img ); ?>" alt="<?php echo esc_attr( $stxt ); ?>" loading="lazy">
-									</div>
+						<div class="mega-panel__main">
+							<div class="mega-panel__tabs" role="tablist">
+								<?php foreach ( $groups as $idx => $group ) : ?>
+									<button
+										type="button"
+										class="mega-panel__tab<?php echo 0 === $idx ? ' is-active' : ''; ?>"
+										data-mega-tab="<?php echo esc_attr( $idx ); ?>"
+										role="tab"
+										aria-selected="<?php echo 0 === $idx ? 'true' : 'false'; ?>"
+									><?php echo esc_html( $group['building_label'] ?? '' ); ?></button>
 								<?php endforeach; ?>
 							</div>
 
+							<div class="mega-panel__panels">
+								<?php foreach ( $groups as $idx => $group ) : ?>
+									<div
+										class="mega-panel__panel<?php echo 0 === $idx ? ' is-active' : ''; ?>"
+										data-mega-panel="<?php echo esc_attr( $idx ); ?>"
+										role="tabpanel"
+									>
+										<?php if ( ! empty( $group['building_label'] ) ) : ?>
+											<p class="mega-panel__eyebrow"><?php echo esc_html( $group['building_label'] ); ?></p>
+										<?php endif; ?>
+										<ul class="mega-panel__list" role="list">
+											<?php foreach ( ( $group['suites'] ?? [] ) as $suite ) :
+												$suite_href = chic_header_item_href( $suite );
+												$suite_text = trim( $suite['label'] ?? '' );
+											?>
+												<li class="menu-item">
+													<a href="<?php echo esc_attr( $suite_href ); ?>">
+														<span class="mega-panel__link-text"><?php echo esc_html( $suite_text ); ?></span>
+													</a>
+												</li>
+											<?php endforeach; ?>
+										</ul>
+									</div>
+								<?php endforeach; ?>
+							</div>
 						</div>
+
+						<div class="mega-panel__preview" aria-hidden="true">
+							<?php foreach ( $groups as $idx => $group ) :
+								$img_id  = isset( $group['image'] ) ? (int) $group['image'] : 0;
+								$img_url = $img_id ? wp_get_attachment_image_url( $img_id, 'large' ) : '';
+								$img     = $img_url ?: CHIC_PLACEHOLDER_IMG;
+								$alt     = esc_attr( $group['building_label'] ?? '' );
+							?>
+								<div
+									class="mega-panel__preview-img<?php echo 0 === $idx ? ' is-active' : ''; ?>"
+									data-mega-preview="<?php echo esc_attr( $idx ); ?>"
+								>
+									<img src="<?php echo esc_url( $img ); ?>" alt="<?php echo $alt; ?>" loading="lazy">
+								</div>
+							<?php endforeach; ?>
+						</div>
+
 					</div>
 				</div>
 			</div>

@@ -1,11 +1,12 @@
 :root {
 	--site-header-height: 4.5rem;
-	--site-mega-flyout-rate: 220ms;
+	--site-mega-flyout-rate: 300ms;
+	--site-mega-flyout-ease: cubic-bezier(.32, .15, 0, 1.01);
 	--mega-panel-inner-max: 80rem;
 	--mobile-nav-debounce-ms: 240;
 	--mobile-submenu-disclosure-transition: 280ms cubic-bezier(.4, 0, .2, 1);
 	--chrome-overlay-blur: 14px;
-	--site-mega-backdrop-transition: 220ms ease;
+	--site-mega-backdrop-transition: var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	--z-site-header: 1000;
 	--z-mega-panel: 1001;
 	--z-mega-backdrop: 999;
