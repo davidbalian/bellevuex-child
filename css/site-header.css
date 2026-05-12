@@ -43,7 +43,7 @@ html.is-header-scrolled {
 }
 
 .site-header__brand img {
-	height: calc(var(--site-header-height) * 0.9);
+	height: calc(var(--site-header-height) * 0.8);
 	width: auto;
 	display: block;
 	transition: height var(--site-header-shrink-rate) var(--site-mega-flyout-ease);
