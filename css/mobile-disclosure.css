@@ -1,0 +1,17 @@
+/* ========== MOBILE ACCORDION (grid-row disclosure) ========== */
+
+@media (max-width: 48rem) {
+	.mobile-disclosure__panel {
+		display: grid;
+		grid-template-rows: 0fr;
+		transition: grid-template-rows var(--mobile-submenu-disclosure-transition);
+	}
+
+	.mobile-disclosure__inner {
+		overflow: hidden;
+	}
+
+	li.is-submenu-open > .mobile-disclosure__panel {
+		grid-template-rows: 1fr;
+	}
+}

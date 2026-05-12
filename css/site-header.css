@@ -1,0 +1,232 @@
+/* ========== SITE HEADER ========== */
+
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: var(--z-site-header);
+	background: #fff;
+	border-bottom: 1px solid #e8e8e8;
+	min-height: var(--site-header-height);
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
+	min-height: var(--site-header-height);
+	padding-inline: 1.5rem;
+	max-width: var(--mega-panel-inner-max);
+	margin-inline: auto;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* ── Brand ── */
+.site-header__brand {
+	display: flex;
+	align-items: center;
+	text-decoration: none;
+	flex-shrink: 0;
+}
+
+.site-header__brand img {
+	height: 2.5rem;
+	width: auto;
+	display: block;
+}
+
+.site-header__brand-text {
+	font-size: 1.25rem;
+	font-weight: 700;
+	color: inherit;
+	letter-spacing: -.01em;
+}
+
+/* ── Tools ── */
+.site-header__tools {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
+.primary-navigation {
+	display: flex;
+	align-items: center;
+}
+
+/* ── Desktop nav ── */
+.nav-menu {
+	display: flex;
+	align-items: center;
+	gap: 0.125rem;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.nav-menu > .menu-item > a {
+	display: flex;
+	align-items: center;
+	gap: 0.375rem;
+	padding: 0.5rem 0.75rem;
+	font-size: 0.9375rem;
+	font-weight: 500;
+	color: inherit;
+	text-decoration: none;
+	border-radius: 0.375rem;
+	white-space: nowrap;
+	transition: background 150ms ease;
+}
+
+.nav-menu > .menu-item > a:hover,
+.nav-menu > .menu-item.is-mega-open > a {
+	background: #f4f4f4;
+}
+
+.nav-submenu-chevron {
+	display: flex;
+	align-items: center;
+	transition: transform var(--site-mega-flyout-rate) ease;
+	flex-shrink: 0;
+}
+
+.menu-item.is-mega-open > a .nav-submenu-chevron {
+	transform: rotate(180deg);
+}
+
+/* ── Hamburger ── */
+.mobile-nav-toggle {
+	display: none;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	gap: 5px;
+	width: 2.5rem;
+	height: 2.5rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	padding: 0.4rem;
+	border-radius: 0.375rem;
+	color: inherit;
+}
+
+.mobile-nav-toggle:hover {
+	background: #f4f4f4;
+}
+
+.mobile-nav-toggle__bar {
+	display: block;
+	width: 20px;
+	height: 2px;
+	background: currentColor;
+	border-radius: 2px;
+	transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* ========== MOBILE OVERLAY ========== */
+
+.mobile-nav-overlay {
+	position: fixed;
+	inset: 0;
+	z-index: var(--z-mobile-overlay);
+	background: #fff;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	opacity: 0;
+	visibility: hidden;
+	transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.mobile-nav-overlay.is-open {
+	opacity: 1;
+	visibility: visible;
+}
+
+.mobile-nav__inner {
+	display: flex;
+	flex-direction: column;
+	min-height: 100%;
+	padding: 1rem 1.25rem 2.5rem;
+}
+
+.mobile-nav-close {
+	align-self: flex-end;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.5rem;
+	height: 2.5rem;
+	background: none;
+	border: none;
+	cursor: pointer;
+	border-radius: 0.375rem;
+	color: inherit;
+	margin-bottom: 0.75rem;
+}
+
+.mobile-nav-close:hover {
+	background: #f4f4f4;
+}
+
+.mobile-nav__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	flex: 1;
+}
+
+.mobile-nav__links > .menu-item > a {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0.9rem 0;
+	font-size: 1.0625rem;
+	font-weight: 500;
+	color: inherit;
+	text-decoration: none;
+	border-bottom: 1px solid #ebebeb;
+}
+
+.mobile-nav__links > .menu-item > a .nav-submenu-chevron {
+	transition: transform var(--mobile-submenu-disclosure-transition);
+}
+
+.mobile-nav__links > .menu-item.is-submenu-open > a .nav-submenu-chevron {
+	transform: rotate(180deg);
+}
+
+.mobile-nav__footer {
+	padding-top: 2rem;
+}
+
+.mobile-nav__cta {
+	display: block;
+	text-align: center;
+	padding: 0.9rem 1.5rem;
+	background: #1a1a1a;
+	color: #fff;
+	text-decoration: none;
+	border-radius: 0.5rem;
+	font-weight: 600;
+	font-size: 1rem;
+	transition: background 150ms ease;
+}
+
+.mobile-nav__cta:hover {
+	background: #333;
+	color: #fff;
+}
+
+/* ========== RESPONSIVE ========== */
+
+@media (max-width: 48rem) {
+	.mobile-nav-toggle {
+		display: flex;
+	}
+
+	.nav-menu {
+		display: none;
+	}
+}

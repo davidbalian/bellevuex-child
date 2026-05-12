@@ -158,6 +158,33 @@ function Calendar_Sync() {
 }
 add_action('admin_notices', 'Calendar_Sync');
 
+// ── Header component ──────────────────────────────────────────────────────────
+require_once __DIR__ . '/inc/header-defaults.php';
+require_once __DIR__ . '/inc/header-acf.php';
+require_once __DIR__ . '/inc/header-nav.php';
+
+add_action( 'wp_enqueue_scripts', function () {
+	$dir = get_stylesheet_directory_uri();
+	$ver = wp_get_theme()->get( 'Version' );
+
+	wp_enqueue_style( 'chic-tokens',            "$dir/css/tokens.css",                  [],                    $ver );
+	wp_enqueue_style( 'chic-site-header',       "$dir/css/site-header.css",             [ 'chic-tokens' ],     $ver );
+	wp_enqueue_style( 'chic-site-mega-nav',     "$dir/css/site-mega-nav.css",           [ 'chic-site-header' ], $ver );
+	wp_enqueue_style( 'chic-mobile-disclosure', "$dir/css/mobile-disclosure.css",       [ 'chic-site-header' ], $ver );
+	wp_enqueue_style( 'chic-header-dropdowns',  "$dir/css/site-header-dropdowns.css",   [ 'chic-site-header' ], $ver );
+	wp_enqueue_style( 'chic-header-toolbar',    "$dir/css/site-header-toolbar.css",     [ 'chic-site-header' ], $ver );
+
+	wp_enqueue_script( 'chic-mobile-nav', "$dir/js/mobile-nav.js", [], $ver, true );
+}, 20 );
+
+// ES module: add type="module" to the script tag so it can use import statements.
+add_filter( 'script_loader_tag', function ( $tag, $handle ) {
+	if ( 'chic-mobile-nav' === $handle ) {
+		return str_replace( '<script ', '<script type="module" ', $tag );
+	}
+	return $tag;
+}, 10, 2 );
+
 
 function hide_booking_form() {
 

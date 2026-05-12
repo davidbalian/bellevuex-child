@@ -1,0 +1,203 @@
+export function initSiteMegaNav() {
+	new SiteMegaNavController();
+}
+
+class SiteMegaNavController {
+	constructor() {
+		this._header   = document.querySelector('.site-header');
+		this._backdrop = document.getElementById('site-mega-backdrop');
+		this._menu     = document.querySelector('.primary-navigation .nav-menu');
+
+		if ( ! this._header || ! this._backdrop || ! this._menu ) return;
+
+		this._mq        = window.matchMedia('(min-width: 48.0625rem)');
+		this._openItem  = null;
+		this._ro        = null;
+		this._reduced   = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+		this._onMegaClick   = this._onMegaClick.bind(this);
+		this._onDocClick    = this._onDocClick.bind(this);
+		this._onKeyDown     = this._onKeyDown.bind(this);
+		this._onMediaChange = this._onMediaChange.bind(this);
+
+		this._menu.addEventListener('click', this._onMegaClick);
+		document.addEventListener('click', this._onDocClick);
+		document.addEventListener('keydown', this._onKeyDown);
+		this._mq.addEventListener('change', this._onMediaChange);
+	}
+
+	// ── Interaction handlers ─────────────────────────────────────────────────
+
+	_onMegaClick(e) {
+		if ( ! this._mq.matches ) return;
+		const trigger = e.target.closest('li.menu-item-has-mega > a');
+		if ( ! trigger ) return;
+		e.preventDefault();
+		e.stopPropagation();
+		const li     = trigger.parentElement;
+		const isOpen = li.classList.contains('is-mega-open');
+		if ( isOpen ) {
+			this._close(li);
+		} else if ( this._openItem && this._openItem !== li ) {
+			this._switchMega(li);
+		} else {
+			this._open(li);
+		}
+	}
+
+	_onDocClick(e) {
+		if ( ! this._openItem || ! this._mq.matches ) return;
+		if ( ! e.target.closest('.site-header') ) {
+			this._close(this._openItem);
+			return;
+		}
+		if ( e.target.closest('#site-mega-backdrop') ) {
+			this._close(this._openItem);
+		}
+	}
+
+	_onKeyDown(e) {
+		if ( e.key === 'Escape' && this._openItem ) {
+			this._close(this._openItem);
+		}
+	}
+
+	_onMediaChange(e) {
+		if ( ! e.matches ) this._closeImmediate();
+	}
+
+	// ── Open / close ─────────────────────────────────────────────────────────
+
+	_open(li) {
+		this._openItem = li;
+		li.classList.add('is-mega-open');
+		li.querySelector(':scope > a').setAttribute('aria-expanded', 'true');
+		this._header.classList.add('site-header--mega-open');
+		this._backdrop.setAttribute('aria-hidden', 'false');
+		this._animHeight(li, false);
+		this._watchResize(li);
+		this._wirePreview(li);
+	}
+
+	_close(li) {
+		if ( ! li ) return;
+		li.classList.remove('is-mega-open');
+		const a = li.querySelector(':scope > a');
+		if ( a ) a.setAttribute('aria-expanded', 'false');
+		this._header.classList.remove('site-header--mega-open');
+		this._backdrop.setAttribute('aria-hidden', 'true');
+		this._animHeight(li, false, true);
+		this._stopResize();
+		this._openItem = null;
+	}
+
+	_closeImmediate() {
+		const li = this._openItem;
+		if ( ! li ) return;
+		const heightEl = li.querySelector('[data-mega-height]');
+		if ( heightEl ) heightEl.style.height = '0';
+		li.classList.remove('is-mega-open');
+		const a = li.querySelector(':scope > a');
+		if ( a ) a.setAttribute('aria-expanded', 'false');
+		this._header.classList.remove('site-header--mega-open');
+		this._backdrop.setAttribute('aria-hidden', 'true');
+		this._stopResize();
+		this._openItem = null;
+	}
+
+	_switchMega(newLi) {
+		const oldLi     = this._openItem;
+		const oldHeight = oldLi.querySelector('[data-mega-height]');
+
+		// Collapse the old panel instantly (no animation).
+		oldLi.classList.remove('is-mega-open');
+		const oldA = oldLi.querySelector(':scope > a');
+		if ( oldA ) oldA.setAttribute('aria-expanded', 'false');
+		if ( oldHeight ) {
+			oldHeight.classList.add('mega-panel__height--instant');
+			oldHeight.style.height = '0';
+		}
+		this._stopResize();
+		this._openItem = null;
+
+		// Open the new panel, also without the open animation.
+		this._open(newLi);
+		const newHeight = newLi.querySelector('[data-mega-height]');
+		if ( newHeight ) {
+			newHeight.classList.add('mega-panel__height--instant');
+			requestAnimationFrame(() => {
+				requestAnimationFrame(() => {
+					if ( newHeight ) newHeight.classList.remove('mega-panel__height--instant');
+					if ( oldHeight ) oldHeight.classList.remove('mega-panel__height--instant');
+				});
+			});
+		}
+	}
+
+	// ── Height animation ─────────────────────────────────────────────────────
+
+	_animHeight(li, instant, closing = false) {
+		const heightEl = li.querySelector('[data-mega-height]');
+		const surface  = li.querySelector('.mega-panel__surface');
+		if ( ! heightEl || ! surface ) return;
+
+		if ( this._reduced.matches || instant ) {
+			heightEl.style.height = closing ? '0' : surface.scrollHeight + 'px';
+			return;
+		}
+
+		if ( closing ) {
+			heightEl.style.height = surface.scrollHeight + 'px';
+			requestAnimationFrame(() => { heightEl.style.height = '0'; });
+		} else {
+			heightEl.style.height = '0';
+			requestAnimationFrame(() => { heightEl.style.height = surface.scrollHeight + 'px'; });
+		}
+	}
+
+	// ── Backdrop inset tracking ───────────────────────────────────────────────
+
+	_updateBackdropInset(li) {
+		const clip = li.querySelector('[data-mega-clip]');
+		if ( ! clip ) return;
+		this._backdrop.style.top = clip.getBoundingClientRect().bottom + 'px';
+	}
+
+	_watchResize(li) {
+		this._stopResize();
+		const panel = li.querySelector('[data-mega-clip]');
+		if ( ! panel ) return;
+		this._ro = new ResizeObserver(() => this._updateBackdropInset(li));
+		this._ro.observe(panel);
+		this._updateBackdropInset(li);
+	}
+
+	_stopResize() {
+		if ( this._ro ) { this._ro.disconnect(); this._ro = null; }
+	}
+
+	// ── Preview image swap ───────────────────────────────────────────────────
+
+	_wirePreview(li) {
+		const list    = li.querySelector('.mega-panel__list');
+		const preview = li.querySelector('.mega-panel__preview');
+		if ( ! list || ! preview ) return;
+
+		const defaultSlide = () => preview.querySelector('.mega-panel__preview-img:not([data-mega-preview-for])');
+		const clearActive  = () => preview.querySelectorAll('.mega-panel__preview-img--active').forEach(el => el.classList.remove('mega-panel__preview-img--active'));
+
+		list.addEventListener('mouseenter', e => {
+			const a = e.target.closest('.menu-item a');
+			if ( ! a ) return;
+			const label = (a.querySelector('.mega-panel__link-text') ?? a).textContent.trim();
+			const slide = preview.querySelector(`[data-mega-preview-for="${CSS.escape(label)}"]`);
+			if ( slide ) { clearActive(); slide.classList.add('mega-panel__preview-img--active'); }
+		}, true);
+
+		list.addEventListener('mouseleave', () => {
+			clearActive();
+			const def = defaultSlide();
+			if ( def ) def.classList.add('mega-panel__preview-img--active');
+		});
+	}
+}
