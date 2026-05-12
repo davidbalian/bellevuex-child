@@ -4,10 +4,10 @@
 
 This theme ships a global scroll-triggered fade-in system (`css/scroll-fade-in.css` + `js/scroll-fade-in.js`), enqueued on every page in `functions.php`. **All new pages and new content blocks should opt in.**
 
-- Add class `fade-in` to any block you want to reveal on scroll.
-- Stagger siblings with `fade-in-delay-0` … `fade-in-delay-10`, or put `data-fade-stagger` on a parent to auto-stagger its direct children (capped at delay-10).
+- Add class `fade-in` to any block you want to reveal on scroll. **Do not add delay classes** — stagger delays make the last item in a group feel slow. All elements in a group should fade in simultaneously.
+- `data-fade-stagger` on a parent auto-adds `fade-in` to direct children (no delays).
+- The `fade-in-delay-*` CSS tokens exist but should not be used.
 - Animation auto-cleans on `animationend` (classes stripped), so hover/transform effects on the same element work normally after reveal.
-- Mobile (≤768px): all delays collapse to 0s — no stagger on small screens.
 - `prefers-reduced-motion`: content shows immediately, no animation.
 - No-JS safety: `fade-in-ready` is added to `<html>` via an inline `wp_head` script; without it the `.fade-in` selectors don't match and content stays visible.
 
