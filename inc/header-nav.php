@@ -166,14 +166,12 @@ function chic_output_custom_header(): void {
 		<div class="site-header__inner">
 
 			<a class="site-header__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
-				<?php
-				$logo = get_custom_logo();
-				if ( $logo ) {
-					echo $logo;
-				} else {
-					echo '<span class="site-header__brand-text">' . esc_html( get_bloginfo( 'name' ) ) . '</span>';
-				}
-				?>
+				<img
+					src="https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-athens-logo-2.png"
+					alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+					class="site-header__logo"
+					loading="eager"
+				>
 			</a>
 
 			<div class="site-header__tools">
