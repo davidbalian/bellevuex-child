@@ -12,10 +12,10 @@ function chic_header_item_href( array $item ): string {
 	// Hard-coded primary nav targets (overrides ACF / saved menu for these labels only).
 	$label_key = strtolower( trim( $item['label'] ?? '' ) );
 	$hard_nav  = [
-		'home'             => 'https://davidb1553.sg-host.com/',
-		'explore athens'   => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
-		'reviews'          => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
-		'book now'         => 'https://direct-book.com/properties/chiccentresuitesathens',
+		'home'           => home_url( '/' ),
+		'explore athens' => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
+		'reviews'        => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
+		'book now'       => 'https://direct-book.com/properties/chiccentresuitesathens',
 	];
 	if ( isset( $hard_nav[ $label_key ] ) ) {
 		return esc_url( $hard_nav[ $label_key ] );
@@ -59,9 +59,13 @@ function chic_header_render_items( bool $mobile = false ): void {
 	$items = chic_header_get_menu();
 	if ( empty( $items ) ) return;
 
+	$hard_labels = [ 'suites' => 'Buildings' ];
+
 	foreach ( $items as $item ) {
-		$label    = esc_html( $item['label'] ?? '' );
-		$href     = chic_header_item_href( $item );
+		$raw_label = $item['label'] ?? '';
+		$label_key = strtolower( trim( $raw_label ) );
+		$label     = esc_html( $hard_labels[ $label_key ] ?? $raw_label );
+		$href      = chic_header_item_href( $item );
 		$is_book  = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
 		$is_mega  = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
 		$classes  = 'menu-item';
