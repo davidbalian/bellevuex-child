@@ -159,15 +159,6 @@ class SiteMegaNavController {
 			}
 		}
 		this._header.classList.add( 'site-header--mega-open' );
-		if ( this._mq.matches && ! alreadyPinned && this._megaScrollLockY !== null ) {
-			const h = this._megaSpacer ? this._megaSpacer.getBoundingClientRect().height : this._header.getBoundingClientRect().height;
-			requestAnimationFrame( () => {
-				const target = this._megaScrollLockY + h;
-				if ( Math.abs( window.scrollY - target ) > 2 ) {
-					window.scrollTo( { top: target, behavior: 'instant' } );
-				}
-			} );
-		}
 
 		this._backdrop.setAttribute('aria-hidden', 'false');
 		document.documentElement.classList.add( 'is-menu-scroll-lock' );

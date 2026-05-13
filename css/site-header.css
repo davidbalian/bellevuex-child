@@ -259,6 +259,10 @@ html.is-header-scrolled {
 	.site-header__inner {
 		padding-inline: 0.5rem;
 	}
+
+	.site-header__brand img {
+		height: calc(var(--site-header-height) * 0.8 - 1.5rem);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
