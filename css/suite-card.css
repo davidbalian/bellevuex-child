@@ -2,15 +2,9 @@
 
 .suite-card {
 	background: #fff;
-	border-radius: 16px;
+	border-radius: 18px;
 	border: 1px solid #e0ddd8;
 	overflow: hidden;
-	transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-
-.suite-card:hover {
-	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-	transform: translateY(-3px);
 }
 
 .suite-card__link {
@@ -30,7 +24,7 @@
 	aspect-ratio: 1 / 1;
 	overflow: hidden;
 	background: #e0ddd8;
-	border-radius: 10px;
+	border-radius: 12px;
 }
 
 .suite-card__media img {
@@ -54,6 +48,8 @@
 	color: #23272a;
 	margin: 0 0 0.5rem;
 	text-transform: uppercase;
+	/* global h3 clamp(1.25rem, 0.88rem + 0.25vw, 1.8rem) minus 0.25rem */
+	font-size: clamp(1rem, 0.63rem + 0.25vw, 1.55rem) !important;
 }
 
 .suite-card__capacity {
@@ -65,6 +61,15 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.25rem;
+	margin-top: 1rem;
 	font-weight: 600;
 	color: var(--color-primary);
+}
+
+.suite-card__cta svg {
+	transition: transform 0.2s ease;
+}
+
+.suite-card__link:hover .suite-card__cta svg {
+	transform: translateX(2px);
 }
