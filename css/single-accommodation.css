@@ -153,9 +153,34 @@
 	font-size: clamp(1.25rem, 2vw, 1.75rem);
 }
 
-/* Gallery slides: no .suite-card wrapper, so figure must fill the flex slide */
-.page-accommodation .home-suites__carousel .swiper-slide .suite-card__media {
-	width: 100%;
+/* Each slide is as wide as its image (slidesPerView: 'auto') */
+.page-accommodation .home-suites__carousel .swiper-slide {
+	width: auto;
+	height: auto;
+	display: block;
+}
+
+/* Figure shrinks to image width; fixed height drives the aspect ratio */
+.suite-gallery__media {
+	display: flex;
+	align-items: stretch;
+	height: clamp(200px, 38vw, 440px);
+	width: fit-content;
+	overflow: hidden;
+	border-radius: 12px;
+	margin: 0;
+	background: var(--home-color-border, #e0ddd8);
+	flex-shrink: 0;
+}
+
+/* Image fills the fixed height; width follows natural aspect ratio */
+.suite-gallery__img {
+	display: block !important;
+	height: 100% !important;
+	width: auto !important;
+	max-width: none !important;
+	object-fit: unset !important;
+	flex-shrink: 0;
 }
 
 /* Nav buttons: align right (no Book Now button to push them) */

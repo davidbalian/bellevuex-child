@@ -120,21 +120,20 @@ while ( have_posts() ) :
 			<div class="home-suites__carousel-wrap">
 				<div
 					id="home-suites-<?php echo esc_attr( $post_id ); ?>"
-					class="swiper home-suites__carousel js-suites-swiper"
+					class="swiper home-suites__carousel js-gallery-swiper"
 				>
 					<div class="swiper-wrapper">
 						<?php foreach ( $gallery as $att_id ) :
-							$img_url = wp_get_attachment_image_url( $att_id, 'large' );
-							if ( ! $img_url ) continue;
+							if ( ! wp_get_attachment_url( $att_id ) ) continue;
 							$img_alt = get_post_meta( $att_id, '_wp_attachment_image_alt', true );
 						?>
 						<div class="swiper-slide">
-							<figure class="suite-card__media">
-								<img
-									src="<?php echo esc_url( $img_url ); ?>"
-									alt="<?php echo esc_attr( $img_alt ?: $suite_title ); ?>"
-									loading="lazy"
-								>
+							<figure class="suite-gallery__media">
+								<?php echo wp_get_attachment_image( $att_id, 'large', false, [
+									'alt'     => esc_attr( $img_alt ?: $suite_title ),
+									'loading' => 'lazy',
+									'class'   => 'suite-gallery__img',
+								] ); ?>
 							</figure>
 						</div>
 						<?php endforeach; ?>

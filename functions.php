@@ -232,8 +232,7 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_style(  'chic-page-home',              "$dir/css/page-home.css",                          [ 'chic-tokens' ],                      $ver );
 		wp_enqueue_style(  'chic-page-home-hero',         "$dir/css/page-home-hero.css",                     [ 'chic-tokens' ],                      $ver );
 		wp_enqueue_style(  'chic-single-accommodation',   "$dir/css/single-accommodation.css",               [ 'chic-tokens', 'chic-page-home-hero' ], $ver );
-		wp_enqueue_script( 'chic-page-home-suites',       "$dir/js/page-home-suites.js",                    [ 'chic-swiper' ],                      $ver, true );
-		wp_enqueue_script( 'chic-single-accommodation',   "$dir/js/single-accommodation.js",                [ 'chic-scroll-fade-in' ],              $ver, true );
+		wp_enqueue_script( 'chic-single-accommodation',   "$dir/js/single-accommodation.js",                [ 'chic-swiper', 'chic-scroll-fade-in' ], $ver, true );
 	}
 }, 20 );
 

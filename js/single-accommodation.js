@@ -55,3 +55,36 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		} );
 	} );
 } );
+
+/* ── Gallery swiper (native aspect ratios, auto-width slides) ────────────── */
+( function () {
+	function init() {
+		if ( typeof Swiper === 'undefined' ) return;
+
+		var reduced = window.matchMedia &&
+			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+
+		document.querySelectorAll( '.js-gallery-swiper' ).forEach( function ( root ) {
+			var inner    = root.closest( '.home-suites__inner' );
+			var controls = inner && inner.querySelector( '.home-suites__controls' );
+			var prev     = controls && controls.querySelector( '[data-nav="prev"]' );
+			var next     = controls && controls.querySelector( '[data-nav="next"]' );
+
+			new Swiper( root, {
+				slidesPerView: 'auto',
+				spaceBetween:  16,
+				loop:          true,
+				speed:         reduced ? 0 : 400,
+				grabCursor:    true,
+				navigation:    { prevEl: prev, nextEl: next },
+			} );
+		} );
+	}
+
+	// Wait for full load so WP lazy images have intrinsic dimensions set
+	if ( document.readyState === 'complete' ) {
+		init();
+	} else {
+		window.addEventListener( 'load', init );
+	}
+} )();
