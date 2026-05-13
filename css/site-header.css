@@ -240,6 +240,13 @@ html.is-header-scrolled {
 	font-size: inherit !important;
 }
 
+/* Book Now button — desktop only spacing */
+@media (min-width: 48.0625rem) {
+	.nav-menu > .menu-item > .btn--primary {
+		margin-left: 1rem;
+	}
+}
+
 /* ========== RESPONSIVE ========== */
 
 @media (max-width: 48rem) {

@@ -1,0 +1,151 @@
+.site-footer {
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	padding-block: 4rem 2rem;
+	padding-inline: 1.5rem;
+}
+
+.site-footer__inner {
+	max-width: var(--mega-panel-inner-max);
+	margin-inline: auto;
+}
+
+/* ── Columns grid ── */
+
+.site-footer__columns {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+	column-gap: 4rem;
+	row-gap: 2rem;
+}
+
+@media (max-width: 48rem) {
+	.site-footer__columns {
+		column-gap: 2rem;
+	}
+}
+
+/* ── Column headings ── */
+
+.site-footer__heading {
+	font-size: 0.875rem;
+	font-weight: 700;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	color: var(--color-on-primary);
+	margin: 0 0 1.25rem;
+}
+
+/* ── Links and anchor resets ── */
+
+.site-footer a {
+	color: inherit;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+	text-decoration: underline;
+}
+
+/* ── Contact / generic lists ── */
+
+.site-footer__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.site-footer__list > li {
+	line-height: 1.6;
+	margin-bottom: 0.5rem;
+}
+
+.site-footer__list > li:last-child {
+	margin-bottom: 0;
+}
+
+.site-footer__brand-name {
+	font-weight: 600;
+}
+
+/* ── Awards placeholders ── */
+
+.site-footer__awards {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0.75rem;
+}
+
+.site-footer__award {
+	width: 5rem;
+	height: 5rem;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	border-radius: 0.5rem;
+}
+
+/* ── Social icons ── */
+
+.site-footer__social {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	gap: 0.75rem;
+}
+
+.site-footer__social-link {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 2.75rem;
+	height: 2.75rem;
+	border-radius: 50%;
+	background: var(--color-on-primary);
+	color: var(--color-primary);
+	border: 1px solid var(--color-on-primary);
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+	flex-shrink: 0;
+}
+
+.site-footer__social-link:hover,
+.site-footer__social-link:focus-visible {
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	border-color: var(--color-on-primary);
+	text-decoration: none !important;
+}
+
+.site-footer__social-link svg {
+	width: 1.125rem;
+	height: 1.125rem;
+	display: block;
+}
+
+/* ── Divider ── */
+
+.site-footer__divider {
+	border: 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.2);
+	margin-block: 2.5rem 1.5rem;
+}
+
+/* ── Bottom row ── */
+
+.site-footer__bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.site-footer__copyright,
+.site-footer__credit {
+	margin: 0;
+	opacity: 0.85;
+}
+
+.site-footer__credit a {
+	text-decoration: underline;
+}

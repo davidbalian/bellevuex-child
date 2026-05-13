@@ -188,6 +188,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'chic-header-dropdowns',  "$dir/css/site-header-dropdowns.css",   [ 'chic-site-header' ], $ver );
 	wp_enqueue_style( 'chic-header-toolbar',    "$dir/css/site-header-toolbar.css",     [ 'chic-site-header' ], $ver );
 
+	wp_enqueue_style( 'chic-site-footer', "$dir/css/site-footer.css", [ 'chic-tokens' ], $ver );
+
 	wp_enqueue_style(  'chic-scroll-fade-in', "$dir/css/scroll-fade-in.css", [], $ver );
 	wp_enqueue_script( 'chic-scroll-fade-in', "$dir/js/scroll-fade-in.js",   [], $ver, true );
 	wp_enqueue_script( 'chic-header-scroll',  "$dir/js/site-header-scroll.js", [], $ver, true );

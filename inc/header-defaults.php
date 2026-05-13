@@ -21,7 +21,7 @@ function chic_header_default_menu() {
 			'mega_groups' => [],
 		],
 		[
-			'label'       => 'Suites',
+			'label'       => 'Buildings',
 			'link_type'   => 'placeholder',
 			'url'         => $ph,
 			'page'        => 0,

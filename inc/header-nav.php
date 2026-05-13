@@ -28,7 +28,7 @@ function chic_header_get_menu(): array {
 function chic_header_get_mphb_mega_groups(): array {
 	$groups = [];
 	foreach ( chic_home_buildings() as $b ) {
-		$suites = chic_home_get_suites( $b['term'], 'medium' );
+		$suites = chic_home_get_suites( $b['term'], 'full' );
 		if ( empty( $suites ) ) continue;
 		$groups[] = [
 			'building_label' => $b['short_label'] ?? $b['label'],
