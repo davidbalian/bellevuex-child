@@ -47,11 +47,15 @@ function chic_header_render_items( bool $mobile = false ): void {
 	if ( empty( $items ) ) return;
 
 	foreach ( $items as $item ) {
-		$label   = esc_html( $item['label'] ?? '' );
-		$href    = chic_header_item_href( $item );
-		$is_mega = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
-		$classes = 'menu-item';
+		$label    = esc_html( $item['label'] ?? '' );
+		$href     = chic_header_item_href( $item );
+		$is_book  = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
+		$is_mega  = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
+		$classes  = 'menu-item';
 		if ( $is_mega ) $classes .= ' menu-item-has-children menu-item-has-mega';
+
+		// On mobile the footer CTA already shows Book Now — skip it in the list.
+		if ( $mobile && $is_book ) continue;
 
 		echo '<li class="' . esc_attr( $classes ) . '">';
 
@@ -62,6 +66,8 @@ function chic_header_render_items( bool $mobile = false ): void {
 			echo '<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 			echo '</span></a>';
 			chic_header_render_mega_panel( chic_header_get_mphb_mega_groups() );
+		} elseif ( $is_book ) {
+			echo '<a href="' . esc_attr( $href ) . '" class="btn btn--primary">' . $label . '</a>';
 		} else {
 			echo '<a href="' . esc_attr( $href ) . '">' . $label . '</a>';
 		}

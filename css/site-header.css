@@ -233,8 +233,16 @@ html.is-header-scrolled {
 
 /* visuals handled by .btn--primary */
 .mobile-nav__cta {
-	display: block;
+	display: block !important;
 	text-align: center;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+/* Buttons inside header/overlay inherit the header font scale, not the global 1rem */
+.site-header .btn,
+.mobile-nav-overlay .btn {
+	font-size: inherit !important;
 }
 
 /* ========== RESPONSIVE ========== */
