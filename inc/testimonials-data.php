@@ -79,11 +79,11 @@ function chic_testimonials_load_csv_rows(): array {
 			continue;
 		}
 		$rows[] = [
-			'reviewer'     => (string) $data[0],
-			'country'      => (string) $data[1],
-			'suite_source' => (string) $data[2],
-			'date'         => (string) $data[3],
-			'review'       => (string) $data[4],
+			'reviewer'       => (string) $data[0],
+			'country'        => (string) $data[1],
+			'suite_source'   => (string) $data[2],
+			'date'           => (string) $data[3],
+			'review'         => (string) $data[4],
 		];
 	}
 	fclose( $fh );
@@ -95,6 +95,26 @@ function chic_testimonials_load_csv_rows(): array {
  *
  * @return array<int, array<string, mixed>>
  */
-function chic_testimonials_enriched_rows(): string {
-	return []; // placeholder - WRONG I used return type string by mistake
+function chic_testimonials_enriched_rows(): array {
+	$fallback = chic_testimonials_fallback_card_image_url();
+	$out      = [];
+	foreach ( chic_testimonials_load_csv_rows() as $r ) {
+		$id        = chic_testimonials_resolve_room_id( $r['suite_source'] );
+		$thumb     = '';
+		$permalink = '';
+		if ( $id > 0 ) {
+			$thumb     = (string) ( get_the_post_thumbnail_url( $id, 'large' ) ?: '' );
+			$permalink = (string) ( get_permalink( $id ) ?: '' );
+		}
+		if ( '' === $thumb && '' !== $fallback ) {
+			$thumb = $fallback;
+		}
+		$out[] = array_merge( $r, [
+			'room_id'       => $id,
+			'thumb_url'     => $thumb,
+			'permalink'     => $permalink,
+			'suite_linked'  => $id > 0 && '' !== $permalink,
+		] );
+	}
+	return $out;
 }
