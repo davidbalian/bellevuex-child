@@ -3,6 +3,7 @@
 /* Fluid root: px-based clamp so `rem` scales smoothly site-wide. */
 html {
 	font-size: clamp(15px, 0.35vw + 14px, 18px) !important;
+	scrollbar-gutter: stable;
 }
 
 body {

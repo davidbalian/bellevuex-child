@@ -255,6 +255,10 @@ html.is-header-scrolled {
 	.nav-menu {
 		display: none;
 	}
+
+	.site-header__inner {
+		padding-inline: 0.5rem;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {

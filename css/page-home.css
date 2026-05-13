@@ -16,7 +16,7 @@
 	--home-space-xl:        6rem;
 	--home-card-radius:     4px;
 	--home-transition:      0.3s ease;
-	--home-max-width:       1200px;
+	--home-max-width:       80rem;
 }
 
 /* ── Reset scoped to page-home ──────────────────────────────────────────── */
@@ -243,5 +243,13 @@
 @media ( max-width: 400px ) {
 	.home-suites__grid {
 		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 48rem) {
+	.home-intro,
+	.home-building,
+	.home-suites {
+		padding-inline: 0.5rem;
 	}
 }
