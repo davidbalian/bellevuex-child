@@ -265,6 +265,10 @@
 		padding-inline: 0.5rem;
 	}
 
+	.home-suites__carousel-wrap::after {
+		width: 3.5rem;
+	}
+
 	/* Controls row: reorder to [←] [View All Suites] [→] */
 	.home-suites__controls {
 		justify-content: space-between;

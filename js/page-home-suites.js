@@ -14,7 +14,7 @@
 			var next = controls && controls.querySelector( '[data-nav="next"]' );
 
 			new Swiper( root, {
-				slidesPerView: 1.5,
+				slidesPerView: 1.25,
 				spaceBetween: 16,
 				loop: true,
 				speed: reduced ? 0 : 400,
