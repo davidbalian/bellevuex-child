@@ -158,6 +158,7 @@ html.is-header-scrolled {
 
 .mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__bar:nth-child(2) {
 	opacity: 0;
+	transform: scaleX(0);
 }
 
 .mobile-nav-toggle[aria-expanded="true"] .mobile-nav-toggle__bar:nth-child(3) {
