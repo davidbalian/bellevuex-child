@@ -1,0 +1,83 @@
+/* ── Testimonials page template ───────────────────────────────────────────── */
+
+.page-testimonials *,
+.page-testimonials *::before,
+.page-testimonials *::after {
+	box-sizing: border-box;
+}
+
+.page-testimonials {
+	font-family: var(--home-font-body, 'Roboto', sans-serif);
+	color: var(--home-color-text, #5c5c5c);
+}
+
+/* Padding around media/body when there is no full-card .suite-card__link */
+.page-testimonials .testimonials-card {
+	height: auto;
+	padding: 0.5rem;
+}
+
+.page-testimonials .testimonials-card .suite-card__body {
+	padding-left: 0.35rem;
+	padding-right: 0.35rem;
+	padding-bottom: 0.75rem;
+}
+
+.page-testimonials .suite-card__title-link {
+	color: inherit;
+	text-decoration: none;
+	transition: color var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
+}
+
+.page-testimonials .suite-card__title-link:hover,
+.page-testimonials .suite-card__title-link:focus-visible {
+	color: var(--color-primary);
+	text-decoration: underline;
+}
+
+.page-testimonials .testimonials-card__meta {
+	margin: 0 0 0.65rem;
+	color: #5c5c5c;
+}
+
+.page-testimonials .testimonials-card__review {
+	margin: 0;
+	font-size: clamp(0.9rem, 0.82rem + 0.2vw, 1rem);
+	line-height: 1.55;
+	color: var(--home-color-text, #5c5c5c);
+}
+
+/* ── Masonry grid ──────────────────────────────────────────────────────────── */
+
+.testimonials-section {
+	padding: clamp(2.5rem, 5vw, 4rem) 1.25rem clamp(3rem, 6vw, 5rem);
+	background: var(--home-color-light, #f8f8f6);
+	border-top: 0.5px solid var(--home-color-border, #e0ddd8);
+}
+
+.testimonials-section__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+}
+
+.testimonials-masonry {
+	column-count: 3;
+	column-gap: 1.5rem;
+}
+
+@media (max-width: 64rem) {
+	.testimonials-masonry {
+		column-count: 2;
+	}
+}
+
+@media (max-width: 40rem) {
+	.testimonials-masonry {
+		column-count: 1;
+	}
+}
+
+.testimonials-masonry > .testimonials-card {
+	break-inside: avoid;
+	margin-bottom: 1.5rem;
+}
