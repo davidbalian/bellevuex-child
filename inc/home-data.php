@@ -7,22 +7,25 @@
 function chic_home_buildings(): array {
 	return [
 		[
-			'term'        => 'thiseos-11',
-			'short_label' => 'Thiseos 11',
-			'label'       => '11 Thiseos, Floor 1, 10562 Athens',
-			'maps'        => 'https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7',
+			'term'           => 'thiseos-11',
+			'short_label'    => 'Thiseos 11',
+			'label'          => '11 Thiseos, Floor 1, 10562 Athens',
+			'maps'           => 'https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7',
+			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/2-chic-centre-suites-athens-thisseos-11-common-seating-area-athens.webp',
 		],
 		[
-			'term'        => 'thiseos13',
-			'short_label' => 'Thiseos 13',
-			'label'       => '13 Thiseos, Floor 4, 10562 Athens',
-			'maps'        => 'https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A',
+			'term'           => 'thiseos13',
+			'short_label'    => 'Thiseos 13',
+			'label'          => '13 Thiseos, Floor 4, 10562 Athens',
+			'maps'           => 'https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A',
+			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-thisseos-13-corridor-athens.webp',
 		],
 		[
-			'term'        => 'chavriou2',
-			'short_label' => 'Chavriou 2',
-			'label'       => '2 Chavriou, Floor 2, 10562 Athens',
-			'maps'        => 'https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8',
+			'term'           => 'chavriou2',
+			'short_label'    => 'Chavriou 2',
+			'label'          => '2 Chavriou, Floor 2, 10562 Athens',
+			'maps'           => 'https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8',
+			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-chavriou-2-reception-desk-athens.webp',
 		],
 	];
 }

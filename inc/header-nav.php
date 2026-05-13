@@ -32,6 +32,7 @@ function chic_header_get_mphb_mega_groups(): array {
 		if ( empty( $suites ) ) continue;
 		$groups[] = [
 			'building_label' => $b['short_label'] ?? $b['label'],
+			'building_image' => $b['building_image'] ?? '',
 			'suites'         => array_map( fn( $s ) => [
 				'label'     => $s['title'],
 				'href'      => $s['permalink'],
@@ -108,13 +109,15 @@ function chic_header_render_mega_panel( array $groups ): void {
 											<p class="mega-panel__eyebrow chic-type-meta"><?php echo esc_html( $group['building_label'] ); ?></p>
 										<?php endif; ?>
 										<ul class="mega-panel__list" role="list">
-											<?php foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :
+											<?php
+											$has_building_image = ! empty( $group['building_image'] );
+											foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :
 												$suite_href = $suite['href'] ?? '#';
 												$suite_text = trim( $suite['label'] ?? '' );
 											?>
 												<li class="menu-item">
 													<a href="<?php echo esc_url( $suite_href ); ?>"
-													   data-mega-preview-target="<?php echo esc_attr( "$bIdx-$sIdx" ); ?>">
+													   <?php if ( ! $has_building_image ) : ?>data-mega-preview-target="<?php echo esc_attr( "$bIdx-$sIdx" ); ?>"<?php endif; ?>>
 														<span class="mega-panel__link-text"><?php echo esc_html( $suite_text ); ?></span>
 													</a>
 												</li>
@@ -131,17 +134,25 @@ function chic_header_render_mega_panel( array $groups ): void {
 									class="mega-panel__preview-group<?php echo 0 === $bIdx ? ' is-active' : ''; ?>"
 									data-mega-preview-group="<?php echo esc_attr( $bIdx ); ?>"
 								>
-									<?php foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :
-										$img = ! empty( $suite['image_url'] ) ? $suite['image_url'] : CHIC_PLACEHOLDER_IMG;
-										$alt = esc_attr( $suite['label'] ?? '' );
-									?>
-										<div
-											class="mega-panel__preview-img<?php echo 0 === $sIdx ? ' is-active' : ''; ?>"
-											data-mega-preview-suite="<?php echo esc_attr( "$bIdx-$sIdx" ); ?>"
-										>
-											<img src="<?php echo esc_url( $img ); ?>" alt="<?php echo $alt; ?>" loading="lazy">
+									<?php if ( ! empty( $group['building_image'] ) ) : ?>
+										<div class="mega-panel__preview-img is-active">
+											<img src="<?php echo esc_url( $group['building_image'] ); ?>"
+											     alt="<?php echo esc_attr( $group['building_label'] ?? '' ); ?>"
+											     loading="lazy">
 										</div>
-									<?php endforeach; ?>
+									<?php else : ?>
+										<?php foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :
+											$img = ! empty( $suite['image_url'] ) ? $suite['image_url'] : CHIC_PLACEHOLDER_IMG;
+											$alt = esc_attr( $suite['label'] ?? '' );
+										?>
+											<div
+												class="mega-panel__preview-img<?php echo 0 === $sIdx ? ' is-active' : ''; ?>"
+												data-mega-preview-suite="<?php echo esc_attr( "$bIdx-$sIdx" ); ?>"
+											>
+												<img src="<?php echo esc_url( $img ); ?>" alt="<?php echo $alt; ?>" loading="lazy">
+											</div>
+										<?php endforeach; ?>
+									<?php endif; ?>
 								</div>
 							<?php endforeach; ?>
 						</div>
