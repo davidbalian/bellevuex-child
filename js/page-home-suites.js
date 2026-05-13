@@ -17,7 +17,7 @@
 				slidesPerView: 1.5,
 				spaceBetween: 16,
 				loop: true,
-				speed: reduced ? 0 : 300,
+				speed: reduced ? 0 : 500,
 				grabCursor: true,
 				autoplay: reduced ? false : {
 					delay: 3000,
