@@ -32,11 +32,12 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
+	will-change: transform;
 	transition: transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 }
 
 .suite-card:hover .suite-card__media img {
-	transform: scale(1.04);
+	transform: scale(1.015);
 }
 
 .suite-card__body {
