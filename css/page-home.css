@@ -143,6 +143,7 @@
 .home-suites__carousel.swiper {
 	width: 100%;
 	overflow: visible;
+	--swiper-wrapper-transition-timing-function: ease;
 }
 
 /* Equal-height slides in a row; children fill slide for footer-aligned CTAs */
