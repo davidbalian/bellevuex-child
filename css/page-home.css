@@ -218,7 +218,7 @@
 	cursor: not-allowed;
 }
 
-/* ── Controls row (View All + prev/next) — below carousel ────────────────── */
+/* ── Controls row (Book Now + prev/next) — below carousel ────────────────── */
 
 .home-suites__controls {
 	display: flex;
@@ -269,7 +269,7 @@
 		width: 3.5rem;
 	}
 
-	/* Controls row: reorder to [←] [View All Suites] [→] */
+	/* Controls row: reorder to [←] [Book Now] [→] */
 	.home-suites__controls {
 		justify-content: space-between;
 		gap: 0;

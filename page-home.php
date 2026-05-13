@@ -96,6 +96,10 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<?php
 	$_suite_instance = 0;
+	$chic_home_book_now_url = chic_header_book_now_url();
+	if ( '#' === $chic_home_book_now_url ) {
+		$chic_home_book_now_url = 'https://direct-book.com/properties/chiccentresuitesathens';
+	}
 	foreach ( chic_home_buildings() as $building ) :
 		$suites = chic_home_get_suites( $building['term'], 'large' );
 		if ( empty( $suites ) ) continue;
@@ -158,12 +162,13 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 				</div>
 			</div>
 			</div><!-- /.home-suites__carousel-wrap -->
-			<?php $_view_all = get_term_link( $building['term'], 'mphb_room_type_category' ); ?>
 			<div class="home-suites__controls">
 				<a
 					class="home-suites__view-all btn btn--primary chic-type-meta"
-					href="<?php echo is_wp_error( $_view_all ) ? '#' : esc_url( $_view_all ); ?>"
-				>View All Suites</a>
+					href="<?php echo esc_url( $chic_home_book_now_url ); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>Book Now</a>
 				<button type="button"
 					class="home-suites__btn"
 					data-nav="prev"

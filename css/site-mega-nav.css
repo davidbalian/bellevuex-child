@@ -37,7 +37,6 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 0;
-	border-bottom: 0.5px solid #e8e8e8;
 }
 
 .mega-panel__tab {
@@ -63,7 +62,7 @@
 .mega-panel__tab.is-active {
 	color: #111;
 	font-weight: 700;
-	border-bottom-color: #111;
+	border-bottom-color: var(--color-primary);
 }
 
 /* ── Suite panels — shared: only active panel visible ── */
@@ -230,7 +229,6 @@
 	/* Tabs: right-aligned to match the mobile menu's overall direction */
 	.mega-panel__tabs {
 		justify-content: flex-end;
-		border-bottom-color: #e0e0e0;
 		padding: 0 1rem;
 	}
 

@@ -54,10 +54,11 @@ const MobileNavSubmenuAccordion = {
 // ── Mobile overlay ───────────────────────────────────────────────────────────
 
 const MobileNavOverlayController = {
-	overlay:     null,
-	toggleBtn:   null,
-	debounceMs:  240,
+	overlay:      null,
+	toggleBtn:    null,
+	debounceMs:   240,
 	_resizeTimer: null,
+	_scrollLockY: null,
 
 	init() {
 		this.overlay   = document.getElementById('mobile-nav');
@@ -87,6 +88,8 @@ const MobileNavOverlayController = {
 	},
 
 	open() {
+		this._scrollLockY = window.scrollY;
+		document.getElementById('site-header')?.classList.add('site-header--mega-open');
 		this.overlay.classList.add('is-open');
 		this.overlay.setAttribute('aria-hidden', 'false');
 		this.toggleBtn.setAttribute('aria-expanded', 'true');
@@ -99,6 +102,11 @@ const MobileNavOverlayController = {
 		this.overlay.setAttribute('aria-hidden', 'true');
 		this.toggleBtn.setAttribute('aria-expanded', 'false');
 		document.documentElement.classList.remove( 'is-menu-scroll-lock' );
+		document.getElementById('site-header')?.classList.remove('site-header--mega-open');
+		if ( this._scrollLockY !== null ) {
+			window.scrollTo( { top: this._scrollLockY, behavior: 'instant' } );
+			this._scrollLockY = null;
+		}
 		// Reset all accordion states.
 		this.overlay.querySelectorAll('.is-submenu-open').forEach(el => {
 			el.classList.remove('is-submenu-open');
