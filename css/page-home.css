@@ -75,7 +75,7 @@
 	background: var(--home-color-light);
 	padding: var(--home-space-lg) var(--home-space-md) var(--home-space-md);
 	text-align: center;
-	border-top: 1px solid var(--home-color-border);
+	border-top: 0.5px solid var(--home-color-border);
 }
 
 .home-building__inner {
