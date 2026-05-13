@@ -1,45 +1,45 @@
 /* ── Button design system ──────────────────────────────────────────────────── */
 
 .btn {
-	display: inline-block;
-	font-family: inherit;
-	font-size: inherit;
-	font-weight: bold;
-	line-height: 1.2;
-	text-transform: uppercase;
-	letter-spacing: 0.01em;
-	text-decoration: none;
-	padding: 0.65em 1.5em;
-	border: 2px solid var(--color-primary);
-	border-radius: 9999px;
-	cursor: pointer;
-	transition: background-color 0.15s ease;
+	display: inline-block !important;
+	font-family: inherit !important;
+	font-size: inherit !important;
+	font-weight: bold !important;
+	line-height: 1.2 !important;
+	text-transform: uppercase !important;
+	letter-spacing: 0.01em !important;
+	text-decoration: none !important;
+	padding: 0.65em 1.5em !important;
+	border: 2px solid var(--color-primary) !important;
+	border-radius: 9999px !important;
+	cursor: pointer !important;
+	transition: background-color 0.15s ease !important;
 }
 
 .btn:hover,
 .btn:focus-visible {
-	text-decoration: none;
-	outline: none;
+	text-decoration: none !important;
+	outline: none !important;
 }
 
 /* Blue bg / white text → hover darkens bg only */
 .btn--primary {
-	background: var(--color-primary);
-	color: var(--color-on-primary);
+	background: var(--color-primary) !important;
+	color: var(--color-on-primary) !important;
 }
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-	background: #1a3278;
+	background: #1a3278 !important;
 }
 
 /* White bg / blue text → hover adds a light blue tint only */
 .btn--secondary {
-	background: var(--color-on-primary);
-	color: var(--color-primary);
+	background: var(--color-on-primary) !important;
+	color: var(--color-primary) !important;
 }
 
 .btn--secondary:hover,
 .btn--secondary:focus-visible {
-	background: rgba(34, 65, 149, 0.08);
+	background: rgba(34, 65, 149, 0.08) !important;
 }
