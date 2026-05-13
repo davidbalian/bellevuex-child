@@ -72,12 +72,12 @@ h3 {
 	line-height: 1.4;
 }
 
-/* Inline icons next to meta text: HTML used fixed 11px; scale with computed meta size. */
+/* Inline icons next to meta text: ~70% of meta font-size (~30% smaller than full em). */
 .chic-type-meta svg {
-	width: 1em;
-	height: 1em;
+	width: 0.7em;
+	height: 0.7em;
 	flex-shrink: 0;
-	vertical-align: -0.15em;
+	vertical-align: -0.1em;
 }
 
 /* Header + mobile drawer share one scale (sibling of header in DOM). */
