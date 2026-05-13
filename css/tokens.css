@@ -19,6 +19,9 @@ div, section, article, aside, header, footer, nav, main {
 }
 
 :root {
+	--color-primary:    #224195;
+	--color-on-primary: #fff;
+
 	--site-header-height: 5rem;
 	--site-header-height-initial: 5rem;
 	--site-header-height-scrolled: 4rem;
@@ -84,3 +87,8 @@ h3 {
 .mobile-nav-overlay button {
 	font: inherit;
 }
+
+/* ── Global link behaviour ──────────────────────────────────────────────────── */
+
+a { text-decoration: none; }
+a:hover, a:focus-visible { text-decoration: underline; }

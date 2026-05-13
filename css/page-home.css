@@ -1,7 +1,7 @@
 /* ── Home page template ───────────────────────────────────────────────────── */
 
 :root {
-	--home-color-primary:   #224195;
+	--home-color-primary:   var(--color-primary);
 	--home-color-accent:    #ed4135;
 	--home-color-text:      #5c5c5c;
 	--home-color-heading:   #23272a;
@@ -92,27 +92,7 @@
 	margin: 0 0 var(--home-space-sm);
 }
 
-.home-building__map-link {
-	display: inline-block;
-	padding: 0.6rem 1.75rem;
-	background: var(--home-color-primary);
-	color: #fff;
-	font-family: var(--home-font-heading);
-	font-weight: 600;
-	letter-spacing: 0.08em;
-	text-transform: uppercase;
-	text-decoration: none;
-	border: 2px solid var(--home-color-primary);
-	border-radius: var(--home-card-radius);
-	transition: background var(--home-transition), color var(--home-transition);
-}
-
-.home-building__map-link:hover,
-.home-building__map-link:focus-visible {
-	background: transparent;
-	color: var(--home-color-primary);
-	outline: none;
-}
+/* visuals handled by .btn--primary */
 
 /* ── Suite grid ──────────────────────────────────────────────────────────── */
 
@@ -197,16 +177,10 @@
 	display: inline-block;
 	font-weight: 600;
 	color: var(--home-color-primary);
-	text-transform: uppercase;
-	letter-spacing: 0.07em;
-	border-bottom: 1px solid var(--home-color-primary);
-	padding-bottom: 1px;
-	transition: color var(--home-transition), border-color var(--home-transition);
 }
 
 .home-suite-card__link:hover .home-suite-card__cta {
-	color: var(--home-color-accent);
-	border-color: var(--home-color-accent);
+	text-decoration: underline;
 }
 
 /* ── Map ─────────────────────────────────────────────────────────────────── */

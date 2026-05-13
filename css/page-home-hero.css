@@ -145,27 +145,7 @@
 	margin-bottom: 0.5rem;
 }
 
-.home-hero__cta {
-	display: inline-block;
-	padding: 0.75rem 2.25rem;
-	background: #fff;
-	color: var(--home-color-primary);
-	font-family: var(--home-font-heading);
-	font-size: 0.9em;
-	font-weight: 700;
-	letter-spacing: 0.1em;
-	text-transform: uppercase;
-	text-decoration: none;
-	border: 2px solid #fff;
-	transition: background var(--home-transition, 0.3s ease), color var(--home-transition, 0.3s ease);
-}
-
-.home-hero__cta:hover,
-.home-hero__cta:focus-visible {
-	background: transparent;
-	color: #fff;
-	outline: none;
-}
+/* visuals handled by .btn--secondary */
 
 /* ── Chevron ─────────────────────────────────────────────────────────────── */
 

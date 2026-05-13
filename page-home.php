@@ -52,7 +52,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					<p class="home-hero__text fade-in fade-in-delay-1">Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.</p>
 					<div class="home-hero__ctas fade-in fade-in-delay-2">
 						<a
-							class="home-hero__cta"
+							class="home-hero__cta btn btn--secondary"
 							href="https://direct-book.com/properties/chiccentresuitesathens"
 							target="_blank"
 							rel="noopener noreferrer"
@@ -93,7 +93,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 		<div class="home-building__inner">
 			<p class="home-building__address"><?php echo esc_html( $building['label'] ); ?></p>
 			<a
-				class="home-building__map-link chic-type-meta"
+				class="home-building__map-link chic-type-meta btn btn--primary"
 				href="<?php echo esc_url( $building['maps'] ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"

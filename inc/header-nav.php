@@ -212,7 +212,7 @@ function chic_output_custom_header(): void {
 				<?php chic_header_render_items( true ); ?>
 			</ul>
 			<div class="mobile-nav__footer">
-				<a href="<?php echo esc_url( chic_header_book_now_url() ); ?>" class="mobile-nav__cta">
+				<a href="<?php echo esc_url( chic_header_book_now_url() ); ?>" class="mobile-nav__cta btn btn--primary">
 					<?php esc_html_e( 'Book Now', 'bellevue' ); ?>
 				</a>
 			</div>

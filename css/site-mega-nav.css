@@ -28,7 +28,7 @@
 }
 
 .mega-panel__list .menu-item a:hover {
-	background: #f4f4f4;
+	text-decoration: underline;
 }
 
 /* ── Tabs — shared across desktop and mobile ── */
