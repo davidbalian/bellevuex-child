@@ -51,7 +51,6 @@
 	font-family: var(--home-font-heading);
 	font-weight: 400;
 	color: var(--home-color-primary);
-	letter-spacing: 0.1em;
 	text-transform: uppercase;
 	margin: 0 0 var(--home-space-md);
 }

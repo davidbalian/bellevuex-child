@@ -124,7 +124,6 @@
 .home-hero__title {
 	font-family: var(--home-font-heading);
 	font-weight: 400;
-	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	line-height: 1.1;
 	margin-bottom: 1rem;
@@ -196,7 +195,7 @@
 
 @media (max-width: 768px) {
 	.home-hero {
-		--hero-viewport: 60vh;
+		--hero-viewport: 70vh;
 		min-height: var(--hero-viewport);
 		height: var(--hero-viewport);
 		max-height: var(--hero-viewport);
@@ -234,7 +233,6 @@
 	}
 
 	.home-hero__scroll-down {
-		color: rgba(255, 255, 255, 0.9);
-		padding: 1rem 0 0.5rem;
+		display: none;
 	}
 }
