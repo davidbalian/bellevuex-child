@@ -31,7 +31,7 @@ function chic_header_default_menu() {
 		[
 			'label'       => 'Reviews',
 			'link_type'   => 'url',
-			'url'         => 'https://chiccentresuites.com/reviews-what-people-say/',
+			'url'         => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
