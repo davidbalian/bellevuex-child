@@ -1,6 +1,10 @@
 /* ── Suite card — reusable component ──────────────────────────────────────── */
 
 .suite-card {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
 	background: #fff;
 	border-radius: 18px;
 	border: 0.5px solid #e0ddd8;
@@ -8,7 +12,10 @@
 }
 
 .suite-card__link {
-	display: block;
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 	padding: 0.5rem;
 	text-decoration: none;
 	color: inherit;
@@ -20,6 +27,7 @@
 }
 
 .suite-card__media {
+	flex-shrink: 0;
 	margin: 0;
 	aspect-ratio: 1 / 1;
 	overflow: hidden;
@@ -41,6 +49,10 @@
 }
 
 .suite-card__body {
+	flex: 1 1 auto;
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
 	padding: 0.75rem 0.25rem 0.25rem;
 }
 
@@ -61,13 +73,16 @@
 .suite-card__cta {
 	display: inline-flex;
 	align-items: center;
+	align-self: flex-start;
 	gap: 0.25rem;
-	margin-top: 1rem;
+	margin-top: auto;
+	padding-top: 0.75rem;
 	font-weight: 600;
 	color: var(--color-primary);
 }
 
 .suite-card__cta svg {
+	overflow: visible;
 	transition: transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 }
 

@@ -101,6 +101,7 @@
 
 .home-building__address-link svg {
 	flex-shrink: 0;
+	overflow: visible;
 	transition: transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 }
 
@@ -144,13 +145,20 @@
 	overflow: visible;
 }
 
+/* Equal-height slides in a row; children fill slide for footer-aligned CTAs */
+.home-suites__carousel .swiper-wrapper {
+	align-items: stretch;
+}
+
 .home-suites__carousel .swiper-slide {
 	height: auto;
+	min-height: 0;
 	display: flex;
 }
 
 .home-suites__carousel .swiper-slide .suite-card {
 	width: 100%;
+	min-height: 0;
 }
 
 /* Prevent flash of stacked slides before Swiper initialises */
@@ -278,10 +286,10 @@
 	/* Prev/next (← →): fixed 42px feels huge vs fluid type; scale with viewport like nearby text */
 	.home-suites__btn {
 		font-size: clamp(0.8125rem, 0.72rem + 0.35vw, 1rem);
-		width: 2.5em;
-		height: 2.5em;
-		min-width: 2.5em;
-		min-height: 2.5em;
+		width: 3.125em;
+		height: 3.125em;
+		min-width: 3.125em;
+		min-height: 3.125em;
 	}
 }
 
