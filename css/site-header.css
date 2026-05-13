@@ -149,7 +149,7 @@ html.is-header-scrolled {
 	height: 2px;
 	background: currentColor;
 	border-radius: 2px;
-	transition: transform 200ms ease, opacity 200ms ease;
+	transition: transform 150ms ease, opacity 150ms ease;
 }
 
 /* ========== MOBILE OVERLAY ========== */
@@ -163,7 +163,7 @@ html.is-header-scrolled {
 	-webkit-overflow-scrolling: touch;
 	opacity: 0;
 	visibility: hidden;
-	transition: opacity 220ms ease, visibility 220ms ease;
+	transition: opacity 150ms ease, visibility 150ms ease;
 }
 
 .mobile-nav-overlay.is-open {

@@ -32,7 +32,7 @@
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	transition: transform 0.5s ease;
+	transition: transform 150ms ease;
 }
 
 .suite-card:hover .suite-card__media img {
@@ -67,7 +67,7 @@
 }
 
 .suite-card__cta svg {
-	transition: transform 0.2s ease;
+	transition: transform 150ms ease;
 }
 
 .suite-card__link:hover .suite-card__cta svg {

@@ -157,7 +157,7 @@
 	padding: 0.5rem 0;
 	color: #fff !important;
 	opacity: 0.55;
-	transition: opacity 0.25s ease, transform 0.13s ease;
+	transition: opacity 150ms ease, transform 150ms ease;
 	flex-shrink: 0;
 }
 
