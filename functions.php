@@ -227,9 +227,10 @@ add_action( 'wp_enqueue_scripts', function () {
 	}
 
 	if ( is_page_template( 'page-explore-athens.php' ) ) {
-		wp_enqueue_style( 'chic-page-home',           "$dir/css/page-home.css",           [ 'chic-tokens' ],                                          $ver );
-		wp_enqueue_style( 'chic-page-home-hero',      "$dir/css/page-home-hero.css",      [ 'chic-tokens' ],                                          $ver );
-		wp_enqueue_style( 'chic-page-explore-athens', "$dir/css/page-explore-athens.css", [ 'chic-tokens', 'chic-page-home', 'chic-page-home-hero' ], $ver );
+		wp_enqueue_style(  'chic-page-home',           "$dir/css/page-home.css",           [ 'chic-tokens' ],                                          $ver );
+		wp_enqueue_style(  'chic-page-home-hero',      "$dir/css/page-home-hero.css",      [ 'chic-tokens' ],                                          $ver );
+		wp_enqueue_style(  'chic-page-explore-athens', "$dir/css/page-explore-athens.css", [ 'chic-tokens', 'chic-page-home', 'chic-page-home-hero' ], $ver );
+		wp_enqueue_script( 'chic-page-explore-athens', "$dir/js/page-explore-athens.js",  [ 'chic-scroll-fade-in' ],                                  $ver, true );
 	}
 
 	if ( is_page_template( 'page-testimonials.php' ) ) {

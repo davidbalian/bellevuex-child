@@ -17,7 +17,7 @@ $more        = chic_explore_athens_more();
 
 	<section class="home-hero home-hero--static">
 
-		<div class="home-hero__slider-bleed">
+		<div class="home-hero__slider-bleed js-hero-parallax">
 			<picture>
 				<img
 					src="https://davidb1553.sg-host.com/wp-content/uploads/7-chic-centre-suites-athens-nearby-attractions-acropolis.webp"
@@ -52,21 +52,21 @@ $more        = chic_explore_athens_more();
 
 	<!-- ── Attractions ───────────────────────────────────────────────────── -->
 
-	<section class="explore-athens-attractions fade-in">
+	<section class="explore-athens-attractions">
 		<div class="explore-athens-attractions__inner">
 
 			<?php foreach ( $attractions as $i => $attraction ) :
 				$reverse = ( $i % 2 !== 0 ) ? ' explore-attraction--reverse' : '';
 			?>
 			<article class="explore-attraction<?php echo esc_attr( $reverse ); ?>">
-				<div class="explore-attraction__media">
+				<div class="explore-attraction__media fade-in fade-in-delay-0">
 					<img
 						src="<?php echo esc_url( $attraction['image'] ); ?>"
 						alt="<?php echo esc_attr( $attraction['alt'] ); ?>"
 						loading="lazy"
 					>
 				</div>
-				<div class="explore-attraction__body">
+				<div class="explore-attraction__body fade-in fade-in-delay-1">
 					<h2><?php echo esc_html( $attraction['title'] ); ?></h2>
 					<p><?php echo esc_html( $attraction['body'] ); ?></p>
 				</div>
