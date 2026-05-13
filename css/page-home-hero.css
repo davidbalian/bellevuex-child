@@ -144,7 +144,7 @@
 }
 
 .home-hero__text {
-	color: rgba(255, 255, 255, 0.85);
+	color: #fff;
 	margin-bottom: 1.75rem;
 	line-height: 1.6;
 	max-width: 60ch;
