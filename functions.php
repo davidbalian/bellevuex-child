@@ -181,6 +181,7 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'chic-manrope', 'https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap', [], null );
 	wp_enqueue_style( 'chic-tokens',            "$dir/css/tokens.css",                  [ 'chic-manrope' ],    $ver );
 	wp_enqueue_style( 'chic-buttons',           "$dir/css/buttons.css",                 [ 'chic-tokens' ],     $ver );
+	wp_enqueue_style( 'chic-suite-card',        "$dir/css/suite-card.css",              [ 'chic-tokens' ],     $ver );
 	wp_enqueue_style( 'chic-site-header',       "$dir/css/site-header.css",             [ 'chic-tokens' ],     $ver );
 	wp_enqueue_style( 'chic-site-mega-nav',     "$dir/css/site-mega-nav.css",           [ 'chic-site-header' ], $ver );
 	wp_enqueue_style( 'chic-mobile-disclosure', "$dir/css/mobile-disclosure.css",       [ 'chic-site-header' ], $ver );

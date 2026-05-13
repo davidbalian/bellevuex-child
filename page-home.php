@@ -106,9 +106,9 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 			<ul class="home-suites__grid" data-fade-stagger>
 				<?php foreach ( $suites as $suite ) : ?>
 				<li>
-					<article class="home-suite-card">
-						<a class="home-suite-card__link" href="<?php echo esc_url( $suite['permalink'] ); ?>">
-							<figure class="home-suite-card__media">
+					<article class="suite-card">
+						<a class="suite-card__link" href="<?php echo esc_url( $suite['permalink'] ); ?>">
+							<figure class="suite-card__media">
 								<?php if ( $suite['thumb_url'] ) : ?>
 									<img
 										src="<?php echo esc_url( $suite['thumb_url'] ); ?>"
@@ -119,12 +119,12 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 									>
 								<?php endif; ?>
 							</figure>
-							<div class="home-suite-card__body">
-								<h3 class="home-suite-card__title"><?php echo esc_html( $suite['title'] ); ?></h3>
+							<div class="suite-card__body">
+								<h3 class="suite-card__title"><?php echo esc_html( $suite['title'] ); ?></h3>
 								<?php if ( $suite['capacity_label'] ) : ?>
-									<p class="home-suite-card__capacity chic-type-meta"><?php echo esc_html( $suite['capacity_label'] ); ?></p>
+									<p class="suite-card__capacity chic-type-meta"><?php echo esc_html( $suite['capacity_label'] ); ?></p>
 								<?php endif; ?>
-								<span class="home-suite-card__cta chic-type-meta">View this room</span>
+								<span class="suite-card__cta chic-type-meta">View <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></span>
 							</div>
 						</a>
 					</article>

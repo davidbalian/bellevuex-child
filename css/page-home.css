@@ -115,73 +115,7 @@
 	padding: 0;
 }
 
-/* ── Suite card ──────────────────────────────────────────────────────────── */
-
-.home-suite-card {
-	background: #fff;
-	border-radius: var(--home-card-radius);
-	overflow: hidden;
-	border: 1px solid var(--home-color-border);
-	transition: box-shadow var(--home-transition), transform var(--home-transition);
-}
-
-.home-suite-card:hover {
-	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
-	transform: translateY( -3px );
-}
-
-.home-suite-card__link {
-	display: block;
-	text-decoration: none;
-	color: inherit;
-}
-
-.home-suite-card__media {
-	margin: 0;
-	aspect-ratio: 1 / 1;
-	overflow: hidden;
-	background: var(--home-color-border);
-}
-
-.home-suite-card__media img {
-	display: block;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-	transition: transform 0.5s ease;
-}
-
-.home-suite-card:hover .home-suite-card__media img {
-	transform: scale( 1.04 );
-}
-
-.home-suite-card__body {
-	padding: var(--home-space-sm) var(--home-space-sm) var(--home-space-md);
-}
-
-.home-suite-card__title {
-	font-family: var(--home-font-heading);
-	font-weight: 600;
-	color: var(--home-color-heading);
-	margin: 0 0 var(--home-space-xs);
-	text-transform: uppercase;
-	letter-spacing: 0.04em;
-}
-
-.home-suite-card__capacity {
-	color: var(--home-color-text);
-	margin: 0 0 var(--home-space-sm);
-}
-
-.home-suite-card__cta {
-	display: inline-block;
-	font-weight: 600;
-	color: var(--home-color-primary);
-}
-
-.home-suite-card__link:hover .home-suite-card__cta {
-	text-decoration: underline;
-}
+/* ── Suite card: see css/suite-card.css ─────────────────────────────────── */
 
 /* ── Map ─────────────────────────────────────────────────────────────────── */
 

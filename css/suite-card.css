@@ -1,0 +1,70 @@
+/* ── Suite card — reusable component ──────────────────────────────────────── */
+
+.suite-card {
+	background: #fff;
+	border-radius: 16px;
+	border: 1px solid #e0ddd8;
+	overflow: hidden;
+	transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.suite-card:hover {
+	box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+	transform: translateY(-3px);
+}
+
+.suite-card__link {
+	display: block;
+	padding: 0.5rem;
+	text-decoration: none;
+	color: inherit;
+}
+
+.suite-card__link:hover,
+.suite-card__link:focus-visible {
+	text-decoration: none;
+}
+
+.suite-card__media {
+	margin: 0;
+	aspect-ratio: 1 / 1;
+	overflow: hidden;
+	background: #e0ddd8;
+	border-radius: 10px;
+}
+
+.suite-card__media img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.5s ease;
+}
+
+.suite-card:hover .suite-card__media img {
+	transform: scale(1.04);
+}
+
+.suite-card__body {
+	padding: 0.75rem 0.25rem 0.25rem;
+}
+
+.suite-card__title {
+	font-weight: 600;
+	color: #23272a;
+	margin: 0 0 0.5rem;
+	text-transform: uppercase;
+}
+
+.suite-card__capacity {
+	color: #5c5c5c;
+	margin: 0 0 0.5rem;
+}
+
+.suite-card__cta {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	font-weight: 600;
+	color: var(--color-primary);
+}
