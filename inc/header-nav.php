@@ -15,6 +15,7 @@ function chic_header_item_href( array $item ): string {
 		'home'           => home_url( '/' ),
 		'explore athens' => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
 		'reviews'        => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
+		'signup / login' => home_url( '/my-account' ),
 		'book now'       => 'https://direct-book.com/properties/chiccentresuitesathens',
 	];
 	if ( isset( $hard_nav[ $label_key ] ) ) {
