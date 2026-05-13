@@ -23,14 +23,15 @@
 	max-width: var(--home-max-width, 80rem);
 	margin-inline: auto;
 	display: flex;
-	flex-direction: column;
-	align-items: stretch;
-	gap: 1.25rem;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1.5rem;
 }
 
-/* Amenities icons first; Book Now follows in markup and sits on the row below. */
 .suite-amenities__items {
-	width: 100%;
+	flex: 1;
+	min-width: 0;
 }
 
 /* Icon list */
@@ -53,10 +54,8 @@
 	flex-shrink: 0;
 }
 
-/* Book Now: after amenities block; right-aligned on wide screens */
 .suite-amenities__book {
 	flex-shrink: 0;
-	align-self: flex-end;
 }
 
 /* Book Now on blue bg: white pill, hover inverts cleanly */
@@ -72,8 +71,12 @@
 		padding-inline: 0.5rem;
 	}
 
+	.suite-amenities__inner {
+		flex-direction: column;
+		align-items: stretch;
+	}
+
 	.suite-amenities__book {
-		align-self: stretch;
 		text-align: center;
 	}
 }
