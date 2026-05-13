@@ -70,6 +70,7 @@
 /* Second slide: crop from top (desktop + default; mobile override below). */
 .home-hero__slide.home-hero__slide--second img {
 	object-position: center top;
+	transform-origin: center top;
 }
 
 /* Prevent flash of stacked slides before Swiper initialises */
@@ -243,5 +244,6 @@
 	/* After first/last crops: second slide always top-anchored (incl. when it is also last). */
 	.home-hero__slide.home-hero__slide--second img {
 		object-position: center top;
+		transform-origin: center top;
 	}
 }
