@@ -8,8 +8,8 @@
 			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 		document.querySelectorAll( SELECTOR ).forEach( function ( root ) {
-			var controls = root.parentElement &&
-				root.parentElement.querySelector( '.home-suites__controls' );
+			var controls = root.closest( '.home-suites__inner' ) &&
+				root.closest( '.home-suites__inner' ).querySelector( '.home-suites__controls' );
 			var prev = controls && controls.querySelector( '[data-nav="prev"]' );
 			var next = controls && controls.querySelector( '[data-nav="next"]' );
 
