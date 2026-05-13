@@ -247,3 +247,32 @@
 		transform-origin: center top;
 	}
 }
+
+/* ── Static (no-swiper) hero variant ─────────────────────────────────────── */
+
+.home-hero--static .home-hero__slider-bleed picture {
+	position: absolute;
+	inset: 0;
+	display: block;
+}
+
+.home-hero--static .home-hero__slider-bleed img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.home-hero--static .home-hero__overlay {
+	justify-content: center;
+}
+
+.home-hero__content--centered {
+	align-items: center !important;
+	text-align: center !important;
+}
+
+.home-hero__content--centered .home-hero__title {
+	max-width: none;
+}

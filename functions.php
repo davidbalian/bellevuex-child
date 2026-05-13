@@ -226,6 +226,12 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_script( 'chic-page-home-suites', "$dir/js/page-home-suites.js", [ 'chic-swiper' ],                        $ver, true );
 	}
 
+	if ( is_page_template( 'page-explore-athens.php' ) ) {
+		wp_enqueue_style( 'chic-page-home',           "$dir/css/page-home.css",           [ 'chic-tokens' ],                                          $ver );
+		wp_enqueue_style( 'chic-page-home-hero',      "$dir/css/page-home-hero.css",      [ 'chic-tokens' ],                                          $ver );
+		wp_enqueue_style( 'chic-page-explore-athens', "$dir/css/page-explore-athens.css", [ 'chic-tokens', 'chic-page-home', 'chic-page-home-hero' ], $ver );
+	}
+
 	if ( is_singular( 'mphb_room_type' ) ) {
 		wp_enqueue_style(  'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                     $ver );
 		wp_enqueue_script( 'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                     $ver, true );

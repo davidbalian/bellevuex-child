@@ -11,38 +11,6 @@
 	color: var(--home-color-text, #5c5c5c);
 }
 
-/* ── Hero: static (no swiper) variant ─────────────────────────────────────── */
-
-/* Static image fills the bleed layer */
-.home-hero--static .home-hero__slider-bleed picture {
-	position: absolute;
-	inset: 0;
-	display: block;
-}
-
-.home-hero--static .home-hero__slider-bleed img {
-	position: absolute;
-	inset: 0;
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
-
-/* Center content vertically instead of anchoring to bottom */
-.home-hero--static .home-hero__overlay {
-	justify-content: center;
-}
-
-/* Center-align copy layer */
-.home-hero__content--centered {
-	align-items: center !important;
-	text-align: center !important;
-}
-
-.home-hero__content--centered .home-hero__title {
-	max-width: none;
-}
-
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
 
 .suite-amenities {

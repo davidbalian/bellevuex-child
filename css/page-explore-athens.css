@@ -1,0 +1,177 @@
+/* ── Explore Athens page template ───────────────────────────────────────────── */
+
+.page-explore-athens *,
+.page-explore-athens *::before,
+.page-explore-athens *::after {
+	box-sizing: border-box;
+}
+
+/* ── Intro ───────────────────────────────────────────────────────────────────── */
+
+.explore-athens-intro {
+	padding: clamp(3rem, 6vw, 5rem) 2rem;
+	text-align: center;
+}
+
+.explore-athens-intro__inner {
+	max-width: 720px;
+	margin-inline: auto;
+}
+
+.explore-athens-intro__eyebrow {
+	display: block;
+	font-size: clamp(11px, 0.72rem + 0.2vw, 0.875rem);
+	font-weight: 600;
+	text-transform: uppercase;
+	color: var(--color-primary);
+	margin-bottom: 0.75rem;
+}
+
+.explore-athens-intro__title {
+	margin-top: 0;
+	margin-bottom: 1.25rem;
+	color: var(--home-color-heading, #23272a);
+}
+
+.explore-athens-intro__lede {
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.7;
+	margin: 0;
+}
+
+/* ── Attractions ─────────────────────────────────────────────────────────────── */
+
+.explore-athens-attractions {
+	padding: clamp(2rem, 4vw, 3rem) 2rem clamp(3rem, 6vw, 5rem);
+	border-top: 0.5px solid var(--home-color-border, #e0ddd8);
+}
+
+.explore-athens-attractions__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+}
+
+.explore-attraction {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: clamp(2rem, 4vw, 4rem);
+	align-items: center;
+	padding-block: clamp(2rem, 5vw, 4rem);
+	border-bottom: 0.5px solid var(--home-color-border, #e0ddd8);
+}
+
+.explore-attraction:first-child {
+	padding-top: 0;
+}
+
+.explore-attraction:last-child {
+	border-bottom: none;
+}
+
+.explore-attraction--reverse .explore-attraction__media {
+	order: 2;
+}
+
+.explore-attraction--reverse .explore-attraction__body {
+	order: 1;
+}
+
+.explore-attraction__media img {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 4 / 3;
+	object-fit: cover;
+	border-radius: var(--home-card-radius, 4px);
+}
+
+.explore-attraction__body {
+	padding-block: 0.5rem;
+}
+
+.explore-attraction__body h2 {
+	margin-top: 0;
+	margin-bottom: 1rem;
+	color: var(--home-color-heading, #23272a);
+}
+
+.explore-attraction__body p {
+	margin: 0;
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.7;
+}
+
+/* ── Also worth exploring ────────────────────────────────────────────────────── */
+
+.explore-athens-more {
+	background: var(--home-color-light, #f8f8f6);
+	padding: clamp(3rem, 6vw, 5rem) 2rem;
+}
+
+.explore-athens-more__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+}
+
+.explore-athens-more__heading {
+	margin-top: 0;
+	margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
+	color: var(--home-color-heading, #23272a);
+}
+
+.explore-more__grid {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 2rem;
+}
+
+.explore-more__item h3 {
+	margin-top: 0;
+	margin-bottom: 0.75rem;
+	color: var(--home-color-heading, #23272a);
+}
+
+.explore-more__item p {
+	margin: 0;
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.7;
+}
+
+/* ── Responsive ──────────────────────────────────────────────────────────────── */
+
+@media (max-width: 48rem) {
+	.explore-athens-intro {
+		padding-inline: 0.5rem;
+	}
+
+	.explore-athens-attractions {
+		padding-inline: 0.5rem;
+	}
+
+	.explore-attraction {
+		grid-template-columns: 1fr;
+	}
+
+	.explore-attraction--reverse .explore-attraction__media {
+		order: 0;
+	}
+
+	.explore-attraction--reverse .explore-attraction__body {
+		order: 0;
+	}
+
+	.explore-athens-more {
+		padding-inline: 0.5rem;
+	}
+
+	.explore-more__grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (min-width: 1921px) {
+	.explore-athens-attractions__inner,
+	.explore-athens-more__inner {
+		max-width: 1800px;
+	}
+}
