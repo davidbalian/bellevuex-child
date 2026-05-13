@@ -131,7 +131,7 @@
 	content: '';
 	position: absolute;
 	top: 0;
-	right: 0;
+	right: -4px;
 	bottom: 0;
 	width: 5rem;
 	background: linear-gradient(to right, transparent, var(--home-color-light));
