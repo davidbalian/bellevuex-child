@@ -12,11 +12,11 @@
 			var prev = document.querySelector( '[data-nav="prev"][data-target="' + id + '"]' );
 			var next = document.querySelector( '[data-nav="next"][data-target="' + id + '"]' );
 
-			new Swiper( root, {
+			var inst = new Swiper( root, {
 				slidesPerView: 1.5,
 				spaceBetween: 16,
 				loop: true,
-				speed: reduced ? 0 : 600,
+				speed: reduced ? 0 : 300,
 				grabCursor: true,
 				autoplay: reduced ? false : {
 					delay: 3000,
@@ -28,6 +28,18 @@
 					1024: { slidesPerView: 3.5, spaceBetween: 24 },
 				},
 			} );
+
+			// Wire mobile nav buttons (below carousel) to the same instance
+			var inner    = root.parentElement;
+			var mobileNav = inner && inner.querySelector( '.home-suites__mobile-nav' );
+			if ( mobileNav ) {
+				mobileNav.querySelector( '[data-nav="prev"]' ).addEventListener( 'click', function () {
+					inst.slidePrev();
+				} );
+				mobileNav.querySelector( '[data-nav="next"]' ).addEventListener( 'click', function () {
+					inst.slideNext();
+				} );
+			}
 		} );
 	}
 

@@ -74,13 +74,16 @@
 .home-building {
 	background: var(--home-color-light);
 	padding: var(--home-space-lg) var(--home-space-md) var(--home-space-md);
-	text-align: center;
 	border-top: 0.5px solid var(--home-color-border);
 }
 
 .home-building__inner {
 	max-width: var(--home-max-width);
 	margin: 0 auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--home-space-md);
 }
 
 .home-building__address {
@@ -89,7 +92,7 @@
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	color: var(--home-color-heading);
-	margin: 0 0 var(--home-space-sm);
+	margin: 0;
 }
 
 /* visuals handled by .btn--primary */
@@ -99,7 +102,7 @@
 .home-building__actions {
 	display: flex;
 	align-items: center;
-	gap: var(--home-space-sm);
+	gap: var(--home-space-md);
 	flex-shrink: 0;
 }
 
@@ -113,11 +116,13 @@
 .home-suites__inner {
 	max-width: var(--home-max-width);
 	margin: 0 auto;
+	overflow: hidden;
+	padding: 4px 4px 8px;
 }
 
 .home-suites__carousel.swiper {
 	width: 100%;
-	overflow: hidden;
+	overflow: visible;
 }
 
 .home-suites__carousel .swiper-slide {
@@ -156,20 +161,15 @@
 	font-size: 1.05rem;
 	cursor: pointer;
 	transition:
-		transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease),
-		background-color 0.2s ease,
-		border-color 0.2s ease,
-		opacity 0.2s ease;
+		background-color 0.15s ease,
+		border-color 0.15s ease,
+		opacity 0.15s ease;
 }
 
 .home-suites__btn:hover:not(:disabled),
 .home-suites__btn:focus-visible:not(:disabled) {
-	transform: translateY(-1px);
 	border-color: rgba(0, 0, 0, 0.32);
-}
-
-.home-suites__btn:active:not(:disabled) {
-	transform: scale(0.97);
+	background-color: rgba(0, 0, 0, 0.08);
 }
 
 .home-suites__btn:focus-visible {
@@ -180,6 +180,11 @@
 .home-suites__btn:disabled {
 	opacity: 0.42;
 	cursor: not-allowed;
+}
+
+/* Mobile-only nav row (below carousel) */
+.home-suites__mobile-nav {
+	display: none;
 }
 
 /* ── Suite card: see css/suite-card.css ─────────────────────────────────── */
@@ -220,8 +225,12 @@
 		flex-wrap: wrap;
 	}
 
+	.home-building__address {
+		width: 100%;
+		margin-bottom: var(--home-space-sm);
+	}
+
 	.home-building__actions {
-		flex-wrap: wrap;
 		width: 100%;
 	}
 
@@ -229,8 +238,18 @@
 		flex: 1 1 auto;
 	}
 
-	.home-suites__nav {
-		margin-left: auto;
+	/* Hide desktop nav arrows on mobile — replaced by the below-carousel row */
+	.home-building__actions .home-suites__nav {
+		display: none;
+	}
+
+	/* Show mobile nav row below the carousel */
+	.home-suites__mobile-nav {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+		margin-top: var(--home-space-sm);
+		padding-top: var(--home-space-sm);
 	}
 }
 

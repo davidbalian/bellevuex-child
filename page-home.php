@@ -154,6 +154,20 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					<?php endforeach; ?>
 				</div>
 			</div>
+			<div class="home-suites__mobile-nav">
+				<button type="button"
+					class="home-suites__btn"
+					data-nav="prev"
+					data-target="<?php echo esc_attr( $_carousel_id ); ?>"
+					aria-label="Previous suites"
+				><span aria-hidden="true">&#8592;</span></button>
+				<button type="button"
+					class="home-suites__btn"
+					data-nav="next"
+					data-target="<?php echo esc_attr( $_carousel_id ); ?>"
+					aria-label="Next suites"
+				><span aria-hidden="true">&#8594;</span></button>
+			</div>
 		</div>
 	</section>
 
