@@ -195,6 +195,11 @@ add_action( 'wp_head', function () {
 	echo "<script>document.documentElement.classList.add('fade-in-ready');</script>\n";
 }, 1 );
 
+// ── Hide plugin scroll-to-top button ─────────────────────────────────────────
+add_action( 'wp_head', function () {
+	echo "<style>#scrollUp{display:none!important}</style>\n";
+} );
+
 add_action( 'wp_enqueue_scripts', function () {
 	$dir = get_stylesheet_directory_uri();
 	$ver = wp_get_theme()->get( 'Version' );
