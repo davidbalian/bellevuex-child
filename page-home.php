@@ -31,6 +31,9 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 						if ( 0 === (int) $hero_slide_index ) {
 							$hero_slide_class .= ' home-hero__slide--first';
 						}
+						if ( 1 === (int) $hero_slide_index ) {
+							$hero_slide_class .= ' home-hero__slide--second';
+						}
 						if ( (int) $hero_slide_index === $hero_slide_count - 1 ) {
 							$hero_slide_class .= ' home-hero__slide--last';
 						}
