@@ -73,7 +73,7 @@
 
 .home-building {
 	background: var(--home-color-light);
-	padding: var(--home-space-lg) var(--home-space-md) var(--home-space-md);
+	padding: var(--home-space-lg) var(--home-space-md) 0;
 	border-top: 0.5px solid var(--home-color-border);
 }
 
@@ -85,7 +85,6 @@
 .home-building__title {
 	font-family: var(--home-font-heading);
 	font-weight: 600;
-	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	color: var(--home-color-heading);
 	margin: 0 0 0.5rem;
@@ -200,7 +199,7 @@
 	display: flex;
 	align-items: center;
 	gap: 0.5rem;
-	margin-top: var(--home-space-sm);
+	margin-top: calc(var(--home-space-sm) + 0.5rem);
 }
 
 .home-suites__view-all {
