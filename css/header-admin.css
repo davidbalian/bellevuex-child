@@ -13,7 +13,7 @@
 /* ── Cards ───────────────────────────────────────────────────────────────── */
 
 .chic-row {
-	border: 1px solid #c3c4c7;
+	border: 0.5px solid #c3c4c7;
 	border-radius: 4px;
 	background: #fff;
 	margin-bottom: 10px;
@@ -40,7 +40,7 @@
 	justify-content: space-between;
 	padding: 8px 12px;
 	background: #f0f0f1;
-	border-bottom: 1px solid #c3c4c7;
+	border-bottom: 0.5px solid #c3c4c7;
 	gap: 8px;
 }
 
@@ -101,7 +101,7 @@
 .chic-mega-groups {
 	margin-top: 12px;
 	padding-top: 12px;
-	border-top: 1px dashed #c3c4c7;
+	border-top: 0.5px dashed #c3c4c7;
 }
 
 /* ── Image picker ─────────────────────────────────────────────────────────── */
@@ -117,7 +117,7 @@
 	width: 80px;
 	height: 60px;
 	object-fit: cover;
-	border: 1px solid #c3c4c7;
+	border: 0.5px solid #c3c4c7;
 	border-radius: 3px;
 	flex-shrink: 0;
 }

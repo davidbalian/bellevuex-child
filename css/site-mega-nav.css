@@ -37,7 +37,7 @@
 	flex-direction: row;
 	flex-wrap: wrap;
 	gap: 0;
-	border-bottom: 1px solid #e8e8e8;
+	border-bottom: 0.5px solid #e8e8e8;
 }
 
 .mega-panel__tab {
