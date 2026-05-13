@@ -4,16 +4,16 @@
 	display: inline-block;
 	font-family: inherit;
 	font-size: inherit;
-	font-weight: 600;
+	font-weight: bold;
 	line-height: 1.2;
 	text-transform: uppercase;
-	letter-spacing: 0;
+	letter-spacing: 0.01em;
 	text-decoration: none;
 	padding: 0.65em 1.5em;
 	border: 2px solid var(--color-primary);
 	border-radius: 9999px;
 	cursor: pointer;
-	transition: background-color 200ms ease, color 200ms ease;
+	transition: background-color 0.15s ease;
 }
 
 .btn:hover,
@@ -22,7 +22,7 @@
 	outline: none;
 }
 
-/* Blue bg / white text → hover flips to white bg / blue text */
+/* Blue bg / white text → hover darkens bg only */
 .btn--primary {
 	background: var(--color-primary);
 	color: var(--color-on-primary);
@@ -30,11 +30,10 @@
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-	background: var(--color-on-primary);
-	color: var(--color-primary);
+	background: #1a3278;
 }
 
-/* White bg / blue text → hover flips to blue bg / white text */
+/* White bg / blue text → hover adds a light blue tint only */
 .btn--secondary {
 	background: var(--color-on-primary);
 	color: var(--color-primary);
@@ -42,6 +41,5 @@
 
 .btn--secondary:hover,
 .btn--secondary:focus-visible {
-	background: var(--color-primary);
-	color: var(--color-on-primary);
+	background: rgba(34, 65, 149, 0.08);
 }
