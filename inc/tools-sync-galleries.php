@@ -265,7 +265,7 @@ const CHIC_SUITE_MANIFEST = [
 		],
 	],
 	[
-		'title' => 'Grey Suite',
+		'title' => 'Gray Suite',
 		'files' => [
 			'1-chic-centre-suites-athens-deluxe-suite-gray-main-room-athens.webp',
 			'2-chic-centre-suites-athens-deluxe-suite-gray-bedroom-athens.webp',
@@ -430,10 +430,11 @@ function chic_sync_galleries_render_page(): void {
 				: '═══ LIVE RUN — changes WILL be written ═══';
 			log.appendChild(modeLine);
 
-			step(0, dryRun);
+			var acc = { processed: 0, images: 0, warnings: 0, errors: 0 };
+			step(0, dryRun, acc);
 		}
 
-		function step(cursor, dryRun) {
+		function step(cursor, dryRun, acc) {
 			var body = new URLSearchParams({
 				action:  'chic_sync_galleries_step',
 				_nonce:  nonce,
@@ -446,22 +447,29 @@ function chic_sync_galleries_render_page(): void {
 				.then(function (data) {
 					if (data.log) appendLines(data.log);
 
+					// Accumulate totals across all steps.
+					if (data.totals) {
+						acc.processed += data.totals.processed || 0;
+						acc.images    += data.totals.images    || 0;
+						acc.warnings  += data.totals.warnings  || 0;
+						acc.errors    += data.totals.errors    || 0;
+					}
+
 					if (data.cursor !== undefined) {
 						counter.textContent = 'Suite ' + data.cursor + ' of ' + total;
 					}
 
 					if (data.done) {
-						var s = data.totals || {};
 						var summary = document.createElement('div');
 						summary.className = 'lvl-done';
 						summary.textContent = [
 							'',
 							'══════════════════════════════════════════',
 							'  COMPLETE',
-							'  Suites processed : ' + (s.processed || 0),
-							'  Images linked    : ' + (s.images    || 0),
-							'  Warnings         : ' + (s.warnings  || 0),
-							'  Errors           : ' + (s.errors    || 0),
+							'  Suites processed : ' + acc.processed,
+							'  Images linked    : ' + acc.images,
+							'  Warnings         : ' + acc.warnings,
+							'  Errors           : ' + acc.errors,
 							'══════════════════════════════════════════',
 						].join('\n');
 						log.appendChild(summary);
@@ -471,7 +479,7 @@ function chic_sync_galleries_render_page(): void {
 						return;
 					}
 
-					step(data.cursor, dryRun);
+					step(data.cursor, dryRun, acc);
 				})
 				.catch(function (err) {
 					var div = document.createElement('div');
