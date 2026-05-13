@@ -158,6 +158,9 @@ function Calendar_Sync() {
 }
 add_action('admin_notices', 'Calendar_Sync');
 
+// ── Remove parent theme footer and WPML language switchers ───────────────────
+add_filter( 'wpml_show_footer_language_selector', '__return_false' );
+
 // ── Header component ──────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/header-defaults.php';
 require_once __DIR__ . '/inc/header-acf.php';
