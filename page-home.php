@@ -24,9 +24,19 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 			<div class="swiper home-hero__carousel js-hero-swiper" aria-label="Chic Centre Suites hero photos">
 				<div class="swiper-wrapper">
 
-					<?php foreach ( $hero_slides as $slide ) : ?>
+					<?php
+					$hero_slide_count = count( $hero_slides );
+					foreach ( $hero_slides as $hero_slide_index => $slide ) :
+						$hero_slide_class = 'home-hero__slide';
+						if ( 0 === (int) $hero_slide_index ) {
+							$hero_slide_class .= ' home-hero__slide--first';
+						}
+						if ( (int) $hero_slide_index === $hero_slide_count - 1 ) {
+							$hero_slide_class .= ' home-hero__slide--last';
+						}
+						?>
 					<div class="swiper-slide">
-						<div class="home-hero__slide">
+						<div class="<?php echo esc_attr( $hero_slide_class ); ?>">
 							<picture>
 								<source media="(max-width: 768px)" srcset="<?php echo esc_url( $slide['mobile'] ); ?>">
 								<img

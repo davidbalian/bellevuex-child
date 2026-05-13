@@ -205,15 +205,6 @@ function chic_output_custom_header(): void {
 
 	<div id="mobile-nav" class="mobile-nav-overlay" aria-hidden="true">
 		<div class="mobile-nav__inner">
-			<button
-				type="button"
-				class="mobile-nav-close"
-				aria-label="<?php esc_attr_e( 'Close menu', 'bellevue' ); ?>"
-			>
-				<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-					<path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-				</svg>
-			</button>
 			<ul class="mobile-nav__links" role="list">
 				<?php chic_header_render_items( true ); ?>
 			</ul>

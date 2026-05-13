@@ -56,14 +56,12 @@ const MobileNavSubmenuAccordion = {
 const MobileNavOverlayController = {
 	overlay:     null,
 	toggleBtn:   null,
-	closeBtn:    null,
 	debounceMs:  240,
 	_resizeTimer: null,
 
 	init() {
 		this.overlay   = document.getElementById('mobile-nav');
 		this.toggleBtn = document.querySelector('.mobile-nav-toggle');
-		this.closeBtn  = document.querySelector('.mobile-nav-close');
 
 		if ( ! this.overlay || ! this.toggleBtn ) return;
 
@@ -75,7 +73,6 @@ const MobileNavOverlayController = {
 		if ( ! isNaN(rawMs) ) this.debounceMs = rawMs;
 
 		this.toggleBtn.addEventListener('click', () => this.toggle());
-		if ( this.closeBtn ) this.closeBtn.addEventListener('click', () => this.close());
 
 		document.addEventListener('keydown', e => {
 			if ( e.key === 'Escape' ) this.close();

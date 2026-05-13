@@ -215,4 +215,17 @@
 	.home-hero__scroll-down {
 		display: none;
 	}
+
+	/* Mobile crop: show right side of first hero photo, left side of last (object-fit: cover). */
+	.home-hero__slide--first.home-hero__slide--last img {
+		object-position: center center;
+	}
+
+	.home-hero__slide--first:not(.home-hero__slide--last) img {
+		object-position: right center;
+	}
+
+	.home-hero__slide--last:not(.home-hero__slide--first) img {
+		object-position: left center;
+	}
 }
