@@ -1,0 +1,234 @@
+/* ── Single accommodation template ─────────────────────────────────────────── */
+
+.page-accommodation *,
+.page-accommodation *::before,
+.page-accommodation *::after {
+	box-sizing: border-box;
+}
+
+.page-accommodation {
+	font-family: var(--home-font-body, 'Roboto', sans-serif);
+	color: var(--home-color-text, #5c5c5c);
+}
+
+/* ── Hero: static (no swiper) variant ─────────────────────────────────────── */
+
+/* Static image fills the bleed layer */
+.home-hero--static .home-hero__slider-bleed picture {
+	position: absolute;
+	inset: 0;
+	display: block;
+}
+
+.home-hero--static .home-hero__slider-bleed img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+/* Center content vertically instead of anchoring to bottom */
+.home-hero--static .home-hero__overlay {
+	justify-content: center;
+}
+
+/* Center-align copy layer */
+.home-hero__content--centered {
+	align-items: center !important;
+	text-align: center !important;
+}
+
+.home-hero__content--centered .home-hero__title {
+	max-width: none;
+}
+
+/* ── Amenities strip ───────────────────────────────────────────────────────── */
+
+.suite-amenities {
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	padding: clamp(1.5rem, 4vw, 2.5rem) 2rem;
+}
+
+.suite-amenities__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+	flex-wrap: wrap;
+}
+
+/* Icon list */
+.suite-amenities .th-tour-nav-items {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem 1.75rem;
+	flex: 1 1 auto;
+}
+
+.suite-amenities .th-tour-nav-item {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-size: 0.9rem;
+	color: var(--color-on-primary);
+}
+
+.suite-amenities .th-tour-nav-item i {
+	font-size: 1.05rem;
+	flex-shrink: 0;
+}
+
+/* Book Now on blue bg: white pill, hover inverts cleanly */
+.suite-amenities__book.btn--secondary:hover,
+.suite-amenities__book.btn--secondary:focus-visible {
+	background: transparent !important;
+	color: var(--color-on-primary) !important;
+	border-color: var(--color-on-primary) !important;
+}
+
+@media (max-width: 640px) {
+	.suite-amenities {
+		padding-inline: 0.5rem;
+	}
+
+	.suite-amenities__inner {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.suite-amenities__book {
+		align-self: stretch;
+		text-align: center;
+	}
+}
+
+/* ── Suite description ─────────────────────────────────────────────────────── */
+
+.suite-description {
+	background: #fff;
+	padding: clamp(3rem, 6vw, 5rem) 2rem;
+}
+
+.suite-description__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+}
+
+.suite-description__title {
+	font-family: var(--home-font-heading, 'Open Sans', sans-serif);
+	font-weight: 400;
+	text-transform: uppercase;
+	color: var(--color-primary);
+	margin: 0 0 1.25rem;
+}
+
+.suite-description__body {
+	font-family: var(--home-font-body, 'Roboto', sans-serif);
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.7;
+	max-width: 72ch;
+	margin: 0;
+}
+
+@media (max-width: 48rem) {
+	.suite-description {
+		padding-inline: 0.5rem;
+	}
+}
+
+/* ── Photos section: override building header title ───────────────────────── */
+
+/* The building header on accommodation pages shows "Photos" not a building name */
+.page-accommodation .home-building__title {
+	font-size: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+/* ── Suite facilities ──────────────────────────────────────────────────────── */
+
+.suite-facilities {
+	background: var(--home-color-light, #f8f8f6);
+	padding: clamp(3rem, 6vw, 5rem) 2rem;
+	border-top: 0.5px solid var(--home-color-border, #e0ddd8);
+}
+
+.suite-facilities__inner {
+	max-width: var(--home-max-width, 80rem);
+	margin-inline: auto;
+}
+
+.suite-facilities__title {
+	font-family: var(--home-font-heading, 'Open Sans', sans-serif);
+	font-weight: 400;
+	text-transform: uppercase;
+	color: var(--color-primary);
+	margin: 0 0 2rem;
+}
+
+.suite-facilities__list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	columns: 3;
+	column-gap: 2rem;
+}
+
+.suite-facilities__list li {
+	display: flex;
+	align-items: flex-start;
+	gap: 0.5rem;
+	padding: 0.4rem 0;
+	break-inside: avoid;
+	font-size: 0.95rem;
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.45;
+}
+
+.suite-facilities__list li::before {
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	min-width: 6px;
+	border-radius: 50%;
+	background: var(--color-primary);
+	margin-top: 0.45em;
+}
+
+.suite-facilities__notes {
+	margin-top: 2.5rem;
+	padding-top: 2rem;
+	border-top: 0.5px solid var(--home-color-border, #e0ddd8);
+	display: grid;
+	gap: 1rem;
+}
+
+.suite-facilities__notes p {
+	margin: 0;
+	font-size: 0.95rem;
+	color: var(--home-color-text, #5c5c5c);
+	line-height: 1.65;
+}
+
+.suite-facilities__notes strong {
+	color: var(--home-color-heading, #23272a);
+}
+
+@media (max-width: 768px) {
+	.suite-facilities__list {
+		columns: 2;
+	}
+}
+
+@media (max-width: 480px) {
+	.suite-facilities__list {
+		columns: 1;
+	}
+
+	.suite-facilities {
+		padding-inline: 0.5rem;
+	}
+}

@@ -171,6 +171,9 @@ require_once __DIR__ . '/inc/header-admin-ui.php';
 require_once __DIR__ . '/inc/home-data.php';
 require_once __DIR__ . '/inc/home-admin-ui.php';
 
+// ── Single accommodation template helpers ─────────────────────────────────────
+require_once __DIR__ . '/inc/suite-data.php';
+
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 
@@ -209,6 +212,16 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_style(  'chic-page-home-hero',  "$dir/css/page-home-hero.css",                     [ 'chic-tokens', 'chic-swiper' ],       $ver );
 		wp_enqueue_script( 'chic-page-home-hero',   "$dir/js/page-home-hero.js",    [ 'chic-swiper', 'chic-scroll-fade-in' ], $ver, true );
 		wp_enqueue_script( 'chic-page-home-suites', "$dir/js/page-home-suites.js", [ 'chic-swiper' ],                        $ver, true );
+	}
+
+	if ( is_singular( 'mphb_room_type' ) ) {
+		wp_enqueue_style(  'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                     $ver );
+		wp_enqueue_script( 'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                     $ver, true );
+		wp_enqueue_style(  'chic-page-home',              "$dir/css/page-home.css",                          [ 'chic-tokens' ],                      $ver );
+		wp_enqueue_style(  'chic-page-home-hero',         "$dir/css/page-home-hero.css",                     [ 'chic-tokens' ],                      $ver );
+		wp_enqueue_style(  'chic-single-accommodation',   "$dir/css/single-accommodation.css",               [ 'chic-tokens', 'chic-page-home-hero' ], $ver );
+		wp_enqueue_script( 'chic-page-home-suites',       "$dir/js/page-home-suites.js",                    [ 'chic-swiper' ],                      $ver, true );
+		wp_enqueue_script( 'chic-single-accommodation',   "$dir/js/single-accommodation.js",                [ 'chic-scroll-fade-in' ],              $ver, true );
 	}
 }, 20 );
 
