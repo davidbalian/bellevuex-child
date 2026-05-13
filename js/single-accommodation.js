@@ -76,6 +76,10 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				loop:          true,
 				speed:         reduced ? 0 : 400,
 				grabCursor:    true,
+				autoplay:      reduced ? false : {
+					delay:                3000,
+					disableOnInteraction: false,
+				},
 				navigation:    { prevEl: prev, nextEl: next },
 			} );
 		} );

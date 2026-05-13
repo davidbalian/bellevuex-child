@@ -69,14 +69,15 @@ while ( have_posts() ) :
 
 	<section class="suite-amenities fade-in">
 		<div class="suite-amenities__inner">
-
-			<div class="th-tour-nav-items">
-				<?php foreach ( $amenities as $item ) : ?>
-				<span class="th-tour-nav-item">
-					<i aria-hidden="true" class="<?php echo esc_attr( $item['icon'] ); ?>"></i>
-					<span><?php echo esc_html( $item['label'] ); ?></span>
-				</span>
-				<?php endforeach; ?>
+			<div class="suite-amenities__items">
+				<div class="th-tour-nav-items">
+					<?php foreach ( $amenities as $item ) : ?>
+					<span class="th-tour-nav-item">
+						<i aria-hidden="true" class="<?php echo esc_attr( $item['icon'] ); ?>"></i>
+						<span><?php echo esc_html( $item['label'] ); ?></span>
+					</span>
+					<?php endforeach; ?>
+				</div>
 			</div>
 
 			<a
