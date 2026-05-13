@@ -1,10 +1,8 @@
 <?php
 
 /**
- * Testimonials page: CSV review rows and mphb_room_type resolution.
+ * Testimonials page: curated reviews and mphb_room_type resolution.
  */
-
-require_once __DIR__ . '/home-data.php';
 
 /**
  * @return string Lowercase single-spaced trim.
@@ -14,7 +12,7 @@ function chic_testimonials_normalize_title( string $s ): string {
 }
 
 /**
- * Suite/Source values that are not a specific accommodation title.
+ * Values that must not be matched to a room post title.
  */
 function chic_testimonials_is_aggregate_source( string $label ): bool {
 	$n = chic_testimonials_normalize_title( $label );
@@ -22,7 +20,7 @@ function chic_testimonials_is_aggregate_source( string $label ): bool {
 }
 
 /**
- * Resolve CSV suite label to published mphb_room_type post ID (0 if unknown / aggregate).
+ * Resolve a suite title to published mphb_room_type post ID (0 if unknown / aggregate).
  */
 function chic_testimonials_resolve_room_id( string $suite_or_source ): int {
 	if ( chic_testimonials_is_aggregate_source( $suite_or_source ) ) {
@@ -47,73 +45,156 @@ function chic_testimonials_resolve_room_id( string $suite_or_source ): int {
 }
 
 /**
- * @return string Fallback image when a review has no suite thumbnail.
- */
-function chic_testimonials_fallback_card_image_url(): string {
-	$buildings = chic_home_buildings();
-	return ! empty( $buildings[0]['building_image'] ) ? (string) $buildings[0]['building_image'] : '';
-}
-
-/**
- * Raw CSV rows (associative), excluding header.
+ * Curated reviews (chiccentresuites.com/reviews-what-people-say/).
  *
- * @return array<int, array{reviewer: string, country: string, suite_source: string, date: string, review: string}>
+ * @return array<int, array{author: string, suite_match: string, suite_label: string, suite_context: string, source_label: string, suite_fallback_line: string, review: string}>
  */
-function chic_testimonials_load_csv_rows(): array {
-	$path = get_stylesheet_directory() . '/chic_centre_suites_reviews.csv';
-	if ( ! is_readable( $path ) ) {
-		return [];
-	}
-	$fh = fopen( $path, 'r' );
-	if ( false === $fh ) {
-		return [];
-	}
-	$header = fgetcsv( $fh );
-	if ( false === $header || empty( $header ) ) {
-		fclose( $fh );
-		return [];
-	}
-	$rows = [];
-	while ( ( $data = fgetcsv( $fh ) ) !== false ) {
-		if ( count( $data ) < 5 ) {
-			continue;
-		}
-		$rows[] = [
-			'reviewer'       => (string) $data[0],
-			'country'        => (string) $data[1],
-			'suite_source'   => (string) $data[2],
-			'date'           => (string) $data[3],
-			'review'         => (string) $data[4],
-		];
-	}
-	fclose( $fh );
-	return $rows;
+function chic_testimonials_curated_rows(): array {
+	return [
+		[
+			'author'              => 'Eleutheria',
+			'suite_match'         => 'Suite 3',
+			'suite_label'         => 'Suite 3',
+			'suite_context'       => 'January 2025',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Praised the modern, spotless facilities, high-quality bedding and amenities, helpful hosts, and strong sense of security. Mentioned the lively yet safe surrounding area and appreciated the hospitality.',
+		],
+		[
+			'author'              => 'Mora Karen',
+			'suite_match'         => 'Forest Suite',
+			'suite_label'         => 'Forest Suite',
+			'suite_context'       => 'October 2024',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Described the location, attention, cleanliness, and spacious room as excellent.',
+		],
+		[
+			'author'              => 'Erica',
+			'suite_match'         => 'Korali Suite',
+			'suite_label'         => 'Korali Suite',
+			'suite_context'       => 'July 2021',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Loved the stylish apartment, modern technology features, excellent cleanliness, kitchen setup, and central location. Highlighted the owner\'s kindness and hospitality.',
+		],
+		[
+			'author'              => 'Marihke',
+			'suite_match'         => 'Forest Suite',
+			'suite_label'         => 'Forest Suite',
+			'suite_context'       => 'July 2021',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Mentioned the top location, tasteful furnishings, well-equipped apartment, and helpful owner.',
+		],
+		[
+			'author'              => 'Alexander',
+			'suite_match'         => 'Avra Suite',
+			'suite_label'         => 'Avra Suite',
+			'suite_context'       => 'July 2021',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Said the location was perfect for a city stay and appreciated the thoughtful details throughout the apartment.',
+		],
+		[
+			'author'              => 'Davide',
+			'suite_match'         => 'Zakynthos Suite',
+			'suite_label'         => 'Zakynthos Suite',
+			'suite_context'       => 'June 2021',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Called the stay "great," praising the cleanliness, central Athens location, warm welcome, and useful local advice from the host.',
+		],
+		[
+			'author'              => 'Em',
+			'suite_match'         => 'Korali Suite',
+			'suite_label'         => 'Korali Suite',
+			'suite_context'       => 'June 2021',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Highlighted the clean and tidy room, excellent bed and bathroom, privacy, and accommodating owners who allowed late checkout.',
+		],
+		[
+			'author'              => 'Constantinos',
+			'suite_match'         => 'Santorini Suite',
+			'suite_label'         => 'Santorini Suite',
+			'suite_context'       => 'July 2020',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Mentioned the owner\'s friendliness and helpfulness, spotless condition, quiet environment despite the central location, and walking-distance access to attractions.',
+		],
+		[
+			'author'              => 'Koula',
+			'suite_match'         => '',
+			'suite_label'         => '',
+			'suite_context'       => '',
+			'source_label'        => 'Review from Booking.com',
+			'suite_fallback_line' => '',
+			'review'              => 'Praised the amazing location, clean and modern rooms, comfortable bed, and proximity to shops and the city center.',
+		],
+		[
+			'author'              => 'Aoi',
+			'suite_match'         => '',
+			'suite_label'         => '',
+			'suite_context'       => '',
+			'source_label'        => 'Review from Booking.com',
+			'suite_fallback_line' => '',
+			'review'              => 'Appreciated the excellent amenities, cleanliness, comfort, many electrical outlets, and the host\'s helpfulness during the stay.',
+		],
+		[
+			'author'              => 'Stephanie',
+			'suite_match'         => '',
+			'suite_label'         => '',
+			'suite_context'       => '',
+			'source_label'        => 'Review from Booking.com',
+			'suite_fallback_line' => '',
+			'review'              => 'Highlighted the central location, attentive reception, and responsive service.',
+		],
+		[
+			'author'              => 'Anonymous',
+			'suite_match'         => '',
+			'suite_label'         => '',
+			'suite_context'       => '',
+			'source_label'        => 'Review from Booking.com',
+			'suite_fallback_line' => '',
+			'review'              => 'Enjoyed the fully equipped apartment, private balcony area, espresso machine, jacuzzi, and overall modern condition of the property.',
+		],
+		[
+			'author'              => 'Andros',
+			'suite_match'         => 'Santorini Suite',
+			'suite_label'         => 'Santorini Suite',
+			'suite_context'       => 'December 2019',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Said it was the best apartment they had stayed in Athens, noting the luxury feel, comfort, strong Wi-Fi, cleanliness, and friendly staff.',
+		],
+		[
+			'author'              => 'Guest',
+			'suite_match'         => '',
+			'suite_label'         => '',
+			'suite_context'       => '',
+			'source_label'        => '',
+			'suite_fallback_line' => '',
+			'review'              => 'Strongly recommended the suites for luxury stays, business trips, couples, or families, mentioning the central location and hotel-style facilities at reasonable prices.',
+		],
+	];
 }
 
 /**
- * CSV rows with thumb_url, permalink, room_id, suite_linked.
+ * Curated rows with permalink and suite_linked (text-only cards; no images).
  *
  * @return array<int, array<string, mixed>>
  */
 function chic_testimonials_enriched_rows(): array {
-	$fallback = chic_testimonials_fallback_card_image_url();
-	$out      = [];
-	foreach ( chic_testimonials_load_csv_rows() as $r ) {
-		$id        = chic_testimonials_resolve_room_id( $r['suite_source'] );
-		$thumb     = '';
-		$permalink = '';
-		if ( $id > 0 ) {
-			$thumb     = (string) ( get_the_post_thumbnail_url( $id, 'large' ) ?: '' );
-			$permalink = (string) ( get_permalink( $id ) ?: '' );
-		}
-		if ( '' === $thumb && '' !== $fallback ) {
-			$thumb = $fallback;
-		}
+	$out = [];
+	foreach ( chic_testimonials_curated_rows() as $r ) {
+		$match     = (string) ( $r['suite_match'] ?? '' );
+		$id        = $match !== '' ? chic_testimonials_resolve_room_id( $match ) : 0;
+		$permalink = $id > 0 ? (string) ( get_permalink( $id ) ?: '' ) : '';
 		$out[] = array_merge( $r, [
-			'room_id'       => $id,
-			'thumb_url'     => $thumb,
-			'permalink'     => $permalink,
-			'suite_linked'  => $id > 0 && '' !== $permalink,
+			'room_id'      => $id,
+			'permalink'    => $permalink,
+			'suite_linked' => $id > 0 && '' !== $permalink && '' !== ( $r['suite_label'] ?? '' ),
 		] );
 	}
 	return $out;

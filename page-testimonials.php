@@ -2,7 +2,7 @@
 /**
  * Template Name: Testimonials
  *
- * Hero + masonry grid of reviews from chic_centre_suites_reviews.csv.
+ * Hero + masonry grid of curated guest reviews (see inc/testimonials-data.php).
  */
 
 require_once __DIR__ . '/inc/testimonials-data.php';
@@ -61,36 +61,22 @@ while ( have_posts() ) :
 		<div class="testimonials-section__inner">
 			<div class="testimonials-masonry" data-fade-stagger>
 				<?php foreach ( $reviews as $row ) : ?>
-				<article class="suite-card testimonials-card">
-					<figure class="suite-card__media">
-						<?php if ( ! empty( $row['thumb_url'] ) ) : ?>
-							<img
-								src="<?php echo esc_url( $row['thumb_url'] ); ?>"
-								alt="<?php echo esc_attr( $row['suite_source'] . ' — ' . $row['reviewer'] ); ?>"
-								loading="lazy"
-								width="605"
-								height="605"
-							>
-						<?php endif; ?>
-					</figure>
+				<article class="suite-card testimonials-card testimonials-card--text">
 					<div class="suite-card__body">
-						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) ) : ?>
-							<h3 class="suite-card__title">
-								<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( $row['suite_source'] ); ?></a>
-							</h3>
-						<?php else : ?>
-							<h3 class="suite-card__title suite-card__title--plain"><?php echo esc_html( $row['suite_source'] ); ?></h3>
+						<?php if ( ! empty( $row['author'] ) ) : ?>
+						<p class="testimonials-card__author"><?php echo esc_html( $row['author'] ); ?></p>
 						<?php endif; ?>
 
-						<p class="testimonials-card__meta chic-type-meta">
-							<?php echo esc_html( $row['reviewer'] ); ?>
-							<?php if ( $row['country'] !== '' ) : ?>
-								<span class="testimonials-card__meta-sep" aria-hidden="true"> · </span><?php echo esc_html( $row['country'] ); ?>
+						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) && ! empty( $row['suite_label'] ) ) : ?>
+						<h3 class="suite-card__title testimonials-card__suite-title">
+							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( $row['suite_label'] ); ?></a>
+							<?php if ( ! empty( $row['suite_context'] ) ) : ?>
+							<span class="suite-card__title-context"><?php echo esc_html( ' · ' . $row['suite_context'] ); ?></span>
 							<?php endif; ?>
-							<?php if ( $row['date'] !== '' && '-' !== $row['date'] ) : ?>
-								<span class="testimonials-card__meta-sep" aria-hidden="true"> · </span><?php echo esc_html( $row['date'] ); ?>
-							<?php endif; ?>
-						</p>
+						</h3>
+						<?php elseif ( ! empty( $row['source_label'] ) ) : ?>
+						<p class="testimonials-card__source chic-type-meta"><?php echo esc_html( $row['source_label'] ); ?></p>
+						<?php endif; ?>
 
 						<p class="testimonials-card__review"><?php echo esc_html( $row['review'] ); ?></p>
 					</div>
