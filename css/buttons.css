@@ -3,17 +3,21 @@
 .btn {
 	display: inline-block !important;
 	font-family: inherit !important;
-	font-size: inherit !important;
+	font-size: 1rem !important;
 	font-weight: bold !important;
 	line-height: 1.2 !important;
 	text-transform: uppercase !important;
 	letter-spacing: 0.01em !important;
 	text-decoration: none !important;
 	padding: 0.65em 1.5em !important;
-	border: 2px solid var(--color-primary) !important;
+	border-width: 2px !important;
+	border-style: solid !important;
 	border-radius: 9999px !important;
 	cursor: pointer !important;
-	transition: background-color 0.15s ease !important;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease,
+		border-color 0.15s ease !important;
 }
 
 .btn:hover,
@@ -22,24 +26,29 @@
 	outline: none !important;
 }
 
-/* Blue bg / white text → hover darkens bg only */
+/* Blue bg + white text + blue border → hover: white bg, blue text, border stays blue */
 .btn--primary {
 	background: var(--color-primary) !important;
 	color: var(--color-on-primary) !important;
+	border-color: var(--color-primary) !important;
 }
 
 .btn--primary:hover,
 .btn--primary:focus-visible {
-	background: #1a3278 !important;
-}
-
-/* White bg / blue text → hover adds a light blue tint only */
-.btn--secondary {
 	background: var(--color-on-primary) !important;
 	color: var(--color-primary) !important;
 }
 
+/* White bg + blue text + white border → hover: blue bg, white text, blue border */
+.btn--secondary {
+	background: var(--color-on-primary) !important;
+	color: var(--color-primary) !important;
+	border-color: var(--color-on-primary) !important;
+}
+
 .btn--secondary:hover,
 .btn--secondary:focus-visible {
-	background: rgba(34, 65, 149, 0.08) !important;
+	background: var(--color-primary) !important;
+	color: var(--color-on-primary) !important;
+	border-color: var(--color-primary) !important;
 }

@@ -78,7 +78,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 	<section class="home-intro" id="home-intro">
 		<div class="home-intro__inner">
 			<h2 class="home-intro__title fade-in fade-in-delay-0">Welcome</h2>
-			<p class="home-intro__lede chic-type-lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
+			<p class="home-intro__lede fade-in fade-in-delay-1">Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.</p>
 		</div>
 	</section>
 
