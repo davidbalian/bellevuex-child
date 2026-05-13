@@ -82,7 +82,6 @@
 }
 
 .suite-card__cta svg {
-	overflow: visible;
 	transition: transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 }
 
