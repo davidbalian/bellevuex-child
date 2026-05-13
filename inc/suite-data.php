@@ -2,11 +2,200 @@
 
 /**
  * Single accommodation template helpers.
+ *
+ * chic_suite_amenities() uses the per-suite data map first.
+ * Other helpers (capacity, bed type, size) keep MPHB-driven fallbacks for
+ * any suite not in the map.
  */
 
+/* ── Per-suite master data map ───────────────────────────────────────────── */
+
 /**
- * Returns max guest capacity for a suite.
- * Prefers mphb_room_type_category slug matching up-to-N-guests (same logic as homepage).
+ * Returns the full data record for a suite by post title (case-insensitive).
+ * Keys: capacity, sofa, highlight, size, description.
+ *
+ * sofa      — 'Sofa' | 'Sofa / Bed' | 'Jacuzzi' (Kohili only)
+ * highlight — 'balcony' | 'jacuzzi' | 'terrace' | 'shower'
+ * size      — integer m² as string
+ */
+function _chic_suite_all_data(): array {
+	return [
+
+		/* ── Chavriou 2 ──────────────────────────────────────────────────── */
+
+		'suite 1' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Earth tones and olive green decor. Includes double bed, sofa, and balcony.',
+		],
+		'suite 2' => [
+			'capacity'    => 'Up to 4 guests',
+			'sofa'        => 'Sofa / Bed',
+			'highlight'   => 'shower',
+			'size'        => '45',
+			'description' => 'Spacious suite with double bed and sofa bed. Accommodates up to 4.',
+		],
+		'suite 3' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '30',
+			'description' => 'Earth tones and olive green decor. Includes double bed and sofa.',
+		],
+		'suite 4' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Earth tones and olive green decor. Includes double bed and balcony.',
+		],
+		'suite 5' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Earth tones and olive green decor. Includes double bed and balcony.',
+		],
+		'suite 6' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '30',
+			'description' => 'Earth tones and olive green decor. Includes double bed and sofa.',
+		],
+
+		/* ── Thiseos 11 ──────────────────────────────────────────────────── */
+
+		'avra suite' => [
+			'capacity'    => 'Up to 4 guests',
+			'sofa'        => 'Sofa / Bed',
+			'highlight'   => 'jacuzzi',
+			'size'        => '50',
+			'description' => 'Bedroom with double bed, living room with sofa bed, and Jacuzzi bathtub.',
+		],
+		'zakynthos suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Named after the island. Features double bed, sofa, and balcony.',
+		],
+		'santorini suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Features double bed, sofa, and balcony.',
+		],
+		'kohili suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Jacuzzi',   // Jacuzzi fills the 4th slot; balcony is the 5th
+			'highlight'   => 'balcony',
+			'size'        => '35',
+			'description' => 'Earthy tones, ambient lighting, Jacuzzi, and balcony.',
+		],
+		'korali suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '35',
+			'description' => 'Coral hues, double bed, sofa, and shower.',
+		],
+		'mykonos suite' => [
+			'capacity'    => 'Up to 4 guests',
+			'sofa'        => 'Sofa / Bed',
+			'highlight'   => 'jacuzzi',
+			'size'        => '45',
+			'description' => 'Modern design with Jacuzzi. Accommodates up to 4.',
+		],
+		'paros suite' => [
+			'capacity'    => 'Up to 4 guests',
+			'sofa'        => 'Sofa / Bed',
+			'highlight'   => 'balcony',
+			'size'        => '45',
+			'description' => 'Traditional/modern blend, sofa bed, and balcony.',
+		],
+		'ammos suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '35',
+			'description' => 'Sand-inspired atmosphere, double bed, and sofa.',
+		],
+		'ermou suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'terrace',
+			'size'        => '30',
+			'description' => 'Modern touches, terrace, and double bed.',
+		],
+		'pelagos suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '35',
+			'description' => 'Blue accents, double bed, and sofa.',
+		],
+
+		/* ── Thiseos 13 ──────────────────────────────────────────────────── */
+
+		'ocean suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '30',
+			'description' => 'Blue ocean theme, double bed, and sofa.',
+		],
+		'ginger suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '30',
+			'description' => 'Cozy and stylish, double bed, and sofa.',
+		],
+		'gray suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'shower',
+			'size'        => '30',
+			'description' => 'Minimalist design, double bed, and sofa.',
+		],
+		'sunshine suite' => [
+			'capacity'    => 'Up to 2 guests',
+			'sofa'        => 'Sofa',
+			'highlight'   => 'balcony',
+			'size'        => '30',
+			'description' => 'Bright and airy with a balcony.',
+		],
+		'forest suite' => [
+			'capacity'    => 'Up to 4 guests',
+			'sofa'        => 'Sofa / Bed',
+			'highlight'   => 'shower',
+			'size'        => '45',
+			'description' => 'Natural elements, bedroom plus living room. Accommodates up to 4.',
+		],
+	];
+}
+
+/**
+ * Returns the data record for a specific post, or null if not in the map.
+ */
+function _chic_suite_data_for( int $post_id ): ?array {
+	static $map = null;
+	if ( null === $map ) {
+		$map = _chic_suite_all_data();
+	}
+	$key = strtolower( trim( get_the_title( $post_id ) ) );
+	return $map[ $key ] ?? null;
+}
+
+/* ── Public helpers ──────────────────────────────────────────────────────── */
+
+/**
+ * Returns max guest capacity (int) for a suite.
+ * Reads mphb_room_type_category slug matching up-to-N-guests (same as homepage logic).
  */
 function chic_suite_capacity( int $post_id ): int {
 	$terms = get_the_terms( $post_id, 'mphb_room_type_category' );
@@ -44,20 +233,45 @@ function chic_suite_bed_type( int $post_id ): string {
 
 /**
  * Returns the 6 amenity rows for the amenities strip.
+ * Driven by the per-suite data map; falls back to MPHB meta lookups.
  * Each row: [ 'icon' => string, 'label' => string ]
  */
 function chic_suite_amenities( int $post_id ): array {
+	static $highlight_map = [
+		'jacuzzi' => [ 'fas fa-hot-tub',                                       'Jacuzzi' ],
+		'balcony' => [ 'th-linea icon th-linea icon-arrows-circle-check',      'Balcony' ],
+		'terrace' => [ 'th-linea icon th-linea icon-arrows-circle-check',      'Terrace' ],
+		'shower'  => [ 'fas fa-shower',                                        'Shower'  ],
+	];
+
+	$data = _chic_suite_data_for( $post_id );
+
+	if ( $data ) {
+		$sofa_icon  = ( 'jacuzzi' === strtolower( $data['sofa'] ) ) ? 'fas fa-hot-tub' : 'fas fa-couch';
+		$hl         = $highlight_map[ $data['highlight'] ] ?? $highlight_map['shower'];
+
+		return [
+			[ 'icon' => 'fas fa-user-plus',                               'label' => $data['capacity'] ],
+			[ 'icon' => 'fas fa-bed',                                     'label' => 'King Size Bed' ],
+			[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => 'Equipped Kitchen' ],
+			[ 'icon' => $sofa_icon,                                       'label' => $data['sofa'] ],
+			[ 'icon' => $hl[0],                                           'label' => $hl[1] ],
+			[ 'icon' => 'fas fa-home',                                    'label' => $data['size'] . 'm²' ],
+		];
+	}
+
+	// MPHB fallback for suites not in the map
 	$capacity = chic_suite_capacity( $post_id );
 	$size     = chic_suite_size( $post_id );
 	$bed      = chic_suite_bed_type( $post_id );
 
 	return [
-		[ 'icon' => 'fas fa-user-plus',                                  'label' => 'Up to ' . $capacity . ' guests' ],
-		[ 'icon' => 'fas fa-bed',                                        'label' => $bed ],
-		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',            'label' => 'Equipped Kitchen' ],
-		[ 'icon' => 'fas fa-couch',                                      'label' => 'Sofa' ],
-		[ 'icon' => 'th-linea icon th-linea icon-arrows-circle-check',  'label' => 'Balcony' ],
-		[ 'icon' => 'fas fa-home',                                       'label' => $size ? $size . 'm²' : '—' ],
+		[ 'icon' => 'fas fa-user-plus',                               'label' => 'Up to ' . $capacity . ' guests' ],
+		[ 'icon' => 'fas fa-bed',                                     'label' => $bed ],
+		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => 'Equipped Kitchen' ],
+		[ 'icon' => 'fas fa-couch',                                   'label' => 'Sofa' ],
+		[ 'icon' => 'fas fa-shower',                                  'label' => 'Shower' ],
+		[ 'icon' => 'fas fa-home',                                    'label' => $size ? $size . 'm²' : '—' ],
 	];
 }
 
@@ -94,42 +308,9 @@ function chic_suite_building( int $post_id ): ?array {
 }
 
 /**
- * Returns the description string for a suite, keyed by post title (case-insensitive).
+ * Returns the description for a suite from the per-suite data map.
  */
 function chic_suite_description( int $post_id ): string {
-	static $map = null;
-	if ( null === $map ) {
-		$map = _chic_suite_description_map();
-	}
-	$key = strtolower( trim( get_the_title( $post_id ) ) );
-	return $map[ $key ] ?? '';
-}
-
-function _chic_suite_description_map(): array {
-	return [
-		// Chavriou 2
-		'suite 1'         => 'This suite decorated with earth tones and olive green as the dominant color includes a double bed, sofa, large TV with Netflix subscription, equipped kitchen, bathroom with shower and balcony. It can accommodate up to 2 people.',
-		'suite 2'         => 'This spacious suite is decorated with earth tones and olive green as the dominant color. It features a comfortable double bed in the bedroom and a sofa/bed in the living room. Includes a large TV with Netflix subscription, fully equipped kitchen, and bathroom with shower. It can accommodate up to 4 people.',
-		'suite 3'         => 'This suite decorated with earth tones and olive green as the dominant color includes a comfortable double bed, sofa, large TV with Netflix subscription, equipped kitchen, and bathroom with shower. It can accommodate up to 2 people.',
-		'suite 4'         => 'This suite decorated with earth tones and olive green as the dominant color includes a double bed, sofa, large TV with Netflix subscription, equipped kitchen, bathroom with shower and balcony. It can accommodate up to 2 people.',
-		'suite 5'         => 'This suite decorated with earth tones and olive green as the dominant color includes a comfortable double bed, sofa, large TV with Netflix subscription, equipped kitchen, bathroom with shower and balcony. It can accommodate up to 2 guests.',
-		'suite 6'         => 'This suite decorated with earth tones and olive green as the dominant color includes a comfortable double bed, sofa, large TV with Netflix subscription, equipped kitchen, and bathroom with shower. It can accommodate up to 2 people.',
-		// Thiseos 11
-		'avra suite'      => 'Feel the warm atmosphere and positive energy radiating from this beautiful suite. It consists of a bedroom with a double bed and big TV, a living room with a comfortable sofa/bed, TV with Netflix subscription, fully equipped kitchen, bathroom with a Jacuzzi bathtub, and a balcony. Accommodating up to 4 people.',
-		'zakynthos suite' => 'This suite is named after one of the most beautiful islands in Greece. It features a double bed, a sofa, a large TV with Netflix subscription, a fully equipped kitchen, a bathroom with a shower, and a balcony. This suite can accommodate up to 2 people.',
-		'santorini suite' => 'Every detail is designed to offer you an unforgettable experience. Features a double bed, a comfortable sofa, a large TV with Netflix subscription, a fully equipped kitchen, a bathroom with a shower, and a balcony. This suite can accommodate up to 2 people.',
-		'kohili suite'    => 'Treat yourself to moments of relaxation in this stunning suite. Decorated with earthy tones and ambient lighting, it is a haven of tranquillity where you can enjoy the Jacuzzi and your coffee on the balcony. It can accommodate up to 2 people.',
-		'korali suite'    => 'This suite is perfect for couples, offering both comfort and luxury for your vacation. Adorned in coral hues, it features a double bed, a sofa, a large TV with Netflix, a fully equipped kitchen, and a shower. The suite accommodates up to 2 guests.',
-		'mykonos suite'   => 'Experience luxury in our Mykonos Suite, featuring modern design and high-end amenities. It includes a double bed, a sofa/bed, a fully equipped kitchen, and a bathroom with a Jacuzzi. Accommodates up to 4 people.',
-		'paros suite'     => 'This suite offers a blend of traditional and modern elements. It features a spacious living area with a sofa/bed, a bedroom with a double bed, a fully equipped kitchen, and a balcony. Accommodates up to 4 guests.',
-		'ammos suite'     => 'Inspired by the sandy beaches of Greece, this suite offers a relaxing atmosphere. It includes a double bed, a sofa, a large TV with Netflix, and a fully equipped kitchen. Ideal for up to 2 guests.',
-		'ermou suite'     => 'This suite, adorned with modern touches, is ideal for unwinding after a full day in the center of Athens. It features a double bed, a sofa, a fully equipped kitchen, a large TV with Netflix subscription, a modern bathroom with shower, and a lovely terrace. It can accommodate up to 2 people.',
-		'pelagos suite'   => 'Named after the Greek sea, this suite features blue accents and a refreshing design. It includes a double bed, sofa, equipped kitchen, and a bathroom with shower. Accommodates up to 2 guests.',
-		// Thiseos 13
-		'ocean suite'     => 'This suite decoration is based on the blue ocean and has winning first impressions from the moment you walk in. Includes a double bed, sofa, big TV with Netflix, fully equipped kitchen and bathroom with shower. It can accommodate up to 2 people.',
-		'ginger suite'    => 'A cozy and stylish suite featuring warm tones. It includes a double bed, a sofa, a large TV with Netflix, a fully equipped kitchen, and a modern bathroom. Accommodates up to 2 guests.',
-		'gray suite'      => 'Modern and minimalist, this suite offers a sleek design with all the comforts of home. It features a double bed, sofa, fully equipped kitchen, and a large TV. Accommodates up to 2 guests.',
-		'sunshine suite'  => 'Bright and airy, the Sunshine Suite is designed to make you feel at home. It includes a double bed, sofa, fully equipped kitchen, and a balcony to enjoy the Athens sun. Accommodates up to 2 guests.',
-		'forest suite'    => 'A spacious suite decorated with natural elements. It features a bedroom with a double bed and a living room with a sofa/bed, making it ideal for up to 4 guests. Includes a kitchen and large TV.',
-	];
+	$data = _chic_suite_data_for( $post_id );
+	return $data['description'] ?? '';
 }
