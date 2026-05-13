@@ -94,7 +94,16 @@
 
 /* visuals handled by .btn--primary */
 
-/* ── Suite grid ──────────────────────────────────────────────────────────── */
+/* ── Building header actions (maps link + nav arrows) ────────────────────── */
+
+.home-building__actions {
+	display: flex;
+	align-items: center;
+	gap: var(--home-space-sm);
+	flex-shrink: 0;
+}
+
+/* ── Suite carousel ──────────────────────────────────────────────────────── */
 
 .home-suites {
 	padding: var(--home-space-md) var(--home-space-md) var(--home-space-xl);
@@ -106,13 +115,71 @@
 	margin: 0 auto;
 }
 
-.home-suites__grid {
-	display: grid;
-	grid-template-columns: repeat( auto-fill, minmax( 280px, 1fr ) );
-	gap: var(--home-space-md);
-	list-style: none;
-	margin: 0;
-	padding: 0;
+.home-suites__carousel.swiper {
+	width: 100%;
+	overflow: hidden;
+}
+
+.home-suites__carousel .swiper-slide {
+	height: auto;
+	display: flex;
+}
+
+.home-suites__carousel .swiper-slide .suite-card {
+	width: 100%;
+}
+
+/* Prevent flash of stacked slides before Swiper initialises */
+.home-suites__carousel:not(.swiper-initialized) .swiper-slide ~ .swiper-slide {
+	display: none;
+}
+
+/* ── Suite carousel nav buttons ──────────────────────────────────────────── */
+
+.home-suites__nav {
+	display: flex;
+	align-items: center;
+	gap: var(--space-xs, 0.5rem);
+	flex-shrink: 0;
+}
+
+.home-suites__btn {
+	width: 42px;
+	height: 42px;
+	border: 1px solid rgba(0, 0, 0, 0.18);
+	border-radius: 50%;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.04);
+	color: var(--color-text);
+	font-size: 1.05rem;
+	cursor: pointer;
+	transition:
+		transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease),
+		background-color 0.2s ease,
+		border-color 0.2s ease,
+		opacity 0.2s ease;
+}
+
+.home-suites__btn:hover:not(:disabled),
+.home-suites__btn:focus-visible:not(:disabled) {
+	transform: translateY(-1px);
+	border-color: rgba(0, 0, 0, 0.32);
+}
+
+.home-suites__btn:active:not(:disabled) {
+	transform: scale(0.97);
+}
+
+.home-suites__btn:focus-visible {
+	outline: 2px solid var(--color-primary);
+	outline-offset: 2px;
+}
+
+.home-suites__btn:disabled {
+	opacity: 0.42;
+	cursor: not-allowed;
 }
 
 /* ── Suite card: see css/suite-card.css ─────────────────────────────────── */
@@ -137,19 +204,8 @@
 		min-height: 420px;
 	}
 
-	.home-suites__grid {
-		grid-template-columns: 1fr 1fr;
-		gap: var(--home-space-sm);
-	}
-
 	.home-map__frame {
 		height: 260px;
-	}
-}
-
-@media ( max-width: 400px ) {
-	.home-suites__grid {
-		grid-template-columns: 1fr;
 	}
 }
 
@@ -159,4 +215,26 @@
 	.home-suites {
 		padding-inline: 0.5rem;
 	}
+
+	.home-building__inner {
+		flex-wrap: wrap;
+	}
+
+	.home-building__actions {
+		flex-wrap: wrap;
+		width: 100%;
+	}
+
+	.home-building__map-link {
+		flex: 1 1 auto;
+	}
+
+	.home-suites__nav {
+		margin-left: auto;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.home-suites__btn { transition: none; }
+	.home-suites__carousel .swiper-wrapper { transition-duration: 0ms !important; }
 }

@@ -84,29 +84,52 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<!-- ── Buildings + Suite grids ─────────────────────────────────────── -->
 
-	<?php foreach ( chic_home_buildings() as $building ) :
+	<?php
+	$_suite_instance = 0;
+	foreach ( chic_home_buildings() as $building ) :
 		$suites = chic_home_get_suites( $building['term'], 'large' );
 		if ( empty( $suites ) ) continue;
+		$_suite_instance++;
+		$_carousel_id = 'home-suites-' . $_suite_instance;
 	?>
 
 	<section class="home-building fade-in">
 		<div class="home-building__inner">
 			<p class="home-building__address"><?php echo esc_html( $building['label'] ); ?></p>
-			<a
-				class="home-building__map-link chic-type-meta btn btn--primary"
-				href="<?php echo esc_url( $building['maps'] ); ?>"
-				target="_blank"
-				rel="noopener noreferrer"
-			>View Location on Google Maps</a>
+			<div class="home-building__actions">
+				<a
+					class="home-building__map-link chic-type-meta btn btn--primary"
+					href="<?php echo esc_url( $building['maps'] ); ?>"
+					target="_blank"
+					rel="noopener noreferrer"
+				>View Location on Google Maps</a>
+				<div class="home-suites__nav" aria-label="<?php echo esc_attr( $building['label'] ); ?> suites navigation">
+					<button type="button"
+						class="home-suites__btn"
+						data-nav="prev"
+						data-target="<?php echo esc_attr( $_carousel_id ); ?>"
+						aria-label="Previous suites"
+					><span aria-hidden="true">&#8592;</span></button>
+					<button type="button"
+						class="home-suites__btn"
+						data-nav="next"
+						data-target="<?php echo esc_attr( $_carousel_id ); ?>"
+						aria-label="Next suites"
+					><span aria-hidden="true">&#8594;</span></button>
+				</div>
+			</div>
 		</div>
 	</section>
 
-	<section class="home-suites">
+	<section class="home-suites fade-in">
 		<div class="home-suites__inner">
-			<ul class="home-suites__grid" data-fade-stagger>
-				<?php foreach ( $suites as $suite ) : ?>
-				<li>
-					<article class="suite-card">
+			<div
+				id="<?php echo esc_attr( $_carousel_id ); ?>"
+				class="swiper home-suites__carousel js-suites-swiper"
+			>
+				<div class="swiper-wrapper">
+					<?php foreach ( $suites as $suite ) : ?>
+					<article class="suite-card swiper-slide">
 						<a class="suite-card__link" href="<?php echo esc_url( $suite['permalink'] ); ?>">
 							<figure class="suite-card__media">
 								<?php if ( $suite['thumb_url'] ) : ?>
@@ -128,9 +151,9 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 							</div>
 						</a>
 					</article>
-				</li>
-				<?php endforeach; ?>
-			</ul>
+					<?php endforeach; ?>
+				</div>
+			</div>
 		</div>
 	</section>
 
