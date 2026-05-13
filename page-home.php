@@ -115,6 +115,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<section class="home-suites fade-in">
 		<div class="home-suites__inner">
+			<div class="home-suites__carousel-wrap">
 			<div
 				id="<?php echo esc_attr( $_carousel_id ); ?>"
 				class="swiper home-suites__carousel js-suites-swiper"
@@ -146,6 +147,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					<?php endforeach; ?>
 				</div>
 			</div>
+			</div><!-- /.home-suites__carousel-wrap -->
 			<?php $_view_all = get_term_link( $building['term'], 'mphb_room_type_category' ); ?>
 			<div class="home-suites__controls">
 				<a
