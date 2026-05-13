@@ -15,6 +15,12 @@
 	background: #0e0e0e;
 }
 
+@media (min-width: 1921px) {
+	.home-hero {
+		--hero-viewport: calc(min(98svh, 1920px) - var(--site-header-height-initial) - 10vh);
+	}
+}
+
 /* ── Full-bleed slider layer ─────────────────────────────────────────────── */
 
 .home-hero__slider-bleed {

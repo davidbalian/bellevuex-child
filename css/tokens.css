@@ -39,6 +39,13 @@ div, section, article, aside, header, footer, nav, main {
 	--z-mobile-overlay: 1100;
 }
 
+/* Ultra-wide: cap content rail with header/footer/mega (see --home-max-width on home template). */
+@media (min-width: 1921px) {
+	:root {
+		--mega-panel-inner-max: 1800px;
+	}
+}
+
 /* ── Global fluid type: headings + two utilities; everything else inherits ─ */
 
 h1 {

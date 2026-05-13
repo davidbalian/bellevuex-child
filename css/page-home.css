@@ -19,6 +19,12 @@
 	--home-max-width:       80rem;
 }
 
+@media (min-width: 1921px) {
+	:root {
+		--home-max-width: 1800px;
+	}
+}
+
 /* ── Reset scoped to page-home ──────────────────────────────────────────── */
 
 .page-home *,
