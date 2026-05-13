@@ -82,6 +82,12 @@
 	flex-shrink: 0;
 }
 
+/* Push Book Now to the far right */
+.suite-amenities__book {
+	flex-shrink: 0;
+	margin-left: auto;
+}
+
 /* Book Now on blue bg: white pill, hover inverts cleanly */
 .suite-amenities__book.btn--secondary:hover,
 .suite-amenities__book.btn--secondary:focus-visible {
@@ -140,11 +146,21 @@
 	}
 }
 
-/* ── Photos section: override building header title ───────────────────────── */
+/* ── Photos section ───────────────────────────────────────────────────────── */
 
 /* The building header on accommodation pages shows "Photos" not a building name */
 .page-accommodation .home-building__title {
 	font-size: clamp(1.25rem, 2vw, 1.75rem);
+}
+
+/* Gallery slides: no .suite-card wrapper, so figure must fill the flex slide */
+.page-accommodation .home-suites__carousel .swiper-slide .suite-card__media {
+	width: 100%;
+}
+
+/* Nav buttons: align right (no Book Now button to push them) */
+.page-accommodation .home-suites__controls {
+	justify-content: flex-end;
 }
 
 /* ── Suite facilities ──────────────────────────────────────────────────────── */
