@@ -95,29 +95,21 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<section class="home-building fade-in">
 		<div class="home-building__inner">
-			<p class="home-building__address"><?php echo esc_html( $building['label'] ); ?></p>
-			<div class="home-building__actions">
-				<a
-					class="home-building__map-link chic-type-meta btn btn--primary"
-					href="<?php echo esc_url( $building['maps'] ); ?>"
-					target="_blank"
-					rel="noopener noreferrer"
-				>View Location on Google Maps</a>
-				<div class="home-suites__nav" aria-label="<?php echo esc_attr( $building['label'] ); ?> suites navigation">
-					<button type="button"
-						class="home-suites__btn"
-						data-nav="prev"
-						data-target="<?php echo esc_attr( $_carousel_id ); ?>"
-						aria-label="Previous suites"
-					><span aria-hidden="true">&#8592;</span></button>
-					<button type="button"
-						class="home-suites__btn"
-						data-nav="next"
-						data-target="<?php echo esc_attr( $_carousel_id ); ?>"
-						aria-label="Next suites"
-					><span aria-hidden="true">&#8594;</span></button>
-				</div>
-			</div>
+			<h2 class="home-building__title"><?php echo esc_html( $building['short_label'] ); ?></h2>
+			<a
+				class="home-building__address-link chic-type-meta"
+				href="<?php echo esc_url( $building['maps'] ); ?>"
+				target="_blank"
+				rel="noopener noreferrer"
+			><?php echo esc_html( $building['label'] ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></a>
+			<?php /*
+			<a
+				class="home-building__map-link chic-type-meta btn btn--primary"
+				href="<?php echo esc_url( $building['maps'] ); ?>"
+				target="_blank"
+				rel="noopener noreferrer"
+			>View Location on Google Maps</a>
+			*/ ?>
 		</div>
 	</section>
 
@@ -154,17 +146,20 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					<?php endforeach; ?>
 				</div>
 			</div>
-			<div class="home-suites__mobile-nav">
+			<?php $_view_all = get_term_link( $building['term'], 'mphb_room_type_category' ); ?>
+			<div class="home-suites__controls">
+				<a
+					class="home-suites__view-all btn btn--primary chic-type-meta"
+					href="<?php echo is_wp_error( $_view_all ) ? '#' : esc_url( $_view_all ); ?>"
+				>View All Suites</a>
 				<button type="button"
 					class="home-suites__btn"
 					data-nav="prev"
-					data-target="<?php echo esc_attr( $_carousel_id ); ?>"
 					aria-label="Previous suites"
 				><span aria-hidden="true">&#8592;</span></button>
 				<button type="button"
 					class="home-suites__btn"
 					data-nav="next"
-					data-target="<?php echo esc_attr( $_carousel_id ); ?>"
 					aria-label="Next suites"
 				><span aria-hidden="true">&#8594;</span></button>
 			</div>

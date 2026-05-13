@@ -8,11 +8,12 @@
 			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 
 		document.querySelectorAll( SELECTOR ).forEach( function ( root ) {
-			var id   = root.id;
-			var prev = document.querySelector( '[data-nav="prev"][data-target="' + id + '"]' );
-			var next = document.querySelector( '[data-nav="next"][data-target="' + id + '"]' );
+			var controls = root.parentElement &&
+				root.parentElement.querySelector( '.home-suites__controls' );
+			var prev = controls && controls.querySelector( '[data-nav="prev"]' );
+			var next = controls && controls.querySelector( '[data-nav="next"]' );
 
-			var inst = new Swiper( root, {
+			new Swiper( root, {
 				slidesPerView: 1.5,
 				spaceBetween: 16,
 				loop: true,
@@ -28,18 +29,6 @@
 					1024: { slidesPerView: 3.5, spaceBetween: 24 },
 				},
 			} );
-
-			// Wire mobile nav buttons (below carousel) to the same instance
-			var inner    = root.parentElement;
-			var mobileNav = inner && inner.querySelector( '.home-suites__mobile-nav' );
-			if ( mobileNav ) {
-				mobileNav.querySelector( '[data-nav="prev"]' ).addEventListener( 'click', function () {
-					inst.slidePrev();
-				} );
-				mobileNav.querySelector( '[data-nav="next"]' ).addEventListener( 'click', function () {
-					inst.slideNext();
-				} );
-			}
 		} );
 	}
 

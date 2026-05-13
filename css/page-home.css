@@ -69,7 +69,7 @@
 	margin: 0;
 }
 
-/* ── Building CTA ────────────────────────────────────────────────────────── */
+/* ── Building header ─────────────────────────────────────────────────────── */
 
 .home-building {
 	background: var(--home-color-light);
@@ -80,30 +80,34 @@
 .home-building__inner {
 	max-width: var(--home-max-width);
 	margin: 0 auto;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: var(--home-space-md);
 }
 
-.home-building__address {
+.home-building__title {
 	font-family: var(--home-font-heading);
 	font-weight: 600;
 	letter-spacing: 0.06em;
 	text-transform: uppercase;
 	color: var(--home-color-heading);
-	margin: 0;
+	margin: 0 0 0.5rem;
 }
 
-/* visuals handled by .btn--primary */
-
-/* ── Building header actions (maps link + nav arrows) ────────────────────── */
-
-.home-building__actions {
-	display: flex;
+.home-building__address-link {
+	display: inline-flex;
 	align-items: center;
-	gap: var(--home-space-md);
+	gap: 0.25rem;
+	font-weight: 600;
+	color: var(--color-primary);
+	text-decoration: none;
+}
+
+.home-building__address-link svg {
 	flex-shrink: 0;
+	transition: transform var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
+}
+
+.home-building__address-link:hover svg,
+.home-building__address-link:focus-visible svg {
+	transform: translateX(2px);
 }
 
 /* ── Suite carousel ──────────────────────────────────────────────────────── */
@@ -190,9 +194,17 @@
 	cursor: not-allowed;
 }
 
-/* Mobile-only nav row (below carousel) */
-.home-suites__mobile-nav {
-	display: none;
+/* ── Controls row (View All + prev/next) — below carousel ────────────────── */
+
+.home-suites__controls {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	margin-top: var(--home-space-sm);
+}
+
+.home-suites__view-all {
+	margin-right: auto;
 }
 
 /* ── Suite card: see css/suite-card.css ─────────────────────────────────── */
@@ -229,35 +241,23 @@
 		padding-inline: 0.5rem;
 	}
 
-	.home-building__inner {
-		flex-wrap: wrap;
-	}
-
-	.home-building__address {
-		width: 100%;
-		margin-bottom: var(--home-space-sm);
-	}
-
-	.home-building__actions {
-		width: 100%;
-	}
-
-	.home-building__map-link {
-		flex: 1 1 auto;
-	}
-
-	/* Hide desktop nav arrows on mobile — replaced by the below-carousel row */
-	.home-building__actions .home-suites__nav {
-		display: none;
-	}
-
-	/* Show mobile nav row below the carousel */
-	.home-suites__mobile-nav {
-		display: flex;
-		width: 100%;
+	/* Controls row: reorder to [←] [View All Suites] [→] */
+	.home-suites__controls {
 		justify-content: space-between;
-		margin-top: var(--home-space-sm);
-		padding-top: var(--home-space-sm);
+		gap: 0;
+	}
+
+	.home-suites__view-all {
+		margin-right: 0;
+		order: 2;
+	}
+
+	.home-suites__controls > :nth-child(2) {
+		order: 1;
+	}
+
+	.home-suites__controls > :nth-child(3) {
+		order: 3;
 	}
 }
 
