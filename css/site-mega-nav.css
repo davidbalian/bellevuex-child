@@ -114,9 +114,10 @@
 		pointer-events: auto;
 	}
 
-	/* Height animation driven by JS */
+	/* Height animation driven by JS; hard cap at viewport bottom */
 	.mega-panel__height {
 		height: 0;
+		max-height: calc(100vh - var(--site-header-height));
 		overflow: hidden;
 		transition: height var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
@@ -140,7 +141,7 @@
 		box-sizing: border-box;
 		width: 100%;
 		display: grid;
-		grid-template-columns: 1fr 1.25fr;
+		grid-template-columns: 1fr auto;
 		gap: 2rem;
 		align-items: start;
 	}
@@ -165,6 +166,9 @@
 		overflow: hidden;
 		background: #f0f0f0;
 		aspect-ratio: 4 / 3;
+		/* Height is viewport-bound; width follows aspect-ratio → shrinks when short */
+		height: min(calc(100vh - var(--site-header-height) - 4rem), 420px);
+		width: auto;
 		opacity: 0;
 		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}

@@ -183,9 +183,12 @@
 	flex-shrink: 0;
 }
 
-/* Nav buttons: align right (no Book Now button to push them) */
-.page-accommodation .home-suites__controls {
-	justify-content: flex-end;
+/* Nav: desktop = left (default flex-start from page-home); mobile = space-between like homepage. */
+@media (max-width: 48rem) {
+	.page-accommodation .home-suites__controls {
+		justify-content: space-between;
+		gap: 0;
+	}
 }
 
 /* ── Suite facilities ──────────────────────────────────────────────────────── */
