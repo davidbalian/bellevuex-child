@@ -6,16 +6,16 @@ function chic_header_default_menu() {
 	return [
 		[
 			'label'       => 'Home',
-			'link_type'   => 'placeholder',
-			'url'         => $ph,
+			'link_type'   => 'url',
+			'url'         => 'https://davidb1553.sg-host.com/',
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
 		],
 		[
 			'label'       => 'Explore Athens',
-			'link_type'   => 'placeholder',
-			'url'         => $ph,
+			'link_type'   => 'url',
+			'url'         => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
@@ -30,8 +30,8 @@ function chic_header_default_menu() {
 		],
 		[
 			'label'       => 'Reviews',
-			'link_type'   => 'placeholder',
-			'url'         => $ph,
+			'link_type'   => 'url',
+			'url'         => 'https://chiccentresuites.com/reviews-what-people-say/',
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
@@ -47,7 +47,7 @@ function chic_header_default_menu() {
 		[
 			'label'       => 'Book Now',
 			'link_type'   => 'url',
-			'url'         => $ph,
+			'url'         => 'https://direct-book.com/properties/chiccentresuitesathens',
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],

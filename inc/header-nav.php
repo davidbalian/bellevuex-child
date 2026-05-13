@@ -9,6 +9,18 @@ function chic_header_get_config_id(): int {
 }
 
 function chic_header_item_href( array $item ): string {
+	// Hard-coded primary nav targets (overrides ACF / saved menu for these labels only).
+	$label_key = strtolower( trim( $item['label'] ?? '' ) );
+	$hard_nav  = [
+		'home'             => 'https://davidb1553.sg-host.com/',
+		'explore athens'   => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
+		'reviews'          => 'https://chiccentresuites.com/reviews-what-people-say/',
+		'book now'         => 'https://direct-book.com/properties/chiccentresuitesathens',
+	];
+	if ( isset( $hard_nav[ $label_key ] ) ) {
+		return esc_url( $hard_nav[ $label_key ] );
+	}
+
 	$type = $item['link_type'] ?? 'placeholder';
 	if ( 'page' === $type && ! empty( $item['page'] ) ) {
 		$url = get_permalink( (int) $item['page'] );
