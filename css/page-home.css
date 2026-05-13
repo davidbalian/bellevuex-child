@@ -258,6 +258,15 @@
 	.home-suites__controls > :nth-child(3) {
 		order: 3;
 	}
+
+	/* Prev/next (← →): fixed 42px feels huge vs fluid type; scale with viewport like nearby text */
+	.home-suites__btn {
+		font-size: clamp(0.8125rem, 0.72rem + 0.35vw, 1rem);
+		width: 2.5em;
+		height: 2.5em;
+		min-width: 2.5em;
+		min-height: 2.5em;
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
