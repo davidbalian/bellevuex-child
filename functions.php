@@ -171,6 +171,9 @@ require_once __DIR__ . '/inc/header-admin-ui.php';
 require_once __DIR__ . '/inc/home-data.php';
 require_once __DIR__ . '/inc/home-admin-ui.php';
 
+// ── Admin tools ───────────────────────────────────────────────────────────────
+require_once __DIR__ . '/inc/tools-sync-galleries.php';
+
 // ── Fade-in boot guard: add `fade-in-ready` to <html> before any CSS loads ────
 // Without this, no-JS users would see .fade-in elements stuck at opacity: 0.
 add_action( 'wp_head', function () {
