@@ -177,6 +177,18 @@ require_once __DIR__ . '/inc/suite-data.php';
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 
+// ── Force single-mphb_room_type.php for all accommodation posts ──────────────
+// Runs at priority 99 to override Elementor's template_include hook.
+add_filter( 'template_include', function ( $template ) {
+	if ( is_singular( 'mphb_room_type' ) ) {
+		$custom = get_stylesheet_directory() . '/single-mphb_room_type.php';
+		if ( file_exists( $custom ) ) {
+			return $custom;
+		}
+	}
+	return $template;
+}, 99 );
+
 // ── Fade-in boot guard: add `fade-in-ready` to <html> before any CSS loads ────
 // Without this, no-JS users would see .fade-in elements stuck at opacity: 0.
 add_action( 'wp_head', function () {
