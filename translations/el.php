@@ -90,7 +90,7 @@ return [
 	'Cookie Policy'             => 'Πολιτική Cookies',
 	'Terms &amp; Conditions'    => 'Όροι &amp; Προϋποθέσεις',
 	'All rights reserved.'      => 'Με επιφύλαξη παντός δικαιώματος.',
-	'Developed by'              => 'Ανάπτυξη από',
+	'Developed by'              => 'Ανάπτυξη ιστοσελίδας από',
 
 	/* ── Single suite page ───────────────────────────────────────────── */
 	'Suite Description'         => 'Περιγραφή Σουίτας',
@@ -196,12 +196,12 @@ return [
 	'Anonymous'               => 'Ανώνυμος',
 
 	/* Date labels */
-	'January 2025'  => 'Ιανουάριος 2025',
-	'October 2024'  => 'Οκτώβριος 2024',
-	'July 2021'     => 'Ιούλιος 2021',
-	'June 2021'     => 'Ιούνιος 2021',
-	'July 2020'     => 'Ιούλιος 2020',
-	'December 2019' => 'Δεκέμβριος 2019',
+	'January 2025'  => 'Ιανουαριος 2025',
+	'October 2024'  => 'Οκτωβριος 2024',
+	'July 2021'     => 'Ιουλιος 2021',
+	'June 2021'     => 'Ιουνιος 2021',
+	'July 2020'     => 'Ιουλιος 2020',
+	'December 2019' => 'Δεκεμβριος 2019',
 
 	/* Review bodies */
 	'The facilities are modern, impeccably clean, and of exceptional quality. From the bathrobes and towels to the sheets, pillows, and bed, every detail is carefully curated to ensure maximum comfort, making the stay even more restful. Our hosts were helpful and willing to assist us with anything we needed. It is truly rare to find a place that is so well-maintained and complemented by such outstanding hospitality. Additionally, the location is very secure, with three security codes required for access to the room. On the ground floor, there is a bistro, and the street outside has regular traffic, so there are always people around, which adds to the sense of safety.'
