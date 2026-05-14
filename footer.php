@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Contact Info -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading">Contact Info</h3>
+				<h3 class="site-footer__heading"><?php te( 'Contact Info' ); ?></h3>
 				<ul class="site-footer__list site-footer__list--contact">
 					<li class="site-footer__brand-name">P. Yiatros I.K.E</li>
 					<li><a href="mailto:contact@chiccentresuites.com">contact@chiccentresuites.com</a></li>
@@ -28,17 +28,17 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Useful Links -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading">Useful Links</h3>
+				<h3 class="site-footer__heading"><?php te( 'Useful Links' ); ?></h3>
 				<ul class="site-footer__list">
-					<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a></li>
-					<li><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookie Policy</a></li>
-					<li><a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>">Terms &amp; Conditions</a></li>
+					<li><a href="<?php echo esc_url( chic_localized_url( '/privacy-policy/' ) ); ?>"><?php te( 'Privacy Policy' ); ?></a></li>
+					<li><a href="<?php echo esc_url( chic_localized_url( '/cookie-policy/' ) ); ?>"><?php te( 'Cookie Policy' ); ?></a></li>
+					<li><a href="<?php echo esc_url( chic_localized_url( '/terms-and-conditions/' ) ); ?>"><?php te( 'Terms &amp; Conditions' ); ?></a></li>
 				</ul>
 			</section>
 
 			<!-- Awards -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading">Awards</h3>
+				<h3 class="site-footer__heading"><?php te( 'Awards' ); ?></h3>
 				<div class="site-footer__awards">
 					<div class="site-footer__award" aria-hidden="true"></div>
 					<div class="site-footer__award" aria-hidden="true"></div>
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Follow Us -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading">Follow Us</h3>
+				<h3 class="site-footer__heading"><?php te( 'Follow Us' ); ?></h3>
 				<ul class="site-footer__social">
 					<li>
 						<a href="#" class="site-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">
@@ -75,10 +75,10 @@ defined( 'ABSPATH' ) || exit;
 
 		<div class="site-footer__bottom">
 			<p class="site-footer__copyright chic-type-meta">
-				&copy; <?php echo esc_html( date_i18n( 'Y' ) ); ?> Chic Centre Suites. All rights reserved.
+				&copy; <?php echo esc_html( date_i18n( 'Y' ) ); ?> Chic Centre Suites. <?php te( 'All rights reserved.' ); ?>
 			</p>
 			<p class="site-footer__credit chic-type-meta">
-				Developed by <a href="https://balian.cy" target="_blank" rel="noopener">Balian Web Dev Co.</a>
+				<?php te( 'Developed by' ); ?> <a href="https://balian.cy" target="_blank" rel="noopener">Balian Web Dev Co.</a>
 			</p>
 		</div>
 

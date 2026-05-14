@@ -26,6 +26,7 @@ while ( have_posts() ) :
 	$featured_desktop = get_the_post_thumbnail_url( $post_id, 'full' ) ?: '';
 	$featured_mobile  = get_the_post_thumbnail_url( $post_id, 'medium_large' ) ?: $featured_desktop;
 	$suite_title      = get_the_title();
+	$suite_title_display = chic_translate_suite_title( $suite_title );
 ?>
 
 <main class="page-accommodation">
@@ -40,7 +41,7 @@ while ( have_posts() ) :
 				<source media="(max-width: 768px)" srcset="<?php echo esc_url( $featured_mobile ); ?>">
 				<img
 					src="<?php echo esc_url( $featured_desktop ); ?>"
-					alt="<?php echo esc_attr( $suite_title ); ?>"
+					alt="<?php echo esc_attr( $suite_title_display ); ?>"
 					loading="eager"
 					decoding="async"
 					fetchpriority="high"
@@ -52,12 +53,12 @@ while ( have_posts() ) :
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered fade-in fade-in-delay-0">
-					<h1 class="home-hero__title"><?php echo esc_html( $suite_title ); ?></h1>
+					<h1 class="home-hero__title"><?php echo esc_html( $suite_title_display ); ?></h1>
 					<div class="home-hero__ctas">
 						<a
 							class="home-hero__cta btn btn--primary js-view-photos"
 							href="#suite-photos"
-						>View Photos</a>
+						><?php te( 'View Photos' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -85,7 +86,7 @@ while ( have_posts() ) :
 				href="<?php echo esc_url( $book_now_url ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"
-			>Book Now</a>
+			><?php te( 'Book Now' ); ?></a>
 
 		</div>
 	</section>
@@ -94,7 +95,7 @@ while ( have_posts() ) :
 
 	<section class="suite-description fade-in">
 		<div class="suite-description__inner">
-			<h2 class="suite-description__title">Suite Description</h2>
+			<h2 class="suite-description__title"><?php te( 'Suite Description' ); ?></h2>
 			<?php foreach ( $desc as $i => $para ) :
 				$delay = min( $i, 2 );
 			?>
@@ -107,14 +108,14 @@ while ( have_posts() ) :
 
 	<section id="suite-photos" class="home-building fade-in">
 		<div class="home-building__inner">
-			<h2 class="home-building__title">Photos</h2>
+			<h2 class="home-building__title"><?php te( 'Photos' ); ?></h2>
 			<?php if ( $building ) : ?>
 			<a
 				class="home-building__address-link chic-type-meta"
 				href="<?php echo esc_url( $building['maps'] ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"
-			><?php echo esc_html( $building['label'] ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></a>
+			><?php echo esc_html( t( $building['label'] ) ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></a>
 			<?php endif; ?>
 		</div>
 	</section>
@@ -135,7 +136,7 @@ while ( have_posts() ) :
 						<div class="swiper-slide">
 							<figure class="suite-gallery__media">
 								<?php echo wp_get_attachment_image( $att_id, 'large', false, [
-									'alt'     => esc_attr( $img_alt ?: $suite_title ),
+									'alt'     => esc_attr( $img_alt ?: $suite_title_display ),
 									'loading' => 'lazy',
 									'class'   => 'suite-gallery__img',
 								] ); ?>
@@ -146,8 +147,8 @@ while ( have_posts() ) :
 				</div>
 			</div>
 			<div class="home-suites__controls">
-				<button type="button" class="home-suites__btn" data-nav="prev" aria-label="Previous photo"><span aria-hidden="true">&#8592;</span></button>
-				<button type="button" class="home-suites__btn" data-nav="next" aria-label="Next photo"><span aria-hidden="true">&#8594;</span></button>
+				<button type="button" class="home-suites__btn" data-nav="prev" aria-label="<?php echo ta( 'Previous photo' ); ?>"><span aria-hidden="true">&#8592;</span></button>
+				<button type="button" class="home-suites__btn" data-nav="next" aria-label="<?php echo ta( 'Next photo' ); ?>"><span aria-hidden="true">&#8594;</span></button>
 			</div>
 		</div>
 	</section>
@@ -158,37 +159,37 @@ while ( have_posts() ) :
 	<section class="suite-facilities fade-in">
 		<div class="suite-facilities__inner">
 
-			<h2 class="suite-facilities__title">Suite Facilities</h2>
+			<h2 class="suite-facilities__title"><?php te( 'Suite Facilities' ); ?></h2>
 
 			<ul class="suite-facilities__list">
-				<li>Free Wi-Fi</li>
-				<li>Fully Equipped Kitchen included Nespresso coffee machine</li>
-				<li>Towels, bath robes, slippers</li>
-				<li>USB-A Sockets</li>
-				<li>Hangers</li>
-				<li>Easy keyless secure access</li>
-				<li>Elevator in building</li>
-				<li>Safe box</li>
+				<li><?php te( 'Free Wi-Fi' ); ?></li>
+				<li><?php te( 'Fully Equipped Kitchen included Nespresso coffee machine' ); ?></li>
+				<li><?php te( 'Towels, bath robes, slippers' ); ?></li>
+				<li><?php te( 'USB-A Sockets' ); ?></li>
+				<li><?php te( 'Hangers' ); ?></li>
+				<li><?php te( 'Easy keyless secure access' ); ?></li>
+				<li><?php te( 'Elevator in building' ); ?></li>
+				<li><?php te( 'Safe box' ); ?></li>
 				<li>55&#8243; Smart TV with Netflix</li>
-				<li>Air Conditioning</li>
-				<li>Iron with iron board</li>
-				<li>Hair dryer</li>
-				<li>Welcome consumables upon arrival</li>
-				<li>High Quality Mattress &amp; Pillows</li>
-				<li>Smoke detector &amp; extinguisher</li>
-				<li>Ambient lighting</li>
-				<li>First Aid Kit</li>
-				<li>Linen</li>
-				<li>Cosmetics</li>
-				<li>Soap, shampoo, shower gel</li>
+				<li><?php te( 'Air Conditioning' ); ?></li>
+				<li><?php te( 'Iron with iron board' ); ?></li>
+				<li><?php te( 'Hair dryer' ); ?></li>
+				<li><?php te( 'Welcome consumables upon arrival' ); ?></li>
+				<li><?php te( 'High Quality Mattress & Pillows' ); ?></li>
+				<li><?php te( 'Smoke detector & extinguisher' ); ?></li>
+				<li><?php te( 'Ambient lighting' ); ?></li>
+				<li><?php te( 'First Aid Kit' ); ?></li>
+				<li><?php te( 'Linen' ); ?></li>
+				<li><?php te( 'Cosmetics' ); ?></li>
+				<li><?php te( 'Soap, shampoo, shower gel' ); ?></li>
 			</ul>
 
 			<div class="suite-facilities__notes">
-				<p><strong>Hygiene:</strong><br>Fully cleaned and disinfected suite upon your arrival.</p>
-				<p><strong>Room Cleaning Service:</strong><br>Towels will be changed every 4 days.</p>
-				<p>However, we also offer the following options for your convenience:</p>
-				<p><strong>Room Cleaning:</strong> Available upon request for an additional cost of &euro;30. This service includes general cleaning of the room, fresh bed sheets, and towels.</p>
-				<p><strong>Extra Towels:</strong> Guests may request an additional set of fresh bath towels for an extra cost of &euro;5 per set.</p>
+				<p><strong><?php te( 'Hygiene:' ); ?></strong><br><?php te( 'Fully cleaned and disinfected suite upon your arrival.' ); ?></p>
+				<p><strong><?php te( 'Room Cleaning Service:' ); ?></strong><br><?php te( 'Towels will be changed every 4 days.' ); ?></p>
+				<p><?php te( 'However, we also offer the following options for your convenience:' ); ?></p>
+				<p><strong><?php te( 'Room Cleaning:' ); ?></strong> <?php te( 'Available upon request for an additional cost of €30. This service includes general cleaning of the room, fresh bed sheets, and towels.' ); ?></p>
+				<p><strong><?php te( 'Extra Towels:' ); ?></strong> <?php te( 'Guests may request an additional set of fresh bath towels for an extra cost of €5 per set.' ); ?></p>
 			</div>
 
 		</div>
@@ -202,7 +203,7 @@ while ( have_posts() ) :
 			target="_blank"
 			rel="noopener noreferrer"
 			tabindex="-1"
-		>Book Now</a>
+		><?php te( 'Book Now' ); ?></a>
 	</div>
 
 </main>

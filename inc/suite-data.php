@@ -332,7 +332,7 @@ function chic_suite_bed_type( int $post_id ): string {
 	if ( $terms && ! is_wp_error( $terms ) && ! empty( $terms ) ) {
 		return $terms[0]->name;
 	}
-	return 'Double Bed';
+	return t( 'Double Bed' );
 }
 
 /**
@@ -347,18 +347,20 @@ function chic_suite_amenities( int $post_id ): array {
 		'terrace' => [ 'th-linea icon th-linea icon-arrows-circle-check',      'Terrace' ],
 		'shower'  => [ 'fas fa-shower',                                        'Shower'  ],
 	];
+	// Translate highlight labels at runtime.
+	$translated_highlight_map = array_map( fn( $v ) => [ $v[0], t( $v[1] ) ], $highlight_map );
 
 	$data = _chic_suite_data_for( $post_id );
 
 	if ( $data ) {
 		$sofa_icon  = ( 'jacuzzi' === strtolower( $data['sofa'] ) ) ? 'fas fa-hot-tub' : 'fas fa-couch';
-		$hl         = $highlight_map[ $data['highlight'] ] ?? $highlight_map['shower'];
+		$hl         = $translated_highlight_map[ $data['highlight'] ] ?? $translated_highlight_map['shower'];
 
 		return [
-			[ 'icon' => 'fas fa-user-plus',                               'label' => $data['capacity'] ],
-			[ 'icon' => 'fas fa-bed',                                     'label' => 'King Size Bed' ],
-			[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => 'Equipped Kitchen' ],
-			[ 'icon' => $sofa_icon,                                       'label' => $data['sofa'] ],
+			[ 'icon' => 'fas fa-user-plus',                               'label' => t( $data['capacity'] ) ],
+			[ 'icon' => 'fas fa-bed',                                     'label' => t( 'King Size Bed' ) ],
+			[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
+			[ 'icon' => $sofa_icon,                                       'label' => t( $data['sofa'] ) ],
 			[ 'icon' => $hl[0],                                           'label' => $hl[1] ],
 			[ 'icon' => 'fas fa-home',                                    'label' => $data['size'] . 'm²' ],
 		];
@@ -370,11 +372,11 @@ function chic_suite_amenities( int $post_id ): array {
 	$bed      = chic_suite_bed_type( $post_id );
 
 	return [
-		[ 'icon' => 'fas fa-user-plus',                               'label' => 'Up to ' . $capacity . ' guests' ],
-		[ 'icon' => 'fas fa-bed',                                     'label' => $bed ],
-		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => 'Equipped Kitchen' ],
-		[ 'icon' => 'fas fa-couch',                                   'label' => 'Sofa' ],
-		[ 'icon' => 'fas fa-shower',                                  'label' => 'Shower' ],
+		[ 'icon' => 'fas fa-user-plus',                               'label' => sprintf( t( 'Up to %d guests' ), $capacity ) ],
+		[ 'icon' => 'fas fa-bed',                                     'label' => t( $bed ) ],
+		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
+		[ 'icon' => 'fas fa-couch',                                   'label' => t( 'Sofa' ) ],
+		[ 'icon' => 'fas fa-shower',                                  'label' => t( 'Shower' ) ],
 		[ 'icon' => 'fas fa-home',                                    'label' => $size ? $size . 'm²' : '—' ],
 	];
 }
@@ -421,7 +423,9 @@ function chic_suite_description( int $post_id ): array {
 	$data = _chic_suite_data_for( $post_id );
 	$desc = $data['description'] ?? '';
 	if ( is_string( $desc ) ) {
-		return $desc === '' ? [] : [ $desc ];
+		$paras = $desc === '' ? [] : [ $desc ];
+	} else {
+		$paras = is_array( $desc ) ? array_values( array_filter( $desc, 'is_string' ) ) : [];
 	}
-	return is_array( $desc ) ? array_values( array_filter( $desc, 'is_string' ) ) : [];
+	return array_map( 't', $paras );
 }

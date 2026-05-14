@@ -38,7 +38,7 @@ while ( have_posts() ) :
 				<source media="(max-width: 768px)" srcset="<?php echo esc_url( $hero_mobile ); ?>">
 				<img
 					src="<?php echo esc_url( $hero_desktop ); ?>"
-					alt="<?php echo esc_attr__( 'Latest Reviews', 'bellevue' ); ?>"
+					alt="<?php echo ta( 'Latest Reviews' ); ?>"
 					loading="eager"
 					decoding="async"
 					fetchpriority="high"
@@ -50,14 +50,14 @@ while ( have_posts() ) :
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered">
-					<h1 class="home-hero__title fade-in fade-in-delay-0">Latest Reviews</h1>
+					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php te( 'Latest Reviews' ); ?></h1>
 				</div>
 			</div>
 		</div>
 
 	</section>
 
-	<section class="testimonials-section" aria-label="<?php echo esc_attr__( 'Guest reviews', 'bellevue' ); ?>">
+	<section class="testimonials-section" aria-label="<?php echo ta( 'Guest reviews' ); ?>">
 		<div class="testimonials-section__inner">
 			<div class="testimonials-masonry" data-fade-stagger>
 				<?php foreach ( $reviews as $row ) : ?>
@@ -81,13 +81,13 @@ while ( have_posts() ) :
 
 						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) && ! empty( $row['suite_label'] ) ) : ?>
 						<h3 class="suite-card__title testimonials-card__suite-title">
-							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( $row['suite_label'] ); ?></a>
+							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( chic_translate_suite_title( $row['suite_label'] ) ); ?></a>
 						</h3>
 						<?php elseif ( ! empty( $row['source_label'] ) ) : ?>
-						<p class="testimonials-card__source chic-type-meta"><?php echo esc_html( $row['source_label'] ); ?></p>
+						<p class="testimonials-card__source chic-type-meta"><?php echo esc_html( t( $row['source_label'] ) ); ?></p>
 						<?php endif; ?>
 
-						<p class="testimonials-card__review"><?php echo esc_html( $row['review'] ); ?></p>
+						<p class="testimonials-card__review"><?php echo esc_html( t( $row['review'] ) ); ?></p>
 					</div>
 				</article>
 				<?php endforeach; ?>

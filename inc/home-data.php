@@ -60,7 +60,7 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
 		if ( $terms && ! is_wp_error( $terms ) ) {
 			foreach ( $terms as $term ) {
 				if ( preg_match( '/^up-to-(\d+)-guests$/', $term->slug, $m ) ) {
-					$capacity = 'Hosting up to ' . $m[1] . ' guests';
+					$capacity = sprintf( t( 'Hosting up to %d guests' ), (int) $m[1] );
 					break;
 				}
 			}

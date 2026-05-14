@@ -161,6 +161,9 @@ add_action('admin_notices', 'Calendar_Sync');
 // ── Remove parent theme footer and WPML language switchers ───────────────────
 add_filter( 'wpml_show_footer_language_selector', '__return_false' );
 
+// ── i18n: custom Greek translation layer (must load before template_redirect) ──
+require_once __DIR__ . '/inc/i18n.php';
+
 // ── Header component ──────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/header-defaults.php';
 require_once __DIR__ . '/inc/header-acf.php';
@@ -180,6 +183,7 @@ require_once __DIR__ . '/inc/cookie-banner.php';
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 require_once __DIR__ . '/inc/tools-unused-images.php'; // recovery console — will be replaced with fixed scanner after recovery
+require_once __DIR__ . '/inc/tools-aioseo-el.php';
 
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';

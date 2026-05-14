@@ -9,13 +9,13 @@ function chic_header_get_config_id(): int {
 }
 
 function chic_header_item_href( array $item ): string {
-	// Hard-coded primary nav targets (overrides ACF / saved menu for these labels only).
+	// Hard-coded primary nav targets — keyed on English label (routing key, not display text).
 	$label_key = strtolower( trim( $item['label'] ?? '' ) );
 	$hard_nav  = [
-		'home'           => home_url( '/' ),
-		'explore athens' => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
-		'reviews'        => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
-		'signup / login' => home_url( '/my-account' ),
+		'home'           => chic_localized_url( '/' ),
+		'explore athens' => chic_localized_url( '/explore-and-experience-athens/' ),
+		'reviews'        => chic_localized_url( '/reviews-what-people-say/' ),
+		'signup / login' => chic_localized_url( '/my-account' ),
 		'book now'       => 'https://direct-book.com/properties/chiccentresuitesathens',
 	];
 	if ( isset( $hard_nav[ $label_key ] ) ) {
@@ -44,10 +44,10 @@ function chic_header_get_mphb_mega_groups(): array {
 		$suites = chic_home_get_suites( $b['term'], 'full' );
 		if ( empty( $suites ) ) continue;
 		$groups[] = [
-			'building_label' => $b['short_label'] ?? $b['label'],
+			'building_label' => t( $b['short_label'] ?? $b['label'] ),
 			'building_image' => $b['building_image'] ?? '',
 			'suites'         => array_map( fn( $s ) => [
-				'label'     => $s['title'],
+				'label'     => chic_translate_suite_title( $s['title'] ),
 				'href'      => $s['permalink'],
 				'image_url' => $s['thumb_url'],
 			], $suites ),
@@ -63,9 +63,10 @@ function chic_header_render_items( bool $mobile = false ): void {
 	$hard_labels = [ 'suites' => 'Buildings' ];
 
 	foreach ( $items as $item ) {
-		$raw_label = $item['label'] ?? '';
-		$label_key = strtolower( trim( $raw_label ) );
-		$label     = esc_html( $hard_labels[ $label_key ] ?? $raw_label );
+		$raw_label    = $item['label'] ?? '';
+		$label_key    = strtolower( trim( $raw_label ) );
+		$english_label = $hard_labels[ $label_key ] ?? $raw_label;
+		$label        = esc_html( t( $english_label ) );
 		$href      = chic_header_item_href( $item );
 		$is_book  = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
 		$is_mega  = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
@@ -198,7 +199,7 @@ function chic_output_custom_header(): void {
 	<header class="site-header chic-site-header" id="site-header">
 		<div class="site-header__inner">
 
-			<a class="site-header__brand" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+			<a class="site-header__brand" href="<?php echo esc_url( chic_localized_url( '/' ) ); ?>" rel="home">
 				<img
 					src="https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png"
 					alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
@@ -208,7 +209,7 @@ function chic_output_custom_header(): void {
 			</a>
 
 			<div class="site-header__tools">
-				<nav class="primary-navigation" aria-label="<?php esc_attr_e( 'Primary', 'bellevue' ); ?>">
+				<nav class="primary-navigation" aria-label="<?php echo ta( 'Primary' ); ?>">
 					<ul class="nav-menu" role="list">
 						<?php chic_header_render_items( false ); ?>
 					</ul>
@@ -217,13 +218,27 @@ function chic_output_custom_header(): void {
 						class="mobile-nav-toggle"
 						aria-controls="mobile-nav"
 						aria-expanded="false"
-						aria-label="<?php esc_attr_e( 'Open menu', 'bellevue' ); ?>"
+						aria-label="<?php echo ta( 'Open menu' ); ?>"
 					>
 						<span class="mobile-nav-toggle__bar"></span>
 						<span class="mobile-nav-toggle__bar"></span>
 						<span class="mobile-nav-toggle__bar"></span>
 					</button>
 				</nav>
+				<?php
+				$_chic_cur_lang = chic_get_current_lang();
+				?>
+				<div class="site-header__lang" role="navigation" aria-label="Language">
+					<a href="<?php echo esc_url( chic_lang_switch_url( 'en' ) ); ?>"
+					   class="site-header__lang-btn<?php echo 'en' === $_chic_cur_lang ? ' is-active' : ''; ?>"
+					   <?php echo 'en' === $_chic_cur_lang ? 'aria-current="page"' : ''; ?>
+					   hreflang="en">EN</a>
+					<span class="site-header__lang-divider" aria-hidden="true">|</span>
+					<a href="<?php echo esc_url( chic_lang_switch_url( 'el' ) ); ?>"
+					   class="site-header__lang-btn<?php echo 'el' === $_chic_cur_lang ? ' is-active' : ''; ?>"
+					   <?php echo 'el' === $_chic_cur_lang ? 'aria-current="page"' : ''; ?>
+					   hreflang="el">EL</a>
+				</div>
 			</div>
 
 		</div>
@@ -235,9 +250,21 @@ function chic_output_custom_header(): void {
 			<ul class="mobile-nav__links" role="list">
 				<?php chic_header_render_items( true ); ?>
 			</ul>
+			<?php
+			$_chic_cur_lang_mob = chic_get_current_lang();
+			?>
+			<div class="mobile-nav__lang">
+				<a href="<?php echo esc_url( chic_lang_switch_url( 'en' ) ); ?>"
+				   class="mobile-nav__lang-btn<?php echo 'en' === $_chic_cur_lang_mob ? ' is-active' : ''; ?>"
+				   hreflang="en">EN</a>
+				<span class="mobile-nav__lang-divider" aria-hidden="true">|</span>
+				<a href="<?php echo esc_url( chic_lang_switch_url( 'el' ) ); ?>"
+				   class="mobile-nav__lang-btn<?php echo 'el' === $_chic_cur_lang_mob ? ' is-active' : ''; ?>"
+				   hreflang="el">EL</a>
+			</div>
 			<div class="mobile-nav__footer">
 				<a href="<?php echo esc_url( chic_header_book_now_url() ); ?>" class="mobile-nav__cta btn btn--primary">
-					<?php esc_html_e( 'Book Now', 'bellevue' ); ?>
+					<?php te( 'Book Now' ); ?>
 				</a>
 			</div>
 		</div>
