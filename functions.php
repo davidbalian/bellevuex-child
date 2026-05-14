@@ -179,6 +179,7 @@ require_once __DIR__ . '/inc/cookie-banner.php';
 
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
+require_once __DIR__ . '/inc/tools-unused-images.php';
 
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';
