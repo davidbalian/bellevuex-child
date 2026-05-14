@@ -98,20 +98,28 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	var MQ       = window.matchMedia( '(max-width: 768px)' );
 	var bookBtn  = document.querySelector( '.suite-amenities__book' );
 	var floatBar = document.querySelector( '.js-suite-float-book' );
+	var footer   = document.querySelector( '.site-footer' );
 	if ( ! bookBtn || ! floatBar || ! window.IntersectionObserver ) return;
 
-	var obs = new IntersectionObserver( function ( entries ) {
-		var visible = entries[ 0 ].isIntersecting;
-		if ( MQ.matches ) {
-			floatBar.classList.toggle( 'is-visible', ! visible );
-			floatBar.setAttribute( 'aria-hidden', visible ? 'true' : 'false' );
-			floatBar.querySelector( 'a' ).setAttribute( 'tabindex', visible ? '-1' : '0' );
-		} else {
-			floatBar.classList.remove( 'is-visible' );
-			floatBar.setAttribute( 'aria-hidden', 'true' );
-			floatBar.querySelector( 'a' ).setAttribute( 'tabindex', '-1' );
-		}
-	}, { threshold: 0 } );
+	var bookHidden = false;
+	var atBottom   = false;
 
-	obs.observe( bookBtn );
+	function update() {
+		var show = MQ.matches && bookHidden && ! atBottom;
+		floatBar.classList.toggle( 'is-visible', show );
+		floatBar.setAttribute( 'aria-hidden', show ? 'false' : 'true' );
+		floatBar.querySelector( 'a' ).setAttribute( 'tabindex', show ? '0' : '-1' );
+	}
+
+	new IntersectionObserver( function ( entries ) {
+		bookHidden = ! entries[ 0 ].isIntersecting;
+		update();
+	}, { threshold: 0 } ).observe( bookBtn );
+
+	if ( footer ) {
+		new IntersectionObserver( function ( entries ) {
+			atBottom = entries[ 0 ].isIntersecting;
+			update();
+		}, { threshold: 0 } ).observe( footer );
+	}
 } )();

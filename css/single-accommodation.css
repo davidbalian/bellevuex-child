@@ -261,8 +261,8 @@
 		right: 0.25rem;
 		z-index: 200;
 		background: #fff;
-		border-radius: 9999px;
-		padding: 0.3rem;
+		border-radius: 20px;
+		padding: 0.75rem;
 		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
 		opacity: 0;
 		visibility: hidden;
