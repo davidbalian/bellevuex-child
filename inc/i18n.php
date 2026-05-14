@@ -53,64 +53,42 @@ add_filter( 'query_vars', function ( array $vars ): array {
 	return $vars;
 } );
 
-// Remap legacy/catch-all `pagename=accommodation/slug` to the accommodation CPT.
+// Remap Greek request vars before parse_query runs, so WP sets conditionals correctly.
 add_filter( 'request', function ( array $query_vars ): array {
 	if ( ( $query_vars['lang'] ?? '' ) !== 'el' ) {
 		return $query_vars;
 	}
-	$pagename = $query_vars['pagename'] ?? '';
-	if ( ! is_string( $pagename ) || '' === $pagename ) {
-		return $query_vars;
-	}
-	if ( ! preg_match( '#^accommodation/([^/]+)$#', $pagename, $m ) ) {
-		return $query_vars;
-	}
-	unset( $query_vars['pagename'] );
-	$query_vars['post_type'] = 'mphb_room_type';
-	$query_vars['name']      = $m[1];
-	return $query_vars;
-}, 5 );
 
-// Force the static front page when /el/ is requested without a pagename.
-add_action( 'pre_get_posts', function ( WP_Query $q ) {
-	if ( ! $q->is_main_query() ) {
-		return;
+	// Remap pagename=accommodation/slug to the accommodation CPT.
+	$pagename = $query_vars['pagename'] ?? '';
+	if ( is_string( $pagename ) && '' !== $pagename
+		&& preg_match( '#^accommodation/([^/]+)$#', $pagename, $m ) ) {
+		unset( $query_vars['pagename'] );
+		$query_vars['post_type'] = 'mphb_room_type';
+		$query_vars['name']      = $m[1];
+		return $query_vars;
 	}
-	if ( (string) $q->get( 'lang' ) !== 'el' ) {
-		return;
-	}
-	if ( 'page' !== get_option( 'show_on_front' ) ) {
-		return;
-	}
-	$front = (int) get_option( 'page_on_front' );
-	if ( $front <= 0 ) {
-		return;
-	}
-	if ( '' !== (string) $q->get( 'pagename' ) ) {
-		return;
-	}
-	if ( '' !== (string) $q->get( 'name' ) ) {
-		return;
-	}
-	if ( (int) $q->get( 'p' ) > 0 ) {
-		return;
-	}
-	// Bare /el/ is parsed like the posts index first (post_type=post). We still replace it
-	// with the static front page unless the query already targets another CPT.
-	$post_type = $q->get( 'post_type' );
-	if ( is_string( $post_type ) && '' !== $post_type && ! in_array( $post_type, [ 'post', 'page' ], true ) ) {
-		return;
-	}
-	if ( is_array( $post_type ) ) {
-		foreach ( $post_type as $pt ) {
-			if ( ! in_array( (string) $pt, [ 'post', 'page' ], true ) ) {
-				return;
+
+	// Bare /el/ → inject the static front page's slug so parse_query resolves it as
+	// a normal page request (sets is_page + is_front_page correctly, before templates
+	// are chosen). Setting page_id in pre_get_posts was too late — conditionals were
+	// already baked in, causing the parent theme's home.php to load instead.
+	if ( empty( $query_vars['pagename'] )
+		&& empty( $query_vars['name'] )
+		&& empty( $query_vars['page_id'] )
+		&& empty( $query_vars['p'] )
+		&& 'page' === get_option( 'show_on_front' ) ) {
+		$front_id = (int) get_option( 'page_on_front' );
+		if ( $front_id > 0 ) {
+			$front = get_post( $front_id );
+			if ( $front instanceof WP_Post && 'publish' === $front->post_status ) {
+				$query_vars['pagename'] = $front->post_name;
 			}
 		}
 	}
-	$q->set( 'page_id', $front );
-	$q->set( 'post_type', 'page' );
-} );
+
+	return $query_vars;
+}, 5 );
 
 // Flush rewrite rules on theme activation.
 add_action( 'after_switch_theme', function () {
