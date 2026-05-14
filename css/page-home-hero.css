@@ -143,6 +143,11 @@
 	max-width: 16ch;
 }
 
+/* Greek home hero: drop 16ch cap so the headline can use full overlay width. */
+html[lang^="el"] .page-home .home-hero__title {
+	max-width: none;
+}
+
 .home-hero__text {
 	color: #fff;
 	margin-bottom: 1.75rem;
