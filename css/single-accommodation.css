@@ -110,6 +110,10 @@
 	margin: 0;
 }
 
+.suite-description__body + .suite-description__body {
+	margin-top: 1rem;
+}
+
 @media (max-width: 48rem) {
 	.suite-description {
 		padding-inline: 0.5rem;

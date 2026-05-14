@@ -95,7 +95,11 @@ while ( have_posts() ) :
 	<section class="suite-description fade-in">
 		<div class="suite-description__inner">
 			<h2 class="suite-description__title">Suite Description</h2>
-			<p class="suite-description__body"><?php echo esc_html( $desc ); ?></p>
+			<?php foreach ( $desc as $i => $para ) :
+				$delay = min( $i, 2 );
+			?>
+			<p class="suite-description__body fade-in fade-in-delay-<?php echo (int) $delay; ?>"><?php echo esc_html( $para ); ?></p>
+			<?php endforeach; ?>
 		</div>
 	</section>
 
