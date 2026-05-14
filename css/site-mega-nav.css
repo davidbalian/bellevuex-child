@@ -141,7 +141,7 @@
 		box-sizing: border-box;
 		width: 100%;
 		display: grid;
-		grid-template-columns: 1fr auto;
+		grid-template-columns: 1fr 1fr;
 		gap: 2rem;
 		align-items: start;
 	}
@@ -168,8 +168,6 @@
 		background: #f0f0f0;
 		aspect-ratio: 4 / 3;
 		width: 100%;
-		min-width: 0;
-		max-width: min(calc((100vh - var(--site-header-height) - 4rem) * 4 / 3), 560px);
 		opacity: 0;
 		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
