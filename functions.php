@@ -184,6 +184,7 @@ require_once __DIR__ . '/inc/cookie-banner.php';
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 require_once __DIR__ . '/inc/tools-unused-images.php'; // recovery console — will be replaced with fixed scanner after recovery
 require_once __DIR__ . '/inc/tools-aioseo-el.php';
+require_once __DIR__ . '/inc/tools-sitemap-llms.php';
 
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';
