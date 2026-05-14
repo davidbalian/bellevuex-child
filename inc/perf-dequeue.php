@@ -38,6 +38,20 @@ add_action( 'wp_enqueue_scripts', function () {
 
 // ── Custom-template targeted dequeues ─────────────────────────────────────────
 
+// WooCommerce outputs its PhotoSwipe modal HTML to wp_footer on every page.
+// On our custom templates we dequeue the photoswipe CSS, leaving raw HTML visible.
+// Remove the footer action early (before wp_footer fires) on those pages.
+add_action( 'template_redirect', function () {
+	if ( ! chic_is_custom_template() ) {
+		return;
+	}
+	remove_action( 'wp_footer', 'woocommerce_photoswipe' );
+	// Also covers WooCommerce 8+ which may register it under a different priority.
+	for ( $p = 1; $p <= 99; $p++ ) {
+		remove_action( 'wp_footer', 'woocommerce_photoswipe', $p );
+	}
+} );
+
 /**
  * Returns true on our fully custom-PHP page templates and single suite pages.
  * Elementor, WooCommerce, EA, th-widget-pack, social-icons-widget, and the
