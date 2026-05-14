@@ -32,7 +32,7 @@ $more        = chic_explore_athens_more();
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered">
-					<h1 class="home-hero__title fade-in fade-in-delay-0">EXPLORE AND EXPERIENCE ATHENS</h1>
+					<h1 class="home-hero__title fade-in fade-in-delay-0">EXPLORE AND<br>EXPERIENCE ATHENS</h1>
 					<p class="home-hero__text fade-in fade-in-delay-1">The historical capital of Europe</p>
 				</div>
 			</div>
