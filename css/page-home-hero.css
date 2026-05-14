@@ -187,10 +187,14 @@
 
 @media (max-width: 768px) {
 	.home-hero {
-		--hero-viewport: 40vh;
+		--hero-viewport: 70vh;
 		min-height: var(--hero-viewport);
 		height: var(--hero-viewport);
 		max-height: var(--hero-viewport);
+	}
+
+	.home-hero.home-hero--static {
+		--hero-viewport: 40vh;
 	}
 
 	.home-hero__slider-bleed {
