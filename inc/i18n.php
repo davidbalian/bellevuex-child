@@ -95,12 +95,18 @@ add_action( 'pre_get_posts', function ( WP_Query $q ) {
 	if ( (int) $q->get( 'p' ) > 0 ) {
 		return;
 	}
+	// Bare /el/ is parsed like the posts index first (post_type=post). We still replace it
+	// with the static front page unless the query already targets another CPT.
 	$post_type = $q->get( 'post_type' );
-	if ( is_string( $post_type ) && '' !== $post_type && 'page' !== $post_type ) {
+	if ( is_string( $post_type ) && '' !== $post_type && ! in_array( $post_type, [ 'post', 'page' ], true ) ) {
 		return;
 	}
-	if ( is_array( $post_type ) && ! in_array( 'page', $post_type, true ) ) {
-		return;
+	if ( is_array( $post_type ) ) {
+		foreach ( $post_type as $pt ) {
+			if ( ! in_array( (string) $pt, [ 'post', 'page' ], true ) ) {
+				return;
+			}
+		}
 	}
 	$q->set( 'page_id', $front );
 	$q->set( 'post_type', 'page' );
