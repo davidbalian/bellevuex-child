@@ -76,6 +76,7 @@
 		align-items: stretch;
 	}
 
+
 	.suite-amenities__book {
 		text-align: center;
 	}
@@ -233,6 +234,11 @@
 @media (max-width: 768px) {
 	.suite-facilities__list {
 		columns: 2;
+	}
+
+	.suite-amenities .th-tour-nav-items {
+		gap: 0.5rem 1.25rem;
+		justify-content: center;
 	}
 }
 
