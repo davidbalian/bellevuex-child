@@ -33,7 +33,6 @@ defined( 'ABSPATH' ) || exit;
 					<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookie Policy</a></li>
 					<li><a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>">Terms &amp; Conditions</a></li>
-					<li><a href="#" onclick="window.chicReopenCookieBanner && window.chicReopenCookieBanner(); return false;">Cookie preferences</a></li>
 				</ul>
 			</section>
 
