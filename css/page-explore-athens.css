@@ -10,6 +10,11 @@
 	max-width: 40ch;
 }
 
+/* Hero image scrim: flat dark layer (no radial / linear gradients) */
+.page-explore-athens .home-hero__slider-bleed::after {
+	background: rgba(0, 0, 0, 0.58);
+}
+
 /* ── Intro ───────────────────────────────────────────────────────────────────── */
 
 .explore-athens-intro {
