@@ -230,7 +230,8 @@ function chic_output_custom_header(): void {
 				$_chic_other_lang = 'en' === $_chic_cur_lang ? 'el' : 'en';
 				$_chic_desk_label = [ 'en' => 'EN', 'el' => 'ΕΛ' ][ $_chic_other_lang ];
 				$_chic_flag_code  = [ 'en' => 'gb', 'el' => 'gr' ][ $_chic_other_lang ];
-				$_chic_flag_url   = chic_testimonials_flag_url( $_chic_flag_code );
+				$_chic_uploads    = wp_upload_dir();
+				$_chic_flag_url   = empty( $_chic_uploads['error'] ) ? trailingslashit( $_chic_uploads['baseurl'] ) . 'flag-' . $_chic_flag_code . '.png' : '';
 				?>
 				<div class="site-header__lang" role="navigation" aria-label="Language">
 					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
@@ -258,7 +259,8 @@ function chic_output_custom_header(): void {
 			$_chic_other_lang_mob = 'en' === $_chic_cur_lang_mob ? 'el' : 'en';
 			$_chic_mob_label      = [ 'en' => 'English', 'el' => 'Ελληνικά' ][ $_chic_other_lang_mob ];
 			$_chic_mob_flag_code  = [ 'en' => 'gb', 'el' => 'gr' ][ $_chic_other_lang_mob ];
-			$_chic_mob_flag_url   = chic_testimonials_flag_url( $_chic_mob_flag_code );
+			$_chic_mob_uploads    = wp_upload_dir();
+			$_chic_mob_flag_url   = empty( $_chic_mob_uploads['error'] ) ? trailingslashit( $_chic_mob_uploads['baseurl'] ) . 'flag-' . $_chic_mob_flag_code . '.png' : '';
 			?>
 			<div class="mobile-nav__lang">
 				<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang_mob ) ); ?>"
