@@ -134,6 +134,31 @@ $seo_map_el = [
 	],
 ];
 
+// Template-keyed entries for one-off pages (each WP page identified by its
+// _wp_page_template meta). Same shape as $seo_map_el values.
+$seo_map_el_templates = [
+	'page-explore-athens.php' => [
+		'title'       => 'Εξερευνήστε την Αθήνα | Chic Centre Suites',
+		'description' => 'Ανακαλύψτε την Ακρόπολη, την Πλάκα, το Μοναστηράκι και τα κορυφαία αξιοθέατα της Αθήνας από την κεντρική τοποθεσία των Chic Centre Suites.',
+	],
+	'page-testimonials.php' => [
+		'title'       => 'Κριτικές Επισκεπτών | Chic Centre Suites Αθήνα',
+		'description' => 'Διαβάστε αυθεντικές κριτικές από επισκέπτες των Chic Centre Suites για την άνεση, την τοποθεσία και την εξυπηρέτηση στο κέντρο της Αθήνας.',
+	],
+	'page-privacy-policy.php' => [
+		'title'       => 'Πολιτική Απορρήτου | Chic Centre Suites',
+		'description' => 'Μάθετε πώς τα Chic Centre Suites συλλέγουν, χρησιμοποιούν και προστατεύουν τα προσωπικά σας δεδομένα σύμφωνα με τον GDPR.',
+	],
+	'page-terms-and-conditions.php' => [
+		'title'       => 'Όροι και Προϋποθέσεις | Chic Centre Suites',
+		'description' => 'Διαβάστε τους όρους και τις προϋποθέσεις χρήσης της ιστοσελίδας και των υπηρεσιών των Chic Centre Suites στην Αθήνα.',
+	],
+	'page-cookie-policy.php' => [
+		'title'       => 'Πολιτική Cookies | Chic Centre Suites',
+		'description' => 'Μάθετε πώς τα Chic Centre Suites χρησιμοποιούν cookies στην ιστοσελίδα και πώς να διαχειριστείτε τις προτιμήσεις σας.',
+	],
+];
+
 /* ── Writer helper ───────────────────────────────────────────────────────── */
 
 $log   = [];
@@ -160,7 +185,7 @@ function chic_seo_el_write( int $post_id, string $title, string $description, bo
 	$wrote++;
 }
 
-/* ── Home page ───────────────────────────────────────────────────────────── */
+/* ── Home page + template-keyed pages ───────────────────────────────────── */
 
 $home_pages = get_pages( [
 	'meta_key'   => '_wp_page_template',
@@ -180,6 +205,26 @@ if ( $home_pages ) {
 	);
 } else {
 	$log[] = 'WARN  Home page (page-home.php template) not found — skipped.';
+}
+
+foreach ( $seo_map_el_templates as $tpl => $entry ) {
+	$pages = get_pages( [
+		'meta_key'   => '_wp_page_template',
+		'meta_value' => $tpl,
+		'number'     => 1,
+	] );
+	if ( ! $pages ) {
+		$log[] = 'WARN  Page with template ' . $tpl . ' not found — skipped.';
+		continue;
+	}
+	chic_seo_el_write(
+		(int) $pages[0]->ID,
+		$entry['title'],
+		$entry['description'],
+		$dry_run,
+		$log,
+		$wrote
+	);
 }
 
 /* ── Suite posts ─────────────────────────────────────────────────────────── */

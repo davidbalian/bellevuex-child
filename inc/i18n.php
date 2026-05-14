@@ -402,22 +402,21 @@ add_action( 'wp_head', function () {
 	echo '<link rel="alternate" hreflang="x-default" href="' . esc_url( $default_url ) . '">' . "\n";
 }, 1 );
 
-// Swap AIOSEO title/description to Greek when on /el/ routes.
-add_filter( 'aioseo_title', function ( $title ) {
+// Swap AIOSEO title/description (including OG + Twitter) to Greek on /el/ routes.
+$chic_aioseo_swap = function ( $value, string $meta_key ) {
 	if ( chic_get_current_lang() === 'el' && is_singular() ) {
-		$greek = get_post_meta( get_the_ID(), '_chic_aioseo_title_el', true );
+		$greek = get_post_meta( get_the_ID(), $meta_key, true );
 		if ( $greek ) return $greek;
 	}
-	return $title;
-} );
+	return $value;
+};
 
-add_filter( 'aioseo_description', function ( $desc ) {
-	if ( chic_get_current_lang() === 'el' && is_singular() ) {
-		$greek = get_post_meta( get_the_ID(), '_chic_aioseo_description_el', true );
-		if ( $greek ) return $greek;
-	}
-	return $desc;
-} );
+add_filter( 'aioseo_title',                fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_title_el' ) );
+add_filter( 'aioseo_description',          fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_description_el' ) );
+add_filter( 'aioseo_facebook_title',       fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_title_el' ) );
+add_filter( 'aioseo_facebook_description', fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_description_el' ) );
+add_filter( 'aioseo_twitter_title',        fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_title_el' ) );
+add_filter( 'aioseo_twitter_description',  fn ( $v ) => $chic_aioseo_swap( $v, '_chic_aioseo_description_el' ) );
 
 // Force prefixed canonical URL for Greek pages.
 add_filter( 'aioseo_canonical_url', function ( $url ) {
