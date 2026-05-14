@@ -33,6 +33,7 @@ defined( 'ABSPATH' ) || exit;
 					<li><a href="#">Privacy Policy</a></li>
 					<li><a href="#">Cookie Policy</a></li>
 					<li><a href="#">Terms &amp; Conditions</a></li>
+					<li><a href="#" onclick="window.chicReopenCookieBanner && window.chicReopenCookieBanner(); return false;">Cookie preferences</a></li>
 				</ul>
 			</section>
 
@@ -85,6 +86,7 @@ defined( 'ABSPATH' ) || exit;
 	</div>
 </footer>
 
+<?php if ( function_exists( 'chic_output_cookie_banner' ) ) { chic_output_cookie_banner(); } ?>
 <?php wp_footer(); ?>
 </body>
 </html>

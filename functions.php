@@ -174,6 +174,9 @@ require_once __DIR__ . '/inc/home-admin-ui.php';
 // ── Single accommodation template helpers ─────────────────────────────────────
 require_once __DIR__ . '/inc/suite-data.php';
 
+// ── Cookie consent banner ─────────────────────────────────────────────────────
+require_once __DIR__ . '/inc/cookie-banner.php';
+
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 
@@ -218,6 +221,9 @@ add_action( 'wp_enqueue_scripts', function () {
 	wp_enqueue_style( 'chic-header-toolbar',    "$dir/css/site-header-toolbar.css",     [ 'chic-site-header' ], $ver );
 
 	wp_enqueue_style( 'chic-site-footer', "$dir/css/site-footer.css", [ 'chic-tokens' ], $ver );
+
+	wp_enqueue_style(  'chic-cookie-banner', "$dir/css/cookie-banner.css", [ 'chic-tokens', 'chic-buttons' ], $ver );
+	wp_enqueue_script( 'chic-cookie-banner', "$dir/js/cookie-banner.js",   [],                                $ver, true );
 
 	wp_enqueue_style(  'chic-scroll-fade-in', "$dir/css/scroll-fade-in.css", [], $ver );
 	wp_enqueue_script( 'chic-scroll-fade-in', "$dir/js/scroll-fade-in.js",   [], $ver, true );
