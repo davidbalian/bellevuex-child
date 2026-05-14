@@ -16,58 +16,94 @@ get_header();
 	<article class="page-legal__content" data-fade-stagger>
 
 		<section>
-			<h2>1. Acceptance of Terms</h2>
-			<p>By accessing the Chic Centre Suites website or making a booking with us, you confirm that you have read, understood, and agree to be bound by these Terms &amp; Conditions. If you do not agree, please do not use our website or services. These terms are governed by Greek law.</p>
+			<h2>Arrival and Departure</h2>
+			<p>Check-in starts at 14:00 on your arrival day. Check-out: 11:00 AM on the departure day.</p>
+			<p>We offer you an easy and secure key-less access to your suite. This access allows you to check-in without our physical presence. Prior to your arrival, you will receive a unique access code corresponding to your reservation. This code will be valid for the duration of your stay.</p>
+			<p>Each guest has their personal code for the apartment, as well as the code for building and floor access sent around 14:00 or even earlier if permitted by availability. The ground floor door is locked after 18:00 &mdash; if you arrive later, use the code provided.</p>
+			<p>In case you need our physical presence, you can find us daily at our office from 9:00 AM to 16:00 on the ground floor of 11 Theseos Street.</p>
 		</section>
 
 		<section>
-			<h2>2. Bookings and Reservations</h2>
-			<p>All bookings are subject to availability. You must be at least 18 years of age to make a reservation, and you are responsible for ensuring that all information provided at the time of booking is accurate and complete. A booking is confirmed upon receipt of our written confirmation and any applicable deposit.</p>
+			<h2>Reservations</h2>
+			<p>Guests can cancel free of charge 7 days prior to arrival. The guest will be charged the total reservation amount if cancelled within 7 days of arrival.</p>
+			<p>If the guest doesn&rsquo;t show up, the total reservation amount will be charged. Full payment for the reservation will be charged to the credit or debit card provided by the customer.</p>
 		</section>
 
 		<section>
-			<h2>3. Payment and Pricing</h2>
-			<p>All prices are quoted in Euros (EUR) and include applicable taxes unless otherwise stated. We accept the payment methods listed at checkout. Prices may vary based on season, duration of stay, and availability. We reserve the right to correct pricing errors; in such cases we will notify you before processing payment.</p>
+			<h2>Cancellation by Us</h2>
+			<p>If we need to cancel a reservation, we will contact you immediately. Any payments will be fully refunded.</p>
 		</section>
 
 		<section>
-			<h2>4. Cancellations and Refunds</h2>
-			<p>Cancellation and refund terms are specific to the rate plan selected at the time of booking and are displayed clearly before you complete your reservation. Please review the applicable policy before confirming your booking. In the event of a dispute, the terms displayed during checkout shall prevail.</p>
+			<h2>Room Change</h2>
+			<p>If a reservation is made for a specific room and that reservation for that room cannot be used due to circumstances beyond our control, we reserve the right to transfer the reservation to a same type room.</p>
 		</section>
 
 		<section>
-			<h2>5. House Rules and Guest Conduct</h2>
-			<p>Guests are expected to behave in a manner that is respectful of other guests, staff, and the property. Key rules include:</p>
-			<ul>
-				<li>Check-in from 15:00 &mdash; Check-out by 11:00 (unless agreed otherwise)</li>
-				<li>No smoking inside any suite or common area</li>
-				<li>Quiet hours between 23:00 and 08:00</li>
-				<li>Parties, events, or gatherings are not permitted without prior written consent</li>
-				<li>Guests are responsible for any damage caused to the property during their stay</li>
-				<li>Unauthorised guests not included in the booking are not permitted to stay overnight</li>
-			</ul>
-			<p>We reserve the right to request that any guest causing disturbance or damage vacate the property immediately without refund.</p>
+			<h2>Prices</h2>
+			<p>Prices include 13% VAT &amp; City tax 0.5% per booking. Environmental tax of &euro;0.50 for the period from 01/11 to 28/02 and &euro;1.50 for the period from 01/03 to 31/10 per night is NOT included.</p>
 		</section>
 
 		<section>
-			<h2>6. Liability and Limitations</h2>
-			<p>To the fullest extent permitted by applicable law, P. Yiatros I.K.E. shall not be liable for any indirect, incidental, or consequential loss arising from your use of our website or stay at our property. Our total liability to you in connection with any booking shall not exceed the amount paid by you for that booking.</p>
-			<p>We are not responsible for loss or damage to personal belongings left on the premises. Guests are encouraged to use in-suite safes where provided.</p>
+			<h2>Parking</h2>
+			<p>No parking is available for guests on the premises. Private paid parking is available nearby. Parking is your responsibility.</p>
 		</section>
 
 		<section>
-			<h2>7. Intellectual Property</h2>
-			<p>All content on this website &mdash; including text, photography, logos, and design &mdash; is the property of P. Yiatros I.K.E. or its licensors and is protected by Greek and international copyright law. You may not reproduce, distribute, or use any content without our prior written permission.</p>
+			<h2>Damages</h2>
+			<p>You are responsible for any damages to the property or its contents. We reserve the right to charge for repairs or replacements if the damage is significant. We also reserve the right to charge for missing items.</p>
 		</section>
 
 		<section>
-			<h2>8. Governing Law</h2>
-			<p>These Terms &amp; Conditions are governed by and construed in accordance with the laws of Greece. Any disputes arising in connection with these terms shall be subject to the exclusive jurisdiction of the courts of Athens, Greece.</p>
+			<h2>Liability</h2>
+			<p>We are not liable for any damage, loss, or injury throughout your stay on the premises.</p>
 		</section>
 
 		<section>
-			<h2>9. Contact Us</h2>
-			<p>If you have questions about these Terms &amp; Conditions, please contact us at <a href="mailto:contact@chiccentresuites.com">contact@chiccentresuites.com</a> or by post at 11 Thiseos, 10562 Athens, Greece.</p>
+			<h2>Lost Items</h2>
+			<p>If items are found left after your departure, we will return them. However, we may charge for shipping to cover postage and packaging.</p>
+		</section>
+
+		<section>
+			<h2>Room Cleaning Service</h2>
+			<p>Towels will be changed every 4 days. However, we also offer the following options for your convenience:</p>
+			<p><strong>Room Cleaning:</strong> Available upon request for an additional cost of &euro;30 per day. This service includes general cleaning of the room, fresh bed sheets, and towels.</p>
+			<p><strong>Extra Towels:</strong> Guests may request an additional set of fresh bath towels for an extra cost of &euro;5 per set.</p>
+		</section>
+
+		<section>
+			<h2>Pets</h2>
+			<p>Pets are not permitted within the premises.</p>
+		</section>
+
+		<section>
+			<h2>Social Gatherings and Events</h2>
+			<p>The hosting of parties or events within the building is strictly prohibited.</p>
+		</section>
+
+		<section>
+			<h2>Visitor Prohibition Policy</h2>
+			<p>For the safety and privacy of all our guests, we do not allow access to the property for visitors who are not included in the initial reservation during your stay. Only registered guests are allowed on the premises.</p>
+		</section>
+
+		<section>
+			<h2>Unaccompanied Minors</h2>
+			<p>Individuals under the age of 18 must be accompanied by an adult guardian to access the premises. Unaccompanied minors are not granted entry.</p>
+		</section>
+
+		<section>
+			<h2>Smoking</h2>
+			<p>Smoking is permitted exclusively in designated smoking areas.</p>
+		</section>
+
+		<section>
+			<h2>Termination Policy</h2>
+			<p>Chic Center Suites Athens reserves the right, at its discretion, to terminate the stay of an individual without warning if deemed necessary due to unacceptable behavior or actions that may endanger the property or offend others. In such cases, no refunds will be issued.</p>
+		</section>
+
+		<section>
+			<p>We reserve the right to modify these terms and conditions at any time.</p>
+			<p>By booking one of our suites, you acknowledge and agree to the above.</p>
 		</section>
 
 	</article>

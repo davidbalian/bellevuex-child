@@ -83,3 +83,34 @@
 		padding-bottom: 3rem;
 	}
 }
+
+/* ── Purpose table (privacy policy) ──────────────────────────────────────── */
+
+.page-legal__table {
+	width: 100%;
+	border-collapse: collapse;
+	margin: 0 0 1rem;
+	font-size: 0.95rem;
+}
+
+.page-legal__table th,
+.page-legal__table td {
+	border: 1px solid #ddd;
+	padding: .65rem .85rem;
+	text-align: left;
+	vertical-align: top;
+	line-height: 1.55;
+	color: #333;
+}
+
+.page-legal__table th {
+	background: #f5f5f5;
+	font-weight: 600;
+	color: var(--color-primary);
+}
+
+@media (max-width: 540px) {
+	.page-legal__table { font-size: 0.875rem; }
+	.page-legal__table th,
+	.page-legal__table td { padding: .5rem .6rem; }
+}

@@ -16,41 +16,36 @@ get_header();
 	<article class="page-legal__content" data-fade-stagger>
 
 		<section>
-			<h2>1. What Are Cookies</h2>
-			<p>Cookies are small text files placed on your device by websites you visit. They are widely used to make websites work efficiently, remember your preferences, and provide information to site owners. Cookies cannot run programs or deliver viruses to your device.</p>
+			<p>Cookies are small pieces of data stored in your browser and enable a website to &lsquo;remember&rsquo; your actions or preferences over time. Most browsers support cookies, but users can set their browsers to decline them and can delete them whenever they like.</p>
 		</section>
 
 		<section>
-			<h2>2. How We Use Cookies</h2>
-			<p>Chic Centre Suites uses cookies to ensure our website functions correctly, remember your preferences (including your cookie consent choice), and &mdash; where you have given consent &mdash; to understand how visitors interact with our site so we can improve it.</p>
+			<h2>How We Use Cookies</h2>
+			<p>Our website utilises cookies which serve various purposes, but are generally either necessary or essential to the functioning of our site and help us improve the performance of our site. More specifically:</p>
+			<ul>
+				<li><strong>Strictly Necessary or Essential:</strong> These cookies let you move around the website and use essential features. Please note that these cookies do not gather any information about you that could be used for marketing or remembering where you&rsquo;ve been on the internet.</li>
+				<li><strong>Performance:</strong> These cookies collect information about how you use our website, for example which pages you visit, and if you experienced any errors. Performance cookies do not collect any information that could identify you. They are only used to help us improve how our website works, understand what interests our users and measure how effective our content is by providing anonymous statistics and data regarding how our website is used. Accepting these cookies is a condition of using our site.</li>
+				<li><strong>Functionality:</strong> These cookies are used to provide services or to remember settings to improve your visit.</li>
+			</ul>
 		</section>
 
 		<section>
-			<h2>3. Types of Cookies We Use</h2>
-			<p><strong>Essential cookies</strong> are necessary for the website to function and cannot be switched off. They are usually set in response to actions you take, such as setting privacy preferences or completing a booking form.</p>
-			<p><strong>Preference cookies</strong> remember choices you make (such as your cookie consent decision, stored under the key <code>chic_cookie_consent</code>) so you are not asked repeatedly.</p>
-			<p><strong>Analytics cookies</strong> help us understand how visitors use our site by collecting information in an anonymous form. These are only set with your consent.</p>
+			<h2>Managing Your Cookies</h2>
+			<p>The cookie settings on this website are set to &lsquo;accept&rsquo; to give you the best browsing experience possible. If you continue to use this website without changing your cookie settings then you are consenting to their use as described herein and in our Privacy Policy.</p>
+			<p>When accepted, cookies remain until they expire or until you clear your browser. To delete cookies or instruct your web browser to delete or refuse cookies, please visit the documentation pages of your web browser. Please note, however, that if you delete cookies or refuse to accept them, you might not be able to use all of the features we offer, you may not be able to store your preferences, and some of our pages might not display properly.</p>
+			<p>Internet browsers allow you to change your cookie settings. These settings are usually found in the &lsquo;options&rsquo; or &lsquo;preferences&rsquo; menu of your internet browser. In order to understand these settings, the following links may be helpful:</p>
+			<ul>
+				<li>Chrome</li>
+				<li>Firefox</li>
+				<li>Internet Explorer</li>
+				<li>Safari</li>
+			</ul>
 		</section>
 
 		<section>
-			<h2>4. Third-Party Cookies</h2>
-			<p>Some pages on our site embed content or functionality from third parties &mdash; such as our booking widget and map services. These third parties may set their own cookies. We do not control these cookies and they are governed by the respective third party&rsquo;s own privacy and cookie policies.</p>
-		</section>
-
-		<section>
-			<h2>5. Managing Your Cookie Preferences</h2>
-			<p>You can manage your cookie preferences at any time by clicking the <strong>&ldquo;Cookie preferences&rdquo;</strong> link in the footer of any page on our site. This will reopen the consent banner so you can accept or reject non-essential cookies.</p>
-			<p>You can also control cookies through your browser settings. Most browsers allow you to view, block, or delete cookies. Note that blocking all cookies may affect the functionality of this and other websites. For guidance on managing cookies in your browser, visit <a href="https://www.aboutcookies.org" target="_blank" rel="noopener">aboutcookies.org</a>.</p>
-		</section>
-
-		<section>
-			<h2>6. Changes to This Policy</h2>
-			<p>We may update this Cookie Policy from time to time to reflect changes in our practices or for legal, regulatory, or operational reasons. The &ldquo;Last updated&rdquo; date at the top of this page indicates when the policy was last revised. We encourage you to review this page periodically.</p>
-		</section>
-
-		<section>
-			<h2>7. Contact Us</h2>
-			<p>If you have questions about our use of cookies, please contact us at <a href="mailto:contact@chiccentresuites.com">contact@chiccentresuites.com</a> or see our full <a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a> for more detail on how we handle your data.</p>
+			<h2>Contact</h2>
+			<p>If you wish to withdraw your consent at any time, you will need to delete your cookies using your internet browser settings.</p>
+			<p>We hope the information above provides you with clear and comprehensive information about the technologies we use and the purposes for which we use them. If you have any additional questions or require any additional information, please review our <a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a> or contact us at <a href="mailto:contact@chiccentresuites.com">contact@chiccentresuites.com</a>.</p>
 		</section>
 
 	</article>
