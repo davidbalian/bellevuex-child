@@ -30,7 +30,7 @@
 
 .cookie-banner__title {
 	margin: 0 0 .5rem;
-	font-size: .8125rem !important;
+	font-size: 1rem !important;
 	font-weight: 700;
 	color: var(--color-primary);
 	padding-right: 2rem;
