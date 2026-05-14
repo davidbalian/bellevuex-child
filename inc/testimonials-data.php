@@ -53,6 +53,7 @@ function chic_testimonials_curated_rows(): array {
 	return [
 		[
 			'author'              => 'Eleutheria',
+			'country_code'        => 'gr',
 			'suite_match'         => 'Suite 3',
 			'suite_label'         => 'Suite 3',
 			'suite_context'       => 'January 2025',
@@ -62,6 +63,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Mora Karen',
+			'country_code'        => 'mx',
 			'suite_match'         => 'Forest Suite',
 			'suite_label'         => 'Forest Suite',
 			'suite_context'       => 'October 2024',
@@ -71,6 +73,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Erica',
+			'country_code'        => 'it',
 			'suite_match'         => 'Korali Suite',
 			'suite_label'         => 'Korali Suite',
 			'suite_context'       => 'July 2021',
@@ -80,6 +83,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Marihke',
+			'country_code'        => 'nl',
 			'suite_match'         => 'Forest Suite',
 			'suite_label'         => 'Forest Suite',
 			'suite_context'       => 'July 2021',
@@ -89,6 +93,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Alexander',
+			'country_code'        => 'ru',
 			'suite_match'         => 'Avra Suite',
 			'suite_label'         => 'Avra Suite',
 			'suite_context'       => 'July 2021',
@@ -98,6 +103,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Davide',
+			'country_code'        => 'it',
 			'suite_match'         => 'Zakynthos Suite',
 			'suite_label'         => 'Zakynthos Suite',
 			'suite_context'       => 'June 2021',
@@ -107,6 +113,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Em',
+			'country_code'        => 'gb',
 			'suite_match'         => 'Korali Suite',
 			'suite_label'         => 'Korali Suite',
 			'suite_context'       => 'June 2021',
@@ -116,6 +123,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Constantinos',
+			'country_code'        => 'cy',
 			'suite_match'         => 'Santorini Suite',
 			'suite_label'         => 'Santorini Suite',
 			'suite_context'       => 'July 2020',
@@ -125,6 +133,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Koula',
+			'country_code'        => 'gr',
 			'suite_match'         => '',
 			'suite_label'         => '',
 			'suite_context'       => '',
@@ -134,6 +143,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Aoi',
+			'country_code'        => 'jp',
 			'suite_match'         => '',
 			'suite_label'         => '',
 			'suite_context'       => '',
@@ -143,6 +153,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Stephanie',
+			'country_code'        => 'fr',
 			'suite_match'         => '',
 			'suite_label'         => '',
 			'suite_context'       => '',
@@ -152,6 +163,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Anonymous',
+			'country_code'        => 'gb',
 			'suite_match'         => '',
 			'suite_label'         => '',
 			'suite_context'       => '',
@@ -161,6 +173,7 @@ function chic_testimonials_curated_rows(): array {
 		],
 		[
 			'author'              => 'Andros',
+			'country_code'        => 'cy',
 			'suite_match'         => 'Santorini Suite',
 			'suite_label'         => 'Santorini Suite',
 			'suite_context'       => 'December 2019',

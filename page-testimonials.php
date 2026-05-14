@@ -64,7 +64,19 @@ while ( have_posts() ) :
 				<article class="suite-card testimonials-card testimonials-card--text">
 					<div class="suite-card__body">
 						<?php if ( ! empty( $row['author'] ) ) : ?>
-						<p class="testimonials-card__author"><?php echo esc_html( $row['author'] ); ?></p>
+						<p class="testimonials-card__author">
+							<?php if ( ! empty( $row['country_code'] ) ) :
+								$_upload   = wp_upload_dir();
+								$_flag_url = trailingslashit( $_upload['baseurl'] ) . '2026/05/flag-' . $row['country_code'] . '.png';
+							?>
+							<img class="testimonials-card__flag"
+							     src="<?php echo esc_url( $_flag_url ); ?>"
+							     alt=""
+							     width="24" height="18"
+							     loading="lazy" decoding="async">
+							<?php endif; ?>
+							<span class="testimonials-card__author-name"><?php echo esc_html( $row['author'] ); ?></span>
+						</p>
 						<?php endif; ?>
 
 						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) && ! empty( $row['suite_label'] ) ) : ?>

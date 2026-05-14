@@ -290,3 +290,8 @@ html.is-menu-scroll-lock body {
 	overflow: hidden;
 	overscroll-behavior: none;
 }
+
+/* ========== TEMP: hide Signup / Login nav item ========== */
+.menu-item:has(a[href*="my-account"]) {
+	display: none;
+}
