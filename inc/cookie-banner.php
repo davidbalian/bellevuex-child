@@ -20,8 +20,8 @@ function chic_output_cookie_banner() {
 		</p>
 
 		<div class="cookie-banner__actions">
-			<button type="button" class="cookie-banner__accept btn btn--primary"><?php te( 'Accept' ); ?></button>
-			<button type="button" class="cookie-banner__reject btn btn--secondary"><?php te( 'Reject' ); ?></button>
+			<button type="button" class="cookie-banner__accept btn btn--primary"><?php te_uc( 'Accept' ); ?></button>
+			<button type="button" class="cookie-banner__reject btn btn--secondary"><?php te_uc( 'Reject' ); ?></button>
 		</div>
 	</div>
 	<?php

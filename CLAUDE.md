@@ -39,3 +39,5 @@ For **modern Greek (monotonic)** copy in this theme:
 **`text-transform: uppercase`:** several stylesheets force caps in CSS. Spot-check Greek in a real browser when copy is transformed; if casing looks wrong, fix the **source string** rather than relying on the transform alone.
 
 **Quick check:** after editing Greek, search for `Ά|Έ|Ή|Ί|Ό|Ύ|Ώ` and confirm those characters only appear in mixed/sentence case, not inside an all-caps Greek headline. For new caps headlines you can also scan for long runs of `[Α-Ω]` in the changed lines.
+
+**Uppercase UI in PHP:** use `te_uc()` / `t_uc()` / `t_uc_html()` / `ta_uc()` (or `chic_translate_suite_title_uc()` for suite names) wherever copy is rendered inside `.btn` or other `text-transform: uppercase` blocks so tonos are stripped at render time for Greek only.

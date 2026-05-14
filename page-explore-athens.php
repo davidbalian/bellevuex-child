@@ -32,7 +32,7 @@ $more        = chic_explore_athens_more();
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered">
-					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php echo wp_kses_post( t( 'EXPLORE AND<br>EXPERIENCE ATHENS' ) ); ?></h1>
+					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php echo wp_kses_post( t_uc_html( 'EXPLORE AND<br>EXPERIENCE ATHENS' ) ); ?></h1>
 					<p class="home-hero__text fade-in fade-in-delay-1"><?php te( "Discover the timeless beauty of Greece's capital from the heart of the city" ); ?></p>
 				</div>
 			</div>
@@ -44,7 +44,7 @@ $more        = chic_explore_athens_more();
 
 	<section class="explore-athens-intro fade-in">
 		<div class="explore-athens-intro__inner">
-			<span class="explore-athens-intro__eyebrow"><?php te( 'Explore Athens / Athina' ); ?></span>
+			<span class="explore-athens-intro__eyebrow"><?php te_uc( 'Explore Athens / Athina' ); ?></span>
 			<h2 class="explore-athens-intro__title"><?php te( 'A City Steeped in History, Culture, and Ancient Landmarks' ); ?></h2>
 			<p class="explore-athens-intro__lede"><?php te( 'Staying at Athens means immersing yourself in a destination where ancient history meets vibrant modern life. From iconic landmarks to hidden local gems, Athens offers an unforgettable experience for every traveler — and at Chic Centre Suites Athens, you are perfectly positioned to explore it all.' ); ?></p>
 			<p class="explore-athens-intro__lede"><?php te( 'Located just steps from Ermou Street and within a short walk of Syntagma Square and Monastiraki, your stay places you at the very center of culture, history, shopping, and gastronomy.' ); ?></p>

@@ -25,8 +25,9 @@ while ( have_posts() ) :
 
 	$featured_desktop = get_the_post_thumbnail_url( $post_id, 'full' ) ?: '';
 	$featured_mobile  = get_the_post_thumbnail_url( $post_id, 'medium_large' ) ?: $featured_desktop;
-	$suite_title      = get_the_title();
-	$suite_title_display = chic_translate_suite_title( $suite_title );
+	$suite_title          = get_the_title();
+	$suite_title_display  = chic_translate_suite_title( $suite_title );
+	$suite_title_caps     = chic_translate_suite_title_uc( $suite_title );
 ?>
 
 <main class="page-accommodation">
@@ -53,12 +54,12 @@ while ( have_posts() ) :
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered fade-in fade-in-delay-0">
-					<h1 class="home-hero__title"><?php echo esc_html( $suite_title_display ); ?></h1>
+					<h1 class="home-hero__title"><?php echo esc_html( $suite_title_caps ); ?></h1>
 					<div class="home-hero__ctas">
 						<a
 							class="home-hero__cta btn btn--primary js-view-photos"
 							href="#suite-photos"
-						><?php te( 'View Photos' ); ?></a>
+						><?php te_uc( 'View Photos' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -86,7 +87,7 @@ while ( have_posts() ) :
 				href="<?php echo esc_url( $book_now_url ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"
-			><?php te( 'Book Now' ); ?></a>
+			><?php te_uc( 'Book Now' ); ?></a>
 
 		</div>
 	</section>
@@ -95,7 +96,7 @@ while ( have_posts() ) :
 
 	<section class="suite-description fade-in">
 		<div class="suite-description__inner">
-			<h2 class="suite-description__title"><?php te( 'Suite Description' ); ?></h2>
+			<h2 class="suite-description__title"><?php te_uc( 'Suite Description' ); ?></h2>
 			<?php foreach ( $desc as $i => $para ) :
 				$delay = min( $i, 2 );
 			?>
@@ -108,7 +109,7 @@ while ( have_posts() ) :
 
 	<section id="suite-photos" class="home-building fade-in">
 		<div class="home-building__inner">
-			<h2 class="home-building__title"><?php te( 'Photos' ); ?></h2>
+			<h2 class="home-building__title"><?php te_uc( 'Photos' ); ?></h2>
 			<?php if ( $building ) : ?>
 			<a
 				class="home-building__address-link chic-type-meta"
@@ -159,7 +160,7 @@ while ( have_posts() ) :
 	<section class="suite-facilities fade-in">
 		<div class="suite-facilities__inner">
 
-			<h2 class="suite-facilities__title"><?php te( 'Suite Facilities' ); ?></h2>
+			<h2 class="suite-facilities__title"><?php te_uc( 'Suite Facilities' ); ?></h2>
 
 			<ul class="suite-facilities__list">
 				<li><?php te( 'Free Wi-Fi' ); ?></li>
@@ -203,7 +204,7 @@ while ( have_posts() ) :
 			target="_blank"
 			rel="noopener noreferrer"
 			tabindex="-1"
-		><?php te( 'Book Now' ); ?></a>
+		><?php te_uc( 'Book Now' ); ?></a>
 	</div>
 
 </main>

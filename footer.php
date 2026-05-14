@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Contact Info -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading"><?php te( 'Contact Info' ); ?></h3>
+				<h3 class="site-footer__heading"><?php te_uc( 'Contact Info' ); ?></h3>
 				<ul class="site-footer__list site-footer__list--contact">
 					<li class="site-footer__brand-name">P. Yiatros I.K.E</li>
 					<li><a href="mailto:contact@chiccentresuites.com">contact@chiccentresuites.com</a></li>
@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Useful Links -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading"><?php te( 'Useful Links' ); ?></h3>
+				<h3 class="site-footer__heading"><?php te_uc( 'Useful Links' ); ?></h3>
 				<ul class="site-footer__list">
 					<li><a href="<?php echo esc_url( chic_localized_url( '/privacy-policy/' ) ); ?>"><?php te( 'Privacy Policy' ); ?></a></li>
 					<li><a href="<?php echo esc_url( chic_localized_url( '/cookie-policy/' ) ); ?>"><?php te( 'Cookie Policy' ); ?></a></li>
@@ -38,7 +38,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Awards -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading"><?php te( 'Awards' ); ?></h3>
+				<h3 class="site-footer__heading"><?php te_uc( 'Awards' ); ?></h3>
 				<div class="site-footer__awards">
 					<div class="site-footer__award" aria-hidden="true"></div>
 					<div class="site-footer__award" aria-hidden="true"></div>
@@ -48,7 +48,7 @@ defined( 'ABSPATH' ) || exit;
 
 			<!-- Follow Us -->
 			<section class="site-footer__column">
-				<h3 class="site-footer__heading"><?php te( 'Follow Us' ); ?></h3>
+				<h3 class="site-footer__heading"><?php te_uc( 'Follow Us' ); ?></h3>
 				<ul class="site-footer__social">
 					<li>
 						<a href="#" class="site-footer__social-link" aria-label="Instagram" target="_blank" rel="noopener">

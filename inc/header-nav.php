@@ -63,13 +63,14 @@ function chic_header_render_items( bool $mobile = false ): void {
 	$hard_labels = [ 'suites' => 'Buildings' ];
 
 	foreach ( $items as $item ) {
-		$raw_label    = $item['label'] ?? '';
-		$label_key    = strtolower( trim( $raw_label ) );
+		$raw_label     = $item['label'] ?? '';
+		$label_key     = strtolower( trim( $raw_label ) );
 		$english_label = $hard_labels[ $label_key ] ?? $raw_label;
-		$label        = esc_html( t( $english_label ) );
-		$href      = chic_header_item_href( $item );
-		$is_book  = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
-		$is_mega  = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
+		$href          = chic_header_item_href( $item );
+		$is_book       = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
+		$is_mega       = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
+		$translated    = t( $english_label );
+		$label         = esc_html( $is_book ? chic_el_strip_monotonic_tonos( $translated ) : $translated );
 		$classes  = 'menu-item';
 		if ( $is_mega ) $classes .= ' menu-item-has-children menu-item-has-mega';
 
@@ -274,7 +275,7 @@ function chic_output_custom_header(): void {
 			</div>
 			<div class="mobile-nav__footer">
 				<a href="<?php echo esc_url( chic_header_book_now_url() ); ?>" class="mobile-nav__cta btn btn--primary">
-					<?php te( 'Book Now' ); ?>
+					<?php te_uc( 'Book Now' ); ?>
 				</a>
 			</div>
 		</div>

@@ -69,7 +69,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content">
-					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php echo wp_kses_post( t( 'Stay in the Heart<br> of Athens' ) ); ?></h1>
+					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php echo wp_kses_post( t_uc_html( 'Stay in the Heart<br> of Athens' ) ); ?></h1>
 					<p class="home-hero__text fade-in fade-in-delay-1"><?php te( 'Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.' ); ?></p>
 					<div class="home-hero__ctas fade-in fade-in-delay-2">
 						<a
@@ -77,7 +77,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 							href="https://direct-book.com/properties/chiccentresuitesathens"
 							target="_blank"
 							rel="noopener noreferrer"
-						><?php te( 'Book Now' ); ?></a>
+						><?php te_uc( 'Book Now' ); ?></a>
 					</div>
 				</div>
 			</div>
@@ -98,7 +98,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<section class="home-intro" id="home-intro">
 		<div class="home-intro__inner">
-			<h2 class="home-intro__title fade-in fade-in-delay-0"><?php te( 'Our Suites' ); ?></h2>
+			<h2 class="home-intro__title fade-in fade-in-delay-0"><?php te_uc( 'Our Suites' ); ?></h2>
 			<p class="home-intro__lede fade-in fade-in-delay-1"><?php te( 'Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.' ); ?></p>
 		</div>
 	</section>
@@ -120,7 +120,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 
 	<section class="home-building fade-in">
 		<div class="home-building__inner">
-			<h2 class="home-building__title"><?php echo esc_html( t( $building['short_label'] ) ); ?></h2>
+			<h2 class="home-building__title"><?php echo esc_html( t_uc( $building['short_label'] ) ); ?></h2>
 			<a
 				class="home-building__address-link chic-type-meta"
 				href="<?php echo esc_url( $building['maps'] ); ?>"
@@ -161,11 +161,11 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 								<?php endif; ?>
 							</figure>
 							<div class="suite-card__body">
-								<h3 class="suite-card__title"><?php echo esc_html( chic_translate_suite_title( $suite['title'] ) ); ?></h3>
+								<h3 class="suite-card__title"><?php echo esc_html( chic_translate_suite_title_uc( $suite['title'] ) ); ?></h3>
 								<?php if ( $suite['capacity_label'] ) : ?>
 									<p class="suite-card__capacity chic-type-meta"><?php echo esc_html( t( $suite['capacity_label'] ) ); ?></p>
 								<?php endif; ?>
-								<span class="suite-card__cta chic-type-meta"><?php te( 'View' ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></span>
+								<span class="suite-card__cta chic-type-meta"><?php te_uc( 'View' ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></span>
 							</div>
 						</a>
 					</article>
@@ -179,7 +179,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					href="<?php echo esc_url( $chic_home_book_now_url ); ?>"
 					target="_blank"
 					rel="noopener noreferrer"
-				><?php te( 'Book Now' ); ?></a>
+				><?php te_uc( 'Book Now' ); ?></a>
 				<button type="button"
 					class="home-suites__btn"
 					data-nav="prev"

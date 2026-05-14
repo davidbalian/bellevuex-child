@@ -164,6 +164,57 @@ function t_html( string $key ): string {
 	return t( $key );
 }
 
+/**
+ * Strip monotonic Greek tonos / dialytika for copy shown in all-caps UI (see theme CSS).
+ * No-op when not on Greek locale or when intl Normalizer is unavailable (limited fallback).
+ */
+function chic_el_strip_monotonic_tonos( string $text ): string {
+	if ( $text === '' || chic_get_current_lang() !== 'el' ) {
+		return $text;
+	}
+	static $precomposed = [
+		'Ά' => 'Α', 'Έ' => 'Ε', 'Ή' => 'Η', 'Ί' => 'Ι', 'Ό' => 'Ο', 'Ύ' => 'Υ', 'Ώ' => 'Ω',
+		'Ϊ' => 'Ι', 'Ϋ' => 'Υ',
+	];
+	$text = strtr( $text, $precomposed );
+	if ( class_exists( 'Normalizer', false ) ) {
+		$norm = Normalizer::normalize( $text, Normalizer::FORM_D );
+		if ( is_string( $norm ) && '' !== $norm ) {
+			$norm = preg_replace( '/[\x{0301}\x{0308}\x{0342}\x{0344}\x{0345}]/u', '', $norm );
+			$nfc  = Normalizer::normalize( $norm, Normalizer::FORM_C );
+			if ( is_string( $nfc ) ) {
+				$text = $nfc;
+			} else {
+				$text = $norm;
+			}
+		}
+	} else {
+		static $lower = [
+			'ά' => 'α', 'έ' => 'ε', 'ή' => 'η', 'ί' => 'ι', 'ό' => 'ο', 'ύ' => 'υ', 'ώ' => 'ω',
+			'ϊ' => 'ι', 'ΐ' => 'ι', 'ϋ' => 'υ', 'ΰ' => 'υ',
+		];
+		$text = strtr( $text, $lower );
+	}
+	return $text;
+}
+
+/** Translation for all-caps / uppercase-styled Greek (buttons, certain headings). */
+function t_uc( string $key ): string {
+	return chic_el_strip_monotonic_tonos( t( $key ) );
+}
+
+function te_uc( string $key ): void {
+	echo esc_html( t_uc( $key ) );
+}
+
+function ta_uc( string $key ): string {
+	return esc_attr( t_uc( $key ) );
+}
+
+function t_uc_html( string $key ): string {
+	return chic_el_strip_monotonic_tonos( t_html( $key ) );
+}
+
 /* ── Suite title translation helper ─────────────────────────────────────── */
 
 function chic_translate_suite_title( string $english_title ): string {
@@ -179,6 +230,11 @@ function chic_translate_suite_title( string $english_title ): string {
 		return t( 'Suite' ) . ' ' . $m[1];
 	}
 	return $english_title;
+}
+
+/** Suite title for `.suite-card__title` / `.home-hero__title` (all-caps CSS); keeps tonos in `chic_translate_suite_title()` for other uses. */
+function chic_translate_suite_title_uc( string $english_title ): string {
+	return chic_el_strip_monotonic_tonos( chic_translate_suite_title( $english_title ) );
 }
 
 /* ── URL builders ────────────────────────────────────────────────────────── */
