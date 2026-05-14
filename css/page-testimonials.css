@@ -57,6 +57,11 @@
 	line-height: 1.35;
 }
 
+.page-testimonials .testimonials-card__date {
+	font-weight: 400;
+	opacity: 0.65;
+}
+
 .page-testimonials .testimonials-card__source {
 	margin: 0;
 	font-weight: 600;

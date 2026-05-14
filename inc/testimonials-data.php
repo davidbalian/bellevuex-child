@@ -62,7 +62,7 @@ function chic_testimonials_flag_url( string $country_code ): string {
 /**
  * Curated reviews (chiccentresuites.com/reviews-what-people-say/).
  *
- * @return array<int, array{author: string, country_code: string, suite_match: string, suite_label: string, source_label: string, suite_fallback_line: string, review: string}>
+ * @return array<int, array{author: string, country_code: string, suite_match: string, suite_label: string, source_label: string, suite_fallback_line: string, date_label: string, review: string}>
  */
 function chic_testimonials_curated_rows(): array {
 	return [
@@ -73,7 +73,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Suite 3',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Praised the modern, spotless facilities, high-quality bedding and amenities, helpful hosts, and strong sense of security. Mentioned the lively yet safe surrounding area and appreciated the hospitality.',
+			'date_label'          => 'January 2025',
+			'review'              => 'The facilities are modern, impeccably clean, and of exceptional quality. From the bathrobes and towels to the sheets, pillows, and bed, every detail is carefully curated to ensure maximum comfort, making the stay even more restful. Our hosts were helpful and willing to assist us with anything we needed. It is truly rare to find a place that is so well-maintained and complemented by such outstanding hospitality. Additionally, the location is very secure, with three security codes required for access to the room. On the ground floor, there is a bistro, and the street outside has regular traffic, so there are always people around, which adds to the sense of safety.',
 		],
 		[
 			'author'              => 'Mora Karen',
@@ -82,7 +83,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Forest Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Described the location, attention, cleanliness, and spacious room as excellent.',
+			'date_label'          => 'October 2024',
+			'review'              => 'Excellent location and attention and clean large room everything was excellent',
 		],
 		[
 			'author'              => 'Erica',
@@ -91,7 +93,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Korali Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Loved the stylish apartment, modern technology features, excellent cleanliness, kitchen setup, and central location. Highlighted the owner\'s kindness and hospitality.',
+			'date_label'          => 'July 2021',
+			'review'              => 'The apartment is very beautiful, furnished with great style and care, equipped with every comfort and with every kind of technology (for example: digital code to access the room, maxi TV, usb refills on the wall...). Cleaning is excellent, new dishes are present in the kitchen; also provided Nespresso coffee machine and breakfast supplies. It is located in a central area, with all kinds of services (bars, restaurants, shops). No need to take any transportation to visit the main historical sites. The owner is a welcoming and very kind person... he accompanied us for a small tour around the property. Such hospitality is really rare. We would recommend everyone to stay at one of these apartments.',
 		],
 		[
 			'author'              => 'Marihke',
@@ -100,7 +103,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Forest Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Mentioned the top location, tasteful furnishings, well-equipped apartment, and helpful owner.',
+			'date_label'          => 'July 2021',
+			'review'              => 'Top location, the nicely furnished apartment is very well equipped, very helpful owner.',
 		],
 		[
 			'author'              => 'Alexander',
@@ -109,7 +113,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Avra Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Said the location was perfect for a city stay and appreciated the thoughtful details throughout the apartment.',
+			'date_label'          => 'July 2021',
+			'review'              => 'Great location for a short stay in the city. Everything is thought out to the smallest detail. Highest mark!',
 		],
 		[
 			'author'              => 'Davide',
@@ -118,7 +123,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Zakynthos Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Called the stay "great," praising the cleanliness, central Athens location, warm welcome, and useful local advice from the host.',
+			'date_label'          => 'June 2021',
+			'review'              => 'Just one word: GREAT!!! Clean facility and in the center of Athens nothing is missing. Jorgos number one, welcomed us warmly, gave us lots of advice of all kinds.. making us do a quick and short city tour.',
 		],
 		[
 			'author'              => 'Em',
@@ -127,7 +133,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Korali Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Highlighted the clean and tidy room, excellent bed and bathroom, privacy, and accommodating owners who allowed late checkout.',
+			'date_label'          => 'June 2021',
+			'review'              => 'The room itself was very clean and tidy, great bed and bathroom! You also get a lot of privacy. Owners very accommodating, extended our stay for some hours after our request for late check out.',
 		],
 		[
 			'author'              => 'Constantinos',
@@ -136,7 +143,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Santorini Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Mentioned the owner\'s friendliness and helpfulness, spotless condition, quiet environment despite the central location, and walking-distance access to attractions.',
+			'date_label'          => 'July 2020',
+			'review'              => 'For starters let me just say that the owner was super friendly and helpful. Unbelievable clean, everything was new and spotless. Even though the apartment is located Centre of all attractions where it\'s super crowded, we couldn\'t hear anything. Located-as mentioned- in the center of everything, in a walking distance. We loved Chic Centre Suites and we have already bookmarked it on our favorites.',
 		],
 		[
 			'author'              => 'Koula',
@@ -145,7 +153,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
-			'review'              => 'Praised the amazing location, clean and modern rooms, comfortable bed, and proximity to shops and the city center.',
+			'date_label'          => '',
+			'review'              => 'The Location was amazing in the heart of center and shops. rooms were very clean and new. Comfortable room excellent bed.',
 		],
 		[
 			'author'              => 'Aoi',
@@ -154,7 +163,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
-			'review'              => 'Appreciated the excellent amenities, cleanliness, comfort, many electrical outlets, and the host\'s helpfulness during the stay.',
+			'date_label'          => '',
+			'review'              => 'Amenity is very good ・There are many outlets ・Comfortable ・Rooms are very clean ・Close to the center ・Equipped with excellent facilities It was a stay with people, but he helped me in various ways. If I have a chance to visit Athens again, I would definitely like to use it again.',
 		],
 		[
 			'author'              => 'Stephanie',
@@ -163,7 +173,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
-			'review'              => 'Highlighted the central location, attentive reception, and responsive service.',
+			'date_label'          => '',
+			'review'              => 'Quality of services and very central location that allows you to enjoy Athens. The reception is very attentive and listens to our requests.',
 		],
 		[
 			'author'              => 'Anonymous',
@@ -172,7 +183,8 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
-			'review'              => 'Enjoyed the fully equipped apartment, private balcony area, espresso machine, jacuzzi, and overall modern condition of the property.',
+			'date_label'          => '',
+			'review'              => 'Excellent location, apartment fully equipped and everything brand new.Pleasant surprise the private balcony area in which smokers can use.Espresso machine and coffee tablets available as well as jacuzzi.Strongly recommended.',
 		],
 		[
 			'author'              => 'Andros',
@@ -181,16 +193,18 @@ function chic_testimonials_curated_rows(): array {
 			'suite_label'         => 'Santorini Suite',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
-			'review'              => 'Said it was the best apartment they had stayed in Athens, noting the luxury feel, comfort, strong Wi-Fi, cleanliness, and friendly staff.',
+			'date_label'          => 'December 2019',
+			'review'              => 'Came to Athens many times, stayed in several places. This apartment were the best place so far. Just 1min walking distance from Ermou. The apartment is such a luxury with good facilities. The room was very clean and the Wifi signal was good too. Mattress was unbelievable ! So comfortable . Staff was very friendly . Value for money ! Looking forward to visit your apartment in March too!!!',
 		],
 		[
-			'author'              => 'Guest',
-			'country_code'        => '',
+			'author'              => 'Christiana',
+			'country_code'        => 'gr',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'source_label'        => '',
+			'source_label'        => 'Review from Facebook',
 			'suite_fallback_line' => '',
-			'review'              => 'Strongly recommended the suites for luxury stays, business trips, couples, or families, mentioning the central location and hotel-style facilities at reasonable prices.',
+			'date_label'          => '',
+			'review'              => 'Strongly recommended for a luxury and enjoyable stay in Athens. Perfect location in the city centre and fully equipped to accommodate family or couples. Ideal for business trips as well. Wise choice as you enjoy the facilities of a 5 star hotel with a very reasonable and attractive price. Looking forward to repeat our trip to Athens soon and stay at Chic Centre Suites again.',
 		],
 	];
 }

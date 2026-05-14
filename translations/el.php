@@ -189,39 +189,49 @@ return [
 		=> 'Για τους λάτρεις της ιστορίας, το Εθνικό Αρχαιολογικό Μουσείο είναι επίσκεψη υποχρεωτική. Ένα από τα πλουσιότερα αρχαιολογικά μουσεία του κόσμου, με χιλιάδες εκθέματα της αρχαίας ελληνικής τέχνης.',
 
 	/* ── Testimonials page ───────────────────────────────────────────── */
-	'Latest Reviews'            => 'Τελευταίες Κριτικές',
-	'Guest reviews'             => 'Κριτικές επισκεπτών',
-	'Review from Booking.com'   => 'Κριτική από το Booking.com',
-	'Anonymous'                 => 'Ανώνυμος',
-	'Guest'                     => 'Επισκέπτης',
-	'Praised the modern, spotless facilities, high-quality bedding and amenities, helpful hosts, and strong sense of security. Mentioned the lively yet safe surrounding area and appreciated the hospitality.'
-		=> 'Επαίνεσε τις σύγχρονες, άψογες εγκαταστάσεις, τα ποιοτικά κλινοσκεπάσματα, τους εξυπηρετικούς οικοδεσπότες και την αίσθηση ασφάλειας. Ανέφερε τη ζωντανή αλλά ήσυχη γειτονιά και εκτίμησε την ιδιαίτερη φιλοξενία.',
-	'Described the location, attention, cleanliness, and spacious room as excellent.'
-		=> 'Χαρακτήρισε τοποθεσία, προσοχή, καθαριότητα και τον χώρο ως άριστα.',
-	"Loved the stylish apartment, modern technology features, excellent cleanliness, kitchen setup, and central location. Highlighted the owner's kindness and hospitality."
-		=> 'Ενθουσιάστηκε με το κομψό διαμέρισμα, τον σύγχρονο εξοπλισμό, την εξαιρετική καθαριότητα, την κουζίνα και την κεντρική τοποθεσία. Ξεχώρισε την ευγένεια και τη φιλοξενία του ιδιοκτήτη.',
-	'Mentioned the top location, tasteful furnishings, well-equipped apartment, and helpful owner.'
-		=> 'Ανέφερε την εξαιρετική τοποθεσία, τη γούστο επίπλωση, το καλά εξοπλισμένο διαμέρισμα και τον πρόθυμο ιδιοκτήτη.',
-	'Said the location was perfect for a city stay and appreciated the thoughtful details throughout the apartment.'
-		=> 'Είπε ότι η τοποθεσία είναι ιδανική για παραμονή στην πόλη και εκτίμησε τις προσεγμένες λεπτομέρειες σε όλο το διαμέρισμα.',
-	'Called the stay "great," praising the cleanliness, central Athens location, warm welcome, and useful local advice from the host.'
-		=> 'Χαρακτήρισε τη διαμονή «εξαιρετική», επαινώντας την καθαριότητα, την κεντρική τοποθεσία, τη θερμή υποδοχή και τις χρήσιμες τοπικές συμβουλές του οικοδεσπότη.',
-	'Highlighted the clean and tidy room, excellent bed and bathroom, privacy, and accommodating owners who allowed late checkout.'
-		=> 'Τόνισε το καθαρό και τακτοποιημένο δωμάτιο, το άνετο κρεβάτι, το μπάνιο, την ιδιωτικότητα και τους εξυπηρετικούς ιδιοκτήτες που επέτρεψαν αργή αναχώρηση.',
-	"Mentioned the owner's friendliness and helpfulness, spotless condition, quiet environment despite the central location, and walking-distance access to attractions."
-		=> 'Ανέφερε τη φιλικότητα και προθυμία του ιδιοκτήτη, την άψογη κατάσταση, την ησυχία παρά την κεντρική τοποθεσία και την εύκολη πρόσβαση στα αξιοθέατα.',
-	'Praised the amazing location, clean and modern rooms, comfortable bed, and proximity to shops and the city center.'
-		=> 'Επαίνεσε την εκπληκτική τοποθεσία, τα καθαρά και σύγχρονα δωμάτια, το άνετο κρεβάτι και την εγγύτητα σε καταστήματα και το κέντρο.',
-	"Appreciated the excellent amenities, cleanliness, comfort, many electrical outlets, and the host's helpfulness during the stay."
-		=> 'Εκτίμησε τις άριστες παροχές, την καθαριότητα, την άνεση, τις πολλές πρίζες και την προθυμία του οικοδεσπότη.',
-	'Highlighted the central location, attentive reception, and responsive service.'
-		=> 'Τόνισε την κεντρική τοποθεσία, τη φροντισμένη υποδοχή και την άμεση εξυπηρέτηση.',
-	'Enjoyed the fully equipped apartment, private balcony area, espresso machine, jacuzzi, and overall modern condition of the property.'
-		=> 'Απόλαυσε το πλήρως εξοπλισμένο διαμέρισμα, τον ιδιωτικό εξώστη, τη μηχανή espresso, το τζακούζι και τη σύγχρονη κατάσταση του χώρου γενικά.',
-	'Said it was the best apartment they had stayed in Athens, noting the luxury feel, comfort, strong Wi-Fi, cleanliness, and friendly staff.'
-		=> 'Είπε ότι ήταν το καλύτερο διαμέρισμα που έχει μείνει στην Αθήνα, αναφέροντας την πολυτελή αίσθηση, την άνεση, το γρήγορο Wi-Fi, την καθαριότητα και το φιλικό προσωπικό.',
-	'Strongly recommended the suites for luxury stays, business trips, couples, or families, mentioning the central location and hotel-style facilities at reasonable prices.'
-		=> 'Συνέστησε ανεπιφύλακτα τις σουίτες για πολυτελείς διακοπές, επαγγελματικά ταξίδια, ζευγάρια ή οικογένειες, αναφέροντας την κεντρική τοποθεσία και τις ξενοδοχειακές παροχές σε λογικές τιμές.',
+	'Latest Reviews'          => 'Τελευταίες Κριτικές',
+	'Guest reviews'           => 'Κριτικές επισκεπτών',
+	'Review from Booking.com' => 'Μεταφρασμένη κριτική Booking.com',
+	'Review from Facebook'    => 'Μεταφρασμένη κριτική από Facebook',
+	'Anonymous'               => 'Ανώνυμος',
+
+	/* Date labels */
+	'January 2025'  => 'Ιανουάριος 2025',
+	'October 2024'  => 'Οκτώβριος 2024',
+	'July 2021'     => 'Ιούλιος 2021',
+	'June 2021'     => 'Ιούνιος 2021',
+	'July 2020'     => 'Ιούλιος 2020',
+	'December 2019' => 'Δεκέμβριος 2019',
+
+	/* Review bodies */
+	'The facilities are modern, impeccably clean, and of exceptional quality. From the bathrobes and towels to the sheets, pillows, and bed, every detail is carefully curated to ensure maximum comfort, making the stay even more restful. Our hosts were helpful and willing to assist us with anything we needed. It is truly rare to find a place that is so well-maintained and complemented by such outstanding hospitality. Additionally, the location is very secure, with three security codes required for access to the room. On the ground floor, there is a bistro, and the street outside has regular traffic, so there are always people around, which adds to the sense of safety.'
+		=> 'Οι εγκαταστάσεις είναι σύγχρονες, άψογα καθαρές και εξαιρετικής ποιότητας. Από τα μπουρνούζια και τις πετσέτες μέχρι τα σεντόνια, τα μαξιλάρια και το κρεβάτι, κάθε λεπτομέρεια είναι προσεκτικά επιμελημένη για να εξασφαλίσει τη μέγιστη άνεση, κάνοντας τη διαμονή ακόμα πιο ξεκούραστη. Οι οικοδεσπότες μας βοήθησαν και ήταν πρόθυμοι να μας βοηθήσουν με ό,τι χρειαζόμασταν. Είναι πραγματικά σπάνιο να βρεις ένα μέρος που να είναι τόσο καλοδιατηρημένο και να συμπληρώνεται από τέτοια εξαιρετική φιλοξενία. Επιπλέον, η τοποθεσία είναι πολύ ασφαλής, με τρεις κωδικούς ασφαλείας που απαιτούνται για την πρόσβαση στο δωμάτιο. Στο ισόγειο, υπάρχει ένα μπιστρό, και ο δρόμος έξω έχει τακτική κυκλοφορία, έτσι υπάρχουν πάντα άνθρωποι γύρω, κάτι που προσθέτει αίσθηση ασφάλειας.',
+	'Excellent location and attention and clean large room everything was excellent'
+		=> 'Eξαιρετική τοποθεσία και μεγάλο δωμάτιο καθαρό.Oλα ήταν εξαιρετικά',
+	'The apartment is very beautiful, furnished with great style and care, equipped with every comfort and with every kind of technology (for example: digital code to access the room, maxi TV, usb refills on the wall...). Cleaning is excellent, new dishes are present in the kitchen; also provided Nespresso coffee machine and breakfast supplies. It is located in a central area, with all kinds of services (bars, restaurants, shops). No need to take any transportation to visit the main historical sites. The owner is a welcoming and very kind person... he accompanied us for a small tour around the property. Such hospitality is really rare. We would recommend everyone to stay at one of these apartments.'
+		=> 'Το διαμέρισμα ήταν πολύ όμορφο με ωραία διακόσμηση με αρκετές ανέσεις και αρκετή τεχνολογία. Για παράδειγμα υπάρχει η δυνατότητα να ανοίγει η πόρτα του διαμερίσματος με κωδικό και θύρα UCB για να φορτίζεις το κινητό. Το διαμέρισμα πεντακάθαρο, με καινούργια πιάτα κλπ., επίσης παρέχονται κάψουλες του καφέ με καφετιέρα Nespresso. Βρίσκετε σε κεντρική περιοχή με όλες τις ανέσεις σε κοντινή απόσταση (bar, εστιατόρια και καταστήματα). Δεν χεριάζετε μεταφορικό μέσο για να επισκεφθείτε τα αξιοθέατα. Ο ιδιοκτήτης ήταν πολύ φιλόξενος και πολύ ευγενικός καθώς μας εξήγησε τα πάντα. Σπάνια συναντάς τέτοια φιλοξενία. Προτείνουμε ανεπιφύλακτα τα συγκεκριμένα διαμερίσματα.',
+	'Top location, the nicely furnished apartment is very well equipped, very helpful owner.'
+		=> 'Καταπληκτική τοποθεσία, πολύ ωραία διακόσμηση, πλήρως εξοπλισμένο διαμέρισμα και πολύ βοηθητικός ο ιδιοκτήτης!',
+	'Great location for a short stay in the city. Everything is thought out to the smallest detail. Highest mark!'
+		=> 'Τέλεια τοποθεσία για την διαμονή μας στην Αθήνα. Όλα είναι προσεγμένα με την κάθε λεπτομέρεια. 10/10',
+	'Just one word: GREAT!!! Clean facility and in the center of Athens nothing is missing. Jorgos number one, welcomed us warmly, gave us lots of advice of all kinds.. making us do a quick and short city tour.'
+		=> 'Μόνο μια λέξη: Καταπληκτικό!!! Καθαρό και στο κέντρο της Αθήνας, τίποτα λιγότερο. Ο Γιώργος καταπληκτικός, ζεστή υποδοχή με πολλές συμβουλές για το ταξίδι μας.. επίσης μας έκανε μια σύντομη ξενάγηση στην πόλη!',
+	'The room itself was very clean and tidy, great bed and bathroom! You also get a lot of privacy. Owners very accommodating, extended our stay for some hours after our request for late check out.'
+		=> 'Το δωμάτιο πολύ καθαρό και συγυρισμένο, καταπληκτικό κρεβάτι και μπάνιο! Επίσης έχει αρκετή ιδιωτικότητα, επεκτείναμε την κράτηση μας αφού ζητήσαμε αργοπορημένη αναχώρηση και έγινε αποδεκτό!',
+	'For starters let me just say that the owner was super friendly and helpful. Unbelievable clean, everything was new and spotless. Even though the apartment is located Centre of all attractions where it\'s super crowded, we couldn\'t hear anything. Located-as mentioned- in the center of everything, in a walking distance. We loved Chic Centre Suites and we have already bookmarked it on our favorites.'
+		=> 'Για αρχή να σας πω ότι ο ιδιοκτήτης ήταν πολύ φιλικός και βοηθητικός. Απίστευτα καθαρό και ολοκαίνουργιο διαμέρισμα! Το διαμέρισμα βρίσκετε στο κέντρο και όλα τα αξιοθέατα είναι πολύ κοντά. Όπως σας ανάφερα βρίσκετε στην καρδιά της Αθήνας και πας παντού με τα πόδια! Αγαπήσαμε τα Chic Centre Suites και είναι ήδη στην λίστα των αγαπημένων μας!',
+	'The Location was amazing in the heart of center and shops. rooms were very clean and new. Comfortable room excellent bed.'
+		=> 'Η τοποθεσία ήταν καταπληκτική στην καρδιά του κέντρου και των καταστημάτων. τα δωμάτια ήταν πολύ καθαρά και νέα. Άνετο δωμάτιο εξαιρετικό κρεβάτι.',
+	'Amenity is very good ・There are many outlets ・Comfortable ・Rooms are very clean ・Close to the center ・Equipped with excellent facilities It was a stay with people, but he helped me in various ways. If I have a chance to visit Athens again, I would definitely like to use it again.'
+		=> 'Πολύ καλές ανέσεις ・ Υπάρχουν πολλά καταστήματα ・ Άνετα ・ Τα δωμάτια είναι πολύ καθαρά ・ Κοντά στο κέντρο ・ Εξοπλισμένα με εξαιρετικές εγκαταστάσεις. Εάν έχω την ευκαιρία να επισκεφθώ ξανά την Αθήνα, σίγουρα θα ήθελα να τα χρησιμοποιήσω ξανά.',
+	'Quality of services and very central location that allows you to enjoy Athens. The reception is very attentive and listens to our requests.'
+		=> 'Ποιότητα υπηρεσιών και πολύ κεντρική τοποθεσία που σας επιτρέπει να απολαύσετε την Αθήνα. Η ρεσεψιόν είναι πολύ προσεκτική και ακούει τα αιτήματά μας.',
+	'Excellent location, apartment fully equipped and everything brand new.Pleasant surprise the private balcony area in which smokers can use.Espresso machine and coffee tablets available as well as jacuzzi.Strongly recommended.'
+		=> 'Εξαιρετική τοποθεσία, διαμέρισμα πλήρως εξοπλισμένο και όλα ολοκαίνουργια. Ευχάριστη έκπληξη το ιδιωτικό μπαλκόνι το οποίο μπορούν να χρησιμοποιούν οι καπνιστές. Διατίθεται μηχανή εσπρέσο και δισκία καφέ καθώς και τζακούζι. Συνιστάται ανεπιφύλακτα.',
+	'Came to Athens many times, stayed in several places. This apartment were the best place so far. Just 1min walking distance from Ermou. The apartment is such a luxury with good facilities. The room was very clean and the Wifi signal was good too. Mattress was unbelievable ! So comfortable . Staff was very friendly . Value for money ! Looking forward to visit your apartment in March too!!!'
+		=> 'Ήρθα πολλές φορές στην Αθήνα, έμεινα σε πολλά μέρη. Αυτό το διαμέρισμα ήταν το καλύτερο μέρος μέχρι τώρα. Μόλις 1 λεπτό με τα πόδια από την Ερμού. Το διαμέρισμα είναι τόσο πολυτελές με καλές εγκαταστάσεις. Το δωμάτιο ήταν πολύ καθαρό και το σήμα Wifi ήταν επίσης καλό. Το στρώμα ήταν απίστευτο! Τόσο άνετο. Το προσωπικό ήταν πολύ φιλικό. Σχέση ποιότητας και τιμής ! Ανυπομονώ να επισκεφθώ το διαμέρισμά σας τον Μάρτιο !!!',
+	'Strongly recommended for a luxury and enjoyable stay in Athens. Perfect location in the city centre and fully equipped to accommodate family or couples. Ideal for business trips as well. Wise choice as you enjoy the facilities of a 5 star hotel with a very reasonable and attractive price. Looking forward to repeat our trip to Athens soon and stay at Chic Centre Suites again.'
+		=> 'Συνιστάται σταθερά για μια πολυτελή και ευχάριστη διαμονή στην Αθήνα. Ιδανική τοποθεσία στο κέντρο της πόλης και πλήρως εξοπλισμένα για να φιλοξενήσουν οικογένεια ή ζευγάρια. Ιδανικό και για επαγγελματικά ταξίδια. Σοφή επιλογή καθώς απολαμβάνετε τις εγκαταστάσεις ενός ξενοδοχείου 5 αστέρων με πολύ λογική και ελκυστική τιμή. Ανυπομονούμε να επαναλάβουμε το ταξίδι μας στην Αθήνα σύντομα και να μείνουμε ξανά στο Chic Center Suites.',
 
 	/* ── Suite descriptions: Chavriou 2 ──────────────────────────────── */
 	'Suite 1 is a modern studio in Athens city center, ideally located just steps from Ermou Street, one of the most popular shopping and pedestrian areas in the capital. This 30m² Athens accommodation is perfect for couples or solo travelers seeking a central and comfortable stay.'

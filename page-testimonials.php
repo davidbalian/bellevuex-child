@@ -65,7 +65,7 @@ while ( have_posts() ) :
 
 						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) && ! empty( $row['suite_label'] ) ) : ?>
 						<h3 class="suite-card__title testimonials-card__suite-title">
-							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( chic_translate_suite_title_uc( $row['suite_label'] ) ); ?></a>
+							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( chic_translate_suite_title_uc( $row['suite_label'] ) ); ?></a><?php if ( ! empty( $row['date_label'] ) ) : ?><span class="testimonials-card__date">, <?php echo esc_html( t( $row['date_label'] ) ); ?></span><?php endif; ?>
 						</h3>
 						<?php elseif ( ! empty( $row['source_label'] ) ) : ?>
 						<p class="testimonials-card__source chic-type-meta"><?php echo esc_html( chic_el_strip_monotonic_tonos( t( $row['source_label'] ) ) ); ?></p>
