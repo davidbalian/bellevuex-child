@@ -6,6 +6,10 @@
 	box-sizing: border-box;
 }
 
+.page-explore-athens .home-hero__text {
+	max-width: 40ch;
+}
+
 /* ── Intro ───────────────────────────────────────────────────────────────────── */
 
 .explore-athens-intro {
