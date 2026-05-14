@@ -257,6 +257,11 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_style( 'chic-page-legal', "$dir/css/page-legal.css", [ 'chic-tokens' ], $ver );
 	}
 
+	if ( is_404() ) {
+		wp_enqueue_style( 'chic-page-home-hero', "$dir/css/page-home-hero.css", [ 'chic-tokens' ], $ver );
+		wp_enqueue_style( 'chic-page-404',       "$dir/css/page-404.css",       [ 'chic-tokens', 'chic-page-home-hero', 'chic-buttons' ], $ver );
+	}
+
 	if ( is_singular( 'mphb_room_type' ) ) {
 		wp_enqueue_style(  'chic-fontawesome', "$dir/assets/vendor/fontawesome/css/fontawesome.min.css", [], '5.15.4' );
 		wp_enqueue_style(  'chic-fa-solid',    "$dir/assets/vendor/fontawesome/css/solid.min.css", [ 'chic-fontawesome' ], '5.15.4' );
