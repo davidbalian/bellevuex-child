@@ -48,10 +48,8 @@
 		} );
 	}
 
-	function warmDecodeAll( root ) {
-		root.querySelectorAll( 'img' ).forEach( function ( img ) {
-			if ( typeof img.decode === 'function' ) img.decode().catch( function () {} );
-		} );
+	function warmDecodeImg( img ) {
+		if ( img && typeof img.decode === 'function' ) img.decode().catch( function () {} );
 	}
 
 	function reveal( root ) {
@@ -68,6 +66,9 @@
 			slideChangeTransitionStart: function () {
 				if ( this.previousIndex === this.activeIndex ) return;
 				startKenBurns( getImg( this.slides[ this.activeIndex ] ) );
+				// Warm the next slide so it's decoded before autoplay reaches it.
+				var nextIdx = ( this.activeIndex + 1 ) % this.slides.length;
+				warmDecodeImg( getImg( this.slides[ nextIdx ] ) );
 			},
 			slideChangeTransitionEnd: function () {
 				if ( this.previousIndex === this.activeIndex ) return;
@@ -93,7 +94,6 @@
 		if ( typeof Swiper === 'undefined' ) { reveal( root ); return; }
 		var reducedMotion = prefersReducedMotion();
 		var firstImg = root.querySelector( 'img' );
-		warmDecodeAll( root );
 		whenImageReady( firstImg, DECODE_TIMEOUT_MS ).then( function () {
 			new Swiper( root, buildConfig( reducedMotion ) );
 			reveal( root );
