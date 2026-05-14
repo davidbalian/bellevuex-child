@@ -98,6 +98,8 @@ function chic_home_hero_slides( int $post_id ): array {
 				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-no-balcony-ginger-main-room-athens.webp',
 				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-no-balcony-ginger-main-room-athens.webp',
 				'fetchpriority' => 'high',
+				'srcset'        => '',
+				'mobile_srcset' => '',
 			],
 			[
 				'id'            => 0,
@@ -105,6 +107,8 @@ function chic_home_hero_slides( int $post_id ): array {
 				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/10-chic-centre-suites-athens-nearby-attractions.webp',
 				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/10-chic-centre-suites-athens-nearby-attractions.webp',
 				'fetchpriority' => 'auto',
+				'srcset'        => '',
+				'mobile_srcset' => '',
 			],
 			[
 				'id'            => 0,
@@ -112,6 +116,8 @@ function chic_home_hero_slides( int $post_id ): array {
 				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/3-chic-centre-suites-athens-deluxe-suite-ocean-kitchen-athens.webp',
 				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/3-chic-centre-suites-athens-deluxe-suite-ocean-kitchen-athens.webp',
 				'fetchpriority' => 'low',
+				'srcset'        => '',
+				'mobile_srcset' => '',
 			],
 		];
 	}
@@ -122,12 +128,15 @@ function chic_home_hero_slides( int $post_id ): array {
 		if ( $id <= 0 ) continue;
 		$desktop = wp_get_attachment_image_url( $id, 'full' );
 		if ( ! $desktop ) continue;
+		$mobile = wp_get_attachment_image_url( $id, 'medium_large' ) ?: $desktop;
 		$slides[] = [
 			'id'            => $id,
 			'alt'           => (string) get_post_meta( $id, '_wp_attachment_image_alt', true ),
 			'desktop'       => $desktop,
-			'mobile'        => wp_get_attachment_image_url( $id, 'medium_large' ) ?: $desktop,
+			'mobile'        => $mobile,
 			'fetchpriority' => 0 === $index ? 'high' : ( 1 === $index ? 'auto' : 'low' ),
+			'srcset'        => wp_get_attachment_image_srcset( $id, 'full' ) ?: '',
+			'mobile_srcset' => wp_get_attachment_image_srcset( $id, 'medium_large' ) ?: '',
 		];
 	}
 

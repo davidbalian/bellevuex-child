@@ -41,13 +41,21 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 					<div class="swiper-slide">
 						<div class="<?php echo esc_attr( $hero_slide_class ); ?>">
 							<picture>
-								<source media="(max-width: 768px)" srcset="<?php echo esc_url( $slide['mobile'] ); ?>">
+								<source
+									media="(max-width: 768px)"
+									srcset="<?php echo $slide['mobile_srcset'] ? esc_attr( $slide['mobile_srcset'] ) : esc_url( $slide['mobile'] ); ?>"
+									sizes="100vw"
+								>
 								<img
 									src="<?php echo esc_url( $slide['desktop'] ); ?>"
 									alt="<?php echo esc_attr( $slide['alt'] ); ?>"
 									loading="<?php echo 0 === $hero_slide_index ? 'eager' : 'lazy'; ?>"
 									decoding="async"
 									fetchpriority="<?php echo esc_attr( $slide['fetchpriority'] ); ?>"
+									<?php if ( $slide['srcset'] ) : ?>
+									srcset="<?php echo esc_attr( $slide['srcset'] ); ?>"
+									sizes="100vw"
+									<?php endif; ?>
 								>
 							</picture>
 						</div>

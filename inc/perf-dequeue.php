@@ -358,16 +358,27 @@ add_action( 'wp_head', function () {
 		return;
 	}
 
-	$first    = $slides[0];
-	$desktop  = esc_url( $first['desktop'] );
-	$mobile   = esc_url( $first['mobile'] );
+	$first   = $slides[0];
+	$desktop = esc_url( $first['desktop'] );
+	$mobile  = esc_url( $first['mobile'] );
+	$srcset  = ! empty( $first['srcset'] ) ? esc_attr( $first['srcset'] ) : '';
+	$mob_srcset = ! empty( $first['mobile_srcset'] ) ? esc_attr( $first['mobile_srcset'] ) : '';
 
-	// Preload the desktop hero for all viewports; mobile will be handled by <picture>.
-	// fetchpriority=high tells the browser to download this before layout paint.
-	echo '<link rel="preload" as="image" href="' . $desktop . '" fetchpriority="high">' . "\n";
+	// Desktop preload — imagesrcset lets the browser pick the right size early.
+	$desktop_preload = '<link rel="preload" as="image" href="' . $desktop . '"';
+	if ( $srcset ) {
+		$desktop_preload .= ' imagesrcset="' . $srcset . '" imagesizes="100vw"';
+	}
+	$desktop_preload .= ' fetchpriority="high">' . "\n";
+	echo $desktop_preload;
 
-	// If a distinct mobile src exists, also preload it for narrow viewports.
+	// Mobile preload for narrow viewports.
 	if ( $mobile && $mobile !== $desktop ) {
-		echo '<link rel="preload" as="image" href="' . $mobile . '" media="(max-width: 768px)">' . "\n";
+		$mobile_preload = '<link rel="preload" as="image" href="' . $mobile . '" media="(max-width: 768px)"';
+		if ( $mob_srcset ) {
+			$mobile_preload .= ' imagesrcset="' . $mob_srcset . '" imagesizes="100vw"';
+		}
+		$mobile_preload .= '>' . "\n";
+		echo $mobile_preload;
 	}
 }, 2 ); // priority 2 = very early in <head>, before plugin stylesheets
