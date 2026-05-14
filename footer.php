@@ -30,9 +30,9 @@ defined( 'ABSPATH' ) || exit;
 			<section class="site-footer__column">
 				<h3 class="site-footer__heading">Useful Links</h3>
 				<ul class="site-footer__list">
-					<li><a href="#">Privacy Policy</a></li>
-					<li><a href="#">Cookie Policy</a></li>
-					<li><a href="#">Terms &amp; Conditions</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/privacy-policy/' ) ); ?>">Privacy Policy</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/cookie-policy/' ) ); ?>">Cookie Policy</a></li>
+					<li><a href="<?php echo esc_url( home_url( '/terms-and-conditions/' ) ); ?>">Terms &amp; Conditions</a></li>
 					<li><a href="#" onclick="window.chicReopenCookieBanner && window.chicReopenCookieBanner(); return false;">Cookie preferences</a></li>
 				</ul>
 			</section>
