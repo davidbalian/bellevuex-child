@@ -45,9 +45,24 @@ function chic_testimonials_resolve_room_id( string $suite_or_source ): int {
 }
 
 /**
+ * Flag asset in uploads root: …/uploads/flag-{code}.png (e.g. flag-cy.png).
+ */
+function chic_testimonials_flag_url( string $country_code ): string {
+	$code = preg_replace( '/[^a-z]/', '', strtolower( $country_code ) );
+	if ( '' === $code ) {
+		return '';
+	}
+	$upload = wp_upload_dir();
+	if ( ! empty( $upload['error'] ) || empty( $upload['baseurl'] ) ) {
+		return '';
+	}
+	return trailingslashit( $upload['baseurl'] ) . 'flag-' . $code . '.png';
+}
+
+/**
  * Curated reviews (chiccentresuites.com/reviews-what-people-say/).
  *
- * @return array<int, array{author: string, suite_match: string, suite_label: string, suite_context: string, source_label: string, suite_fallback_line: string, review: string}>
+ * @return array<int, array{author: string, country_code: string, suite_match: string, suite_label: string, source_label: string, suite_fallback_line: string, review: string}>
  */
 function chic_testimonials_curated_rows(): array {
 	return [
@@ -56,7 +71,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'gr',
 			'suite_match'         => 'Suite 3',
 			'suite_label'         => 'Suite 3',
-			'suite_context'       => 'January 2025',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Praised the modern, spotless facilities, high-quality bedding and amenities, helpful hosts, and strong sense of security. Mentioned the lively yet safe surrounding area and appreciated the hospitality.',
@@ -66,7 +80,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'mx',
 			'suite_match'         => 'Forest Suite',
 			'suite_label'         => 'Forest Suite',
-			'suite_context'       => 'October 2024',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Described the location, attention, cleanliness, and spacious room as excellent.',
@@ -76,7 +89,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'it',
 			'suite_match'         => 'Korali Suite',
 			'suite_label'         => 'Korali Suite',
-			'suite_context'       => 'July 2021',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Loved the stylish apartment, modern technology features, excellent cleanliness, kitchen setup, and central location. Highlighted the owner\'s kindness and hospitality.',
@@ -86,7 +98,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'nl',
 			'suite_match'         => 'Forest Suite',
 			'suite_label'         => 'Forest Suite',
-			'suite_context'       => 'July 2021',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Mentioned the top location, tasteful furnishings, well-equipped apartment, and helpful owner.',
@@ -96,7 +107,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'ru',
 			'suite_match'         => 'Avra Suite',
 			'suite_label'         => 'Avra Suite',
-			'suite_context'       => 'July 2021',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Said the location was perfect for a city stay and appreciated the thoughtful details throughout the apartment.',
@@ -106,7 +116,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'it',
 			'suite_match'         => 'Zakynthos Suite',
 			'suite_label'         => 'Zakynthos Suite',
-			'suite_context'       => 'June 2021',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Called the stay "great," praising the cleanliness, central Athens location, warm welcome, and useful local advice from the host.',
@@ -116,7 +125,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'gb',
 			'suite_match'         => 'Korali Suite',
 			'suite_label'         => 'Korali Suite',
-			'suite_context'       => 'June 2021',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Highlighted the clean and tidy room, excellent bed and bathroom, privacy, and accommodating owners who allowed late checkout.',
@@ -126,7 +134,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'cy',
 			'suite_match'         => 'Santorini Suite',
 			'suite_label'         => 'Santorini Suite',
-			'suite_context'       => 'July 2020',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Mentioned the owner\'s friendliness and helpfulness, spotless condition, quiet environment despite the central location, and walking-distance access to attractions.',
@@ -136,7 +143,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'gr',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'suite_context'       => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
 			'review'              => 'Praised the amazing location, clean and modern rooms, comfortable bed, and proximity to shops and the city center.',
@@ -146,7 +152,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'jp',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'suite_context'       => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
 			'review'              => 'Appreciated the excellent amenities, cleanliness, comfort, many electrical outlets, and the host\'s helpfulness during the stay.',
@@ -156,7 +161,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'fr',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'suite_context'       => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
 			'review'              => 'Highlighted the central location, attentive reception, and responsive service.',
@@ -166,7 +170,6 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'gb',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'suite_context'       => '',
 			'source_label'        => 'Review from Booking.com',
 			'suite_fallback_line' => '',
 			'review'              => 'Enjoyed the fully equipped apartment, private balcony area, espresso machine, jacuzzi, and overall modern condition of the property.',
@@ -176,16 +179,15 @@ function chic_testimonials_curated_rows(): array {
 			'country_code'        => 'cy',
 			'suite_match'         => 'Santorini Suite',
 			'suite_label'         => 'Santorini Suite',
-			'suite_context'       => 'December 2019',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Said it was the best apartment they had stayed in Athens, noting the luxury feel, comfort, strong Wi-Fi, cleanliness, and friendly staff.',
 		],
 		[
 			'author'              => 'Guest',
+			'country_code'        => '',
 			'suite_match'         => '',
 			'suite_label'         => '',
-			'suite_context'       => '',
 			'source_label'        => '',
 			'suite_fallback_line' => '',
 			'review'              => 'Strongly recommended the suites for luxury stays, business trips, couples, or families, mentioning the central location and hotel-style facilities at reasonable prices.',

@@ -65,10 +65,10 @@ while ( have_posts() ) :
 					<div class="suite-card__body">
 						<?php if ( ! empty( $row['author'] ) ) : ?>
 						<p class="testimonials-card__author">
-							<?php if ( ! empty( $row['country_code'] ) ) :
-								$_upload   = wp_upload_dir();
-								$_flag_url = trailingslashit( $_upload['baseurl'] ) . '2026/05/flag-' . $row['country_code'] . '.png';
-							?>
+							<?php
+							$_flag_url = ! empty( $row['country_code'] ) ? chic_testimonials_flag_url( (string) $row['country_code'] ) : '';
+							if ( $_flag_url ) :
+								?>
 							<img class="testimonials-card__flag"
 							     src="<?php echo esc_url( $_flag_url ); ?>"
 							     alt=""
@@ -82,9 +82,6 @@ while ( have_posts() ) :
 						<?php if ( ! empty( $row['suite_linked'] ) && ! empty( $row['permalink'] ) && ! empty( $row['suite_label'] ) ) : ?>
 						<h3 class="suite-card__title testimonials-card__suite-title">
 							<a class="suite-card__title-link" href="<?php echo esc_url( $row['permalink'] ); ?>"><?php echo esc_html( $row['suite_label'] ); ?></a>
-							<?php if ( ! empty( $row['suite_context'] ) ) : ?>
-							<span class="suite-card__title-context"><?php echo esc_html( ' · ' . $row['suite_context'] ); ?></span>
-							<?php endif; ?>
 						</h3>
 						<?php elseif ( ! empty( $row['source_label'] ) ) : ?>
 						<p class="testimonials-card__source chic-type-meta"><?php echo esc_html( $row['source_label'] ); ?></p>

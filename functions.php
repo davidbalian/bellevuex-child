@@ -177,6 +177,9 @@ require_once __DIR__ . '/inc/suite-data.php';
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 
+// ── Performance: targeted dequeues + hero LCP preload ────────────────────────
+require_once __DIR__ . '/inc/perf-dequeue.php';
+
 // ── Force single-mphb_room_type.php for all accommodation posts ──────────────
 // Runs at priority 99 to override Elementor's template_include hook.
 add_filter( 'template_include', function ( $template ) {

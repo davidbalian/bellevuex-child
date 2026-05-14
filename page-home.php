@@ -45,7 +45,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 								<img
 									src="<?php echo esc_url( $slide['desktop'] ); ?>"
 									alt="<?php echo esc_attr( $slide['alt'] ); ?>"
-									loading="eager"
+									loading="<?php echo 0 === $hero_slide_index ? 'eager' : 'lazy'; ?>"
 									decoding="async"
 									fetchpriority="<?php echo esc_attr( $slide['fetchpriority'] ); ?>"
 								>
