@@ -190,6 +190,17 @@ while ( have_posts() ) :
 		</div>
 	</section>
 
+	<!-- ── Floating Book Now (mobile) ───────────────────────────────────────── -->
+	<div class="suite-float-book js-suite-float-book" aria-hidden="true">
+		<a
+			class="btn btn--primary"
+			href="<?php echo esc_url( $book_now_url ); ?>"
+			target="_blank"
+			rel="noopener noreferrer"
+			tabindex="-1"
+		>Book Now</a>
+	</div>
+
 </main>
 
 <?php

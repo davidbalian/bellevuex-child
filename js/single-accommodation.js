@@ -92,3 +92,26 @@ document.addEventListener( 'DOMContentLoaded', function () {
 		window.addEventListener( 'load', init );
 	}
 } )();
+
+/* ── Floating Book Now (mobile only) ─────────────────────────────────────── */
+( function () {
+	var MQ       = window.matchMedia( '(max-width: 768px)' );
+	var bookBtn  = document.querySelector( '.suite-amenities__book' );
+	var floatBar = document.querySelector( '.js-suite-float-book' );
+	if ( ! bookBtn || ! floatBar || ! window.IntersectionObserver ) return;
+
+	var obs = new IntersectionObserver( function ( entries ) {
+		var visible = entries[ 0 ].isIntersecting;
+		if ( MQ.matches ) {
+			floatBar.classList.toggle( 'is-visible', ! visible );
+			floatBar.setAttribute( 'aria-hidden', visible ? 'true' : 'false' );
+			floatBar.querySelector( 'a' ).setAttribute( 'tabindex', visible ? '-1' : '0' );
+		} else {
+			floatBar.classList.remove( 'is-visible' );
+			floatBar.setAttribute( 'aria-hidden', 'true' );
+			floatBar.querySelector( 'a' ).setAttribute( 'tabindex', '-1' );
+		}
+	}, { threshold: 0 } );
+
+	obs.observe( bookBtn );
+} )();

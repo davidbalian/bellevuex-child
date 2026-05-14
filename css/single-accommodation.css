@@ -245,3 +245,40 @@
 		padding-inline: 0.5rem;
 	}
 }
+
+/* ── Floating Book Now ──────────────────────────────────────────────────────── */
+
+.suite-float-book {
+	display: none;
+}
+
+@media (max-width: 768px) {
+	.suite-float-book {
+		display: block;
+		position: fixed;
+		bottom: 0.25rem;
+		left: 0.25rem;
+		right: 0.25rem;
+		z-index: 200;
+		background: #fff;
+		border-radius: 9999px;
+		padding: 0.3rem;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.14);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition: opacity 0.3s ease, visibility 0.3s ease;
+	}
+
+	.suite-float-book.is-visible {
+		opacity: 1;
+		visibility: visible;
+		pointer-events: auto;
+	}
+
+	.suite-float-book .btn {
+		display: block !important;
+		width: 100% !important;
+		text-align: center !important;
+	}
+}
