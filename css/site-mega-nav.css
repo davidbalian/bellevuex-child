@@ -159,16 +159,17 @@
 		opacity: 1;
 	}
 
-	/* Right column: building image */
+	/* Left column: building image */
 	.mega-panel__preview {
+		order: -1;
 		position: relative;
 		border-radius: 0.5rem;
 		overflow: hidden;
 		background: #f0f0f0;
 		aspect-ratio: 4 / 3;
-		/* Height is viewport-bound; width follows aspect-ratio → shrinks when short */
-		height: min(calc(100vh - var(--site-header-height) - 4rem), 420px);
-		width: auto;
+		width: 100%;
+		min-width: 0;
+		max-height: min(calc(100vh - var(--site-header-height) - 4rem), 420px);
 		opacity: 0;
 		transition: opacity var(--site-mega-flyout-rate) var(--site-mega-flyout-ease);
 	}
