@@ -226,18 +226,17 @@ function chic_output_custom_header(): void {
 					</button>
 				</nav>
 				<?php
-				$_chic_cur_lang = chic_get_current_lang();
+				$_chic_cur_lang   = chic_get_current_lang();
+				$_chic_other_lang = 'en' === $_chic_cur_lang ? 'el' : 'en';
+				$_chic_desk_label = [ 'en' => 'EN', 'el' => 'ΕΛ' ][ $_chic_other_lang ];
+				$_chic_flag       = [ 'en' => '🇬🇧', 'el' => '🇬🇷' ][ $_chic_other_lang ];
 				?>
 				<div class="site-header__lang" role="navigation" aria-label="Language">
-					<a href="<?php echo esc_url( chic_lang_switch_url( 'en' ) ); ?>"
-					   class="site-header__lang-btn<?php echo 'en' === $_chic_cur_lang ? ' is-active' : ''; ?>"
-					   <?php echo 'en' === $_chic_cur_lang ? 'aria-current="page"' : ''; ?>
-					   hreflang="en">EN</a>
-					<span class="site-header__lang-divider" aria-hidden="true">|</span>
-					<a href="<?php echo esc_url( chic_lang_switch_url( 'el' ) ); ?>"
-					   class="site-header__lang-btn<?php echo 'el' === $_chic_cur_lang ? ' is-active' : ''; ?>"
-					   <?php echo 'el' === $_chic_cur_lang ? 'aria-current="page"' : ''; ?>
-					   hreflang="el">EL</a>
+					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
+					   class="site-header__lang-btn"
+					   hreflang="<?php echo esc_attr( $_chic_other_lang ); ?>">
+						<span class="site-header__lang-flag" aria-hidden="true"><?php echo $_chic_flag; ?></span><?php echo esc_html( $_chic_desk_label ); ?>
+					</a>
 				</div>
 			</div>
 
@@ -251,16 +250,17 @@ function chic_output_custom_header(): void {
 				<?php chic_header_render_items( true ); ?>
 			</ul>
 			<?php
-			$_chic_cur_lang_mob = chic_get_current_lang();
+			$_chic_cur_lang_mob   = chic_get_current_lang();
+			$_chic_other_lang_mob = 'en' === $_chic_cur_lang_mob ? 'el' : 'en';
+			$_chic_mob_label      = [ 'en' => 'English', 'el' => 'Ελληνικά' ][ $_chic_other_lang_mob ];
+			$_chic_mob_flag       = [ 'en' => '🇬🇧', 'el' => '🇬🇷' ][ $_chic_other_lang_mob ];
 			?>
 			<div class="mobile-nav__lang">
-				<a href="<?php echo esc_url( chic_lang_switch_url( 'en' ) ); ?>"
-				   class="mobile-nav__lang-btn<?php echo 'en' === $_chic_cur_lang_mob ? ' is-active' : ''; ?>"
-				   hreflang="en">EN</a>
-				<span class="mobile-nav__lang-divider" aria-hidden="true">|</span>
-				<a href="<?php echo esc_url( chic_lang_switch_url( 'el' ) ); ?>"
-				   class="mobile-nav__lang-btn<?php echo 'el' === $_chic_cur_lang_mob ? ' is-active' : ''; ?>"
-				   hreflang="el">EL</a>
+				<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang_mob ) ); ?>"
+				   class="mobile-nav__lang-btn"
+				   hreflang="<?php echo esc_attr( $_chic_other_lang_mob ); ?>">
+					<span class="mobile-nav__lang-flag" aria-hidden="true"><?php echo $_chic_mob_flag; ?></span><?php echo esc_html( $_chic_mob_label ); ?>
+				</a>
 			</div>
 			<div class="mobile-nav__footer">
 				<a href="<?php echo esc_url( chic_header_book_now_url() ); ?>" class="mobile-nav__cta btn btn--primary">
