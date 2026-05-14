@@ -207,8 +207,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	$dir = get_stylesheet_directory_uri();
 	$ver = wp_get_theme()->get( 'Version' );
 
-	wp_enqueue_style( 'chic-manrope', 'https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap', [], null );
-	wp_enqueue_style( 'chic-tokens',            "$dir/css/tokens.css",                  [ 'chic-manrope' ],    $ver );
+	wp_enqueue_style( 'chic-manrope', "$dir/assets/fonts/manrope/manrope.css", [], $ver );
+	wp_enqueue_style( 'chic-tokens',      "$dir/css/tokens.css",              [ 'chic-manrope' ], $ver );
 	wp_enqueue_style( 'chic-buttons',           "$dir/css/buttons.css",                 [ 'chic-tokens' ],     $ver );
 	wp_enqueue_style( 'chic-suite-card',        "$dir/css/suite-card.css",              [ 'chic-tokens' ],     $ver );
 	wp_enqueue_style( 'chic-site-header',       "$dir/css/site-header.css",             [ 'chic-tokens' ],     $ver );
@@ -248,6 +248,8 @@ add_action( 'wp_enqueue_scripts', function () {
 	}
 
 	if ( is_singular( 'mphb_room_type' ) ) {
+		wp_enqueue_style(  'chic-fontawesome', "$dir/assets/vendor/fontawesome/css/fontawesome.min.css", [], '5.15.4' );
+		wp_enqueue_style(  'chic-fa-solid',    "$dir/assets/vendor/fontawesome/css/solid.min.css", [ 'chic-fontawesome' ], '5.15.4' );
 		wp_enqueue_style(  'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                     $ver );
 		wp_enqueue_script( 'chic-swiper',                 "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                     $ver, true );
 		wp_enqueue_style(  'chic-page-home',              "$dir/css/page-home.css",                          [ 'chic-tokens' ],                      $ver );

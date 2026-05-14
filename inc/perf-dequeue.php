@@ -33,6 +33,27 @@ add_action( 'wp_enqueue_scripts', function () {
 	if ( isset( $wp_scripts->registered['jquery-migrate'] ) ) {
 		$wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
 	}
+
+	// ── Google Fonts (global) ─────────────────────────────────────────────────
+	// All fonts are self-hosted. Strip any fonts.googleapis.com request site-wide.
+	global $wp_styles;
+	foreach ( array_keys( $wp_styles->registered ) as $handle ) {
+		$src = $wp_styles->registered[ $handle ]->src ?? '';
+		if ( strpos( $src, 'fonts.googleapis.com' ) !== false ) {
+			wp_dequeue_style( $handle );
+			wp_deregister_style( $handle );
+		}
+	}
+
+	// ── Elementor widget partials (global) ────────────────────────────────────
+	// widget-blockquote.min.css leaks onto every page with an Elementor block.
+	foreach ( array_keys( $wp_styles->registered ) as $handle ) {
+		$src = $wp_styles->registered[ $handle ]->src ?? '';
+		if ( strpos( $src, 'widget-blockquote' ) !== false ) {
+			wp_dequeue_style( $handle );
+			wp_deregister_style( $handle );
+		}
+	}
 }, 9999 );
 
 
@@ -320,19 +341,6 @@ add_action( 'wp_enqueue_scripts', function () {
 		) {
 			wp_dequeue_script( $handle );
 			wp_deregister_script( $handle );
-		}
-	}
-
-	// ── Parent theme Google Fonts (Roboto, Roboto Slab, Open Sans) ───────────
-	// We load Manrope ourselves; the parent theme's fonts are unused.
-	foreach ( array_keys( $wp_styles->registered ) as $handle ) {
-		$src = $wp_styles->registered[ $handle ]->src ?? '';
-		if (
-			strpos( $src, 'fonts.googleapis.com' ) !== false &&
-			strpos( $src, 'Manrope' ) === false // keep our own font
-		) {
-			wp_dequeue_style( $handle );
-			wp_deregister_style( $handle );
 		}
 	}
 
