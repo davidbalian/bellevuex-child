@@ -3,13 +3,18 @@
  * Admin Tool: Unused Images
  * Tools → Unused Images
  *
- * Scans post content, postmeta, and wp_options for image attachment IDs,
- * then lists every image attachment that is not referenced anywhere.
- * Delete in two safe steps: Trash first, then permanently empty the trash.
+ * An image is considered "in use" if it is:
+ *   1. A hardcoded URL in the theme (building images, hero fallbacks, logos, etc.)
+ *   2. Referenced by the mega-menu (_chic_header_menu on chic_header_cfg)
+ *   3. A featured image (_thumbnail_id) on any mphb_room_type post
+ *   4. In the gallery (mphb_gallery) of any mphb_room_type post
+ *
+ * Everything else is a deletion candidate. Delete in two safe steps:
+ * Trash first (recoverable), then permanently empty the trash.
  */
 defined( 'ABSPATH' ) || exit;
 
-// ── Theme-hardcoded URL safelist ──────────────────────────────────────────────
+// ── Hardcoded theme image URLs ────────────────────────────────────────────────
 
 function chic_unused_theme_urls(): array {
 	return [
@@ -37,150 +42,103 @@ function chic_unused_theme_urls(): array {
 	];
 }
 
-// ── Filename pattern safelist (used dynamically — no resolvable ID) ───────────
-
-function chic_unused_is_pattern_safe( string $filename ): bool {
-	// inc/testimonials-data.php uses flag-{country-code}.png dynamically
-	if ( preg_match( '/^flag-[a-z]{2}\.(png|jpg|jpeg|webp|gif)$/i', $filename ) ) return true;
-	if ( $filename === 'cardlinkLogo.svg' ) return true;
-	return false;
-}
-
-// ── URL normalizer (staging ↔ prod → current site upload URL) ─────────────────
+// ── URL normalizer (staging ↔ prod → current site) ───────────────────────────
 
 function chic_unused_normalize_url( string $url ): string {
-	$upload_dir  = wp_upload_dir();
-	$upload_base = trailingslashit( $upload_dir['baseurl'] );
-	$upload_path = '/wp-content/uploads/';
-
+	$base = trailingslashit( wp_upload_dir()['baseurl'] );
+	$path = '/wp-content/uploads/';
 	foreach ( [
 		'https://chiccentresuites.com',
 		'https://davidb1553.sg-host.com',
 		'http://chiccentresuites.com',
 		'http://davidb1553.sg-host.com',
 	] as $host ) {
-		if ( str_starts_with( $url, $host . $upload_path ) ) {
-			return $upload_base . substr( $url, strlen( $host . $upload_path ) );
+		if ( str_starts_with( $url, $host . $path ) ) {
+			return $base . substr( $url, strlen( $host . $path ) );
 		}
 	}
-
 	return $url;
 }
 
-// ── ID extractor from raw text (post_content) ────────────────────────────────
+// ── Filename pattern safelist ─────────────────────────────────────────────────
 
-function chic_unused_ids_from_text( string $text, array $all_ids ): array {
-	$found = [];
+function chic_unused_is_pattern_safe( string $filename ): bool {
+	// flag-XX.png used dynamically in inc/testimonials-data.php by ISO country code
+	return (bool) preg_match( '/^flag-[a-z]{2}\.(png|jpg|jpeg|webp|gif)$/i', $filename );
+}
 
-	// class="wp-image-NNN" — classic editor + Gutenberg <img> tags
-	if ( preg_match_all( '/wp-image-(\d+)/', $text, $m ) ) {
-		foreach ( $m[1] as $id ) {
-			if ( isset( $all_ids[ (int) $id ] ) ) $found[] = (int) $id;
-		}
+// ── Build the complete "in use" ID set ────────────────────────────────────────
+
+function chic_unused_build_used_set(): array {
+	$used = [];
+	$log  = [];
+
+	// 1. Hardcoded theme URLs
+	$theme_count = 0;
+	foreach ( chic_unused_theme_urls() as $url ) {
+		$id = attachment_url_to_postid( chic_unused_normalize_url( $url ) );
+		if ( $id > 0 ) { $used[] = $id; $theme_count++; }
 	}
+	$log[] = [ 'lvl' => 'dim', 'text' => "  Hardcoded theme URLs: $theme_count image(s) safelisted" ];
 
-	// Gutenberg block comments — "id":NNN inside image/gallery/cover/media-text
-	if ( preg_match_all( '/<!--\s*wp:(?:image|gallery|cover|media-text)\s[^-]*?-->/s', $text, $blocks ) ) {
-		foreach ( $blocks[0] as $block ) {
-			if ( preg_match_all( '/"id"\s*:\s*(\d+)/', $block, $bm ) ) {
-				foreach ( $bm[1] as $id ) {
-					if ( isset( $all_ids[ (int) $id ] ) ) $found[] = (int) $id;
+	// 2. Mega-menu images (_chic_header_menu on chic_header_cfg CPT)
+	$menu_count = 0;
+	$config_id  = function_exists( 'chic_header_config_id' ) ? chic_header_config_id() : 0;
+	if ( ! $config_id ) {
+		$cfg_posts = get_posts( [ 'post_type' => 'chic_header_cfg', 'numberposts' => 1,
+			'post_status' => 'publish', 'fields' => 'ids' ] );
+		$config_id = $cfg_posts ? (int) $cfg_posts[0] : 0;
+	}
+	if ( $config_id ) {
+		$menu = get_post_meta( $config_id, '_chic_header_menu', true );
+		if ( is_array( $menu ) ) {
+			foreach ( $menu as $item ) {
+				foreach ( $item['mega_groups'] ?? [] as $group ) {
+					if ( ! empty( $group['image'] ) ) { $used[] = (int) $group['image']; $menu_count++; }
+					foreach ( $group['suites'] ?? [] as $suite ) {
+						if ( ! empty( $suite['image'] ) ) { $used[] = (int) $suite['image']; $menu_count++; }
+					}
 				}
 			}
 		}
 	}
+	$log[] = [ 'lvl' => 'dim', 'text' => "  Mega-menu images: $menu_count image(s) safelisted" ];
 
-	// Gutenberg gallery block — "ids":[N,N,N]
-	if ( preg_match_all( '/"ids"\s*:\s*\[([^\]]+)\]/', $text, $gm ) ) {
-		foreach ( $gm[1] as $list ) {
-			foreach ( explode( ',', $list ) as $id ) {
+	// 3 & 4. Featured images + galleries on all mphb_room_type posts
+	$feat_count    = 0;
+	$gallery_count = 0;
+	$rooms = get_posts( [
+		'post_type'      => 'mphb_room_type',
+		'numberposts'    => -1,
+		'post_status'    => 'any',
+		'fields'         => 'ids',
+		'no_found_rows'  => true,
+	] );
+	foreach ( $rooms as $room_id ) {
+		$thumb = (int) get_post_meta( $room_id, '_thumbnail_id', true );
+		if ( $thumb > 0 ) { $used[] = $thumb; $feat_count++; }
+
+		$gallery_raw = get_post_meta( $room_id, 'mphb_gallery', true );
+		if ( $gallery_raw ) {
+			foreach ( explode( ',', $gallery_raw ) as $id ) {
 				$id = (int) trim( $id );
-				if ( $id > 0 && isset( $all_ids[ $id ] ) ) $found[] = $id;
+				if ( $id > 0 ) { $used[] = $id; $gallery_count++; }
 			}
 		}
 	}
+	$log[] = [ 'lvl' => 'dim', 'text' => "  Accommodation featured images: $feat_count" ];
+	$log[] = [ 'lvl' => 'dim', 'text' => "  Accommodation gallery images: $gallery_count" ];
 
-	// wp-content/uploads/ URLs → normalize host → resolve to attachment ID
-	if ( preg_match_all( '#https?://[^\s"\'<>)]+/wp-content/uploads/[^\s"\'<>)]+\.(?:jpe?g|png|gif|webp|svg|avif)#i', $text, $um ) ) {
-		foreach ( $um[0] as $url ) {
-			$id = attachment_url_to_postid( chic_unused_normalize_url( $url ) );
-			if ( $id > 0 && isset( $all_ids[ $id ] ) ) $found[] = $id;
-		}
-	}
-
-	return array_unique( $found );
+	return [ 'ids' => array_unique( array_filter( $used ) ), 'log' => $log ];
 }
 
-// ── ID extractor from arbitrary serialized/JSON/scalar value ──────────────────
-
-function chic_unused_ids_from_value( $value, array $all_ids, int $depth = 0 ): array {
-	if ( $depth > 8 || $value === null || $value === false || $value === '' ) return [];
-
-	$found = [];
-
-	// Plain integer
-	if ( is_int( $value ) ) {
-		return ( $value > 0 && isset( $all_ids[ $value ] ) ) ? [ $value ] : [];
-	}
-
-	// Array or object — recurse
-	if ( is_array( $value ) || is_object( $value ) ) {
-		foreach ( (array) $value as $v ) {
-			$found = array_merge( $found, chic_unused_ids_from_value( $v, $all_ids, $depth + 1 ) );
-		}
-		return array_unique( $found );
-	}
-
-	if ( ! is_string( $value ) ) return [];
-
-	// Comma-separated integers — mphb_gallery, _product_image_gallery
-	if ( preg_match( '/^\d+(?:,\d+)*$/', trim( $value ) ) ) {
-		foreach ( explode( ',', $value ) as $id ) {
-			$id = (int) trim( $id );
-			if ( $id > 0 && isset( $all_ids[ $id ] ) ) $found[] = $id;
-		}
-		return array_unique( $found );
-	}
-
-	// Plain integer string
-	if ( ctype_digit( trim( $value ) ) ) {
-		$id = (int) $value;
-		return ( $id > 0 && isset( $all_ids[ $id ] ) ) ? [ $id ] : [];
-	}
-
-	// PHP serialized
-	if ( is_serialized( $value ) ) {
-		$unserialized = @unserialize( $value, [ 'allowed_classes' => false ] );
-		if ( $unserialized !== false ) {
-			return chic_unused_ids_from_value( $unserialized, $all_ids, $depth + 1 );
-		}
-	}
-
-	// JSON array or object
-	if ( strlen( $value ) > 1 && ( $value[0] === '[' || $value[0] === '{' ) ) {
-		$decoded = json_decode( $value, true );
-		if ( $decoded !== null ) {
-			return chic_unused_ids_from_value( $decoded, $all_ids, $depth + 1 );
-		}
-	}
-
-	// String containing uploads URLs
-	if ( strpos( $value, 'wp-content/uploads/' ) !== false ) {
-		return chic_unused_ids_from_text( $value, $all_ids );
-	}
-
-	return [];
-}
-
-// ── Helper: image attachment trash count ──────────────────────────────────────
+// ── Helper: trash count ───────────────────────────────────────────────────────
 
 function chic_unused_current_trash_count(): int {
 	global $wpdb;
 	return (int) $wpdb->get_var( "
 		SELECT COUNT(*) FROM {$wpdb->posts}
-		WHERE post_type = 'attachment'
-		  AND post_mime_type LIKE 'image/%'
-		  AND post_status = 'trash'
+		WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_status = 'trash'
 	" );
 }
 
@@ -206,29 +164,31 @@ function chic_unused_images_render_page(): void {
 	<div class="wrap" id="chic-unused-wrap">
 		<h1>Unused Images</h1>
 		<p>
-			Scans all post content, post meta, and site options to find images in the media library
-			that are not referenced anywhere. Move candidates to <strong>Trash</strong> first
-			(recoverable via Media&nbsp;→&nbsp;Trash), then <strong>permanently delete</strong> the trash
-			to free disk space.
+			Keeps only images referenced by <strong>hardcoded theme URLs</strong>,
+			the <strong>mega-menu</strong>, and each accommodation's
+			<strong>featured image</strong> and <strong>gallery</strong>.
+			Everything else is a candidate for deletion.<br>
+			Move candidates to <strong>Trash</strong> first (recoverable via Media&nbsp;→&nbsp;Trash),
+			then permanently delete the trash to free disk space.
 		</p>
 
 		<div id="chic-unused-controls">
 			<button id="btn-scan"  class="button button-primary">&#9654; Scan Library</button>
 			<button id="btn-trash" class="button" disabled style="margin-left:8px;">&#128465; Move Selected to Trash</button>
-			<button id="btn-empty" class="button" style="margin-left:8px; color:#b32d2e;">
+			<button id="btn-empty" class="button" style="margin-left:8px;color:#b32d2e;">
 				&#9888;&nbsp;Empty Image Trash
 				<span id="trash-cnt" style="<?php echo $trash_cnt ? '' : 'display:none;'; ?>font-weight:600;">
 					(<?php echo (int) $trash_cnt; ?>)
 				</span>
 			</button>
-			<button id="btn-clear" class="button" style="margin-left:16px; float:right;">Clear log</button>
+			<button id="btn-clear" class="button" style="margin-left:16px;float:right;">Clear log</button>
 			<span id="chic-unused-counter"></span>
 		</div>
 
 		<pre id="chic-unused-log"></pre>
 
-		<div id="chic-unused-results" style="display:none; margin-top:16px;">
-			<p id="chic-unused-summary" style="font-weight:600; font-size:14px;"></p>
+		<div id="chic-unused-results" style="display:none;margin-top:16px;">
+			<p id="chic-unused-summary" style="font-weight:600;font-size:14px;"></p>
 			<table id="chic-unused-table" class="widefat striped" style="table-layout:fixed;">
 				<thead>
 					<tr>
@@ -249,18 +209,13 @@ function chic_unused_images_render_page(): void {
 	<style>
 		#chic-unused-wrap { max-width: 1000px; }
 		#chic-unused-controls {
-			display: flex; align-items: center; flex-wrap: wrap; gap: 4px;
-			margin: 16px 0 12px;
+			display: flex; align-items: center; flex-wrap: wrap; gap: 4px; margin: 16px 0 12px;
 		}
-		#chic-unused-counter {
-			margin-left: 12px; flex: 1; text-align: right;
-			font-style: italic; color: #777;
-		}
+		#chic-unused-counter { margin-left: 12px; flex: 1; text-align: right; font-style: italic; color: #777; }
 		#chic-unused-log {
 			background: #1e1e1e; color: #d4d4d4; font-size: 12px; line-height: 1.6;
-			padding: 14px 16px; border-radius: 4px; height: 300px;
-			overflow-y: auto; white-space: pre-wrap; word-break: break-all;
-			margin-bottom: 4px;
+			padding: 14px 16px; border-radius: 4px; height: 260px;
+			overflow-y: auto; white-space: pre-wrap; word-break: break-all; margin-bottom: 4px;
 		}
 		#chic-unused-log .lvl-head { color: #9cdcfe; font-weight: bold; }
 		#chic-unused-log .lvl-ok   { color: #4ec9b0; }
@@ -272,27 +227,25 @@ function chic_unused_images_render_page(): void {
 		#chic-unused-table img { width: 60px; height: 60px; object-fit: cover; border-radius: 2px; }
 		#chic-unused-table td  { vertical-align: middle; }
 		#chic-unused-table td:nth-child(3) {
-			font-family: monospace; font-size: 11px;
-			overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+			font-family: monospace; font-size: 11px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 		}
 	</style>
 
 	<script>
 	(function () {
-		var ajaxurl    = <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>;
-		var nonce      = <?php echo wp_json_encode( $nonce ); ?>;
-		var btnScan    = document.getElementById('btn-scan');
-		var btnTrash   = document.getElementById('btn-trash');
-		var btnEmpty   = document.getElementById('btn-empty');
-		var btnClear   = document.getElementById('btn-clear');
-		var logEl      = document.getElementById('chic-unused-log');
-		var counter    = document.getElementById('chic-unused-counter');
-		var resultsEl  = document.getElementById('chic-unused-results');
-		var tbody      = document.getElementById('chic-unused-tbody');
-		var summaryEl  = document.getElementById('chic-unused-summary');
-		var chkAll     = document.getElementById('chk-all');
-		var trashCnt   = document.getElementById('trash-cnt');
-		var running    = false;
+		var ajaxurl  = <?php echo wp_json_encode( admin_url( 'admin-ajax.php' ) ); ?>;
+		var nonce    = <?php echo wp_json_encode( $nonce ); ?>;
+		var btnScan  = document.getElementById('btn-scan');
+		var btnTrash = document.getElementById('btn-trash');
+		var btnEmpty = document.getElementById('btn-empty');
+		var btnClear = document.getElementById('btn-clear');
+		var logEl    = document.getElementById('chic-unused-log');
+		var counter  = document.getElementById('chic-unused-counter');
+		var resultsEl = document.getElementById('chic-unused-results');
+		var tbody    = document.getElementById('chic-unused-tbody');
+		var summaryEl = document.getElementById('chic-unused-summary');
+		var chkAll   = document.getElementById('chk-all');
+		var trashCnt = document.getElementById('trash-cnt');
 		var candidates = [];
 
 		function log(lines) {
@@ -307,17 +260,10 @@ function chic_unused_images_render_page(): void {
 			logEl.scrollTop = logEl.scrollHeight;
 		}
 
-		function setRunning(state) {
-			running = state;
-			btnScan.disabled = state;
-		}
-
 		function updateTrashBtn() {
 			var n = tbody.querySelectorAll('input[type=checkbox]:checked').length;
-			btnTrash.disabled   = n === 0;
-			btnTrash.textContent = n > 0
-				? '🗑 Move ' + n + ' to Trash'
-				: '🗑 Move Selected to Trash';
+			btnTrash.disabled = n === 0;
+			btnTrash.textContent = n > 0 ? '🗑 Move ' + n + ' to Trash' : '🗑 Move Selected to Trash';
 		}
 
 		function formatBytes(b) {
@@ -328,9 +274,7 @@ function chic_unused_images_render_page(): void {
 		}
 
 		function esc(s) {
-			return String(s)
-				.replace(/&/g, '&amp;').replace(/</g, '&lt;')
-				.replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+			return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 		}
 
 		function ajax(action, data, cb) {
@@ -339,95 +283,36 @@ function chic_unused_images_render_page(): void {
 			fd.append('_nonce', nonce);
 			Object.keys(data).forEach(function (k) {
 				var v = data[k];
-				if (Array.isArray(v)) {
-					v.forEach(function (item) { fd.append(k + '[]', item); });
-				} else {
-					fd.append(k, v);
-				}
+				if (Array.isArray(v)) { v.forEach(function (i) { fd.append(k + '[]', i); }); }
+				else { fd.append(k, v); }
 			});
 			fetch(ajaxurl, {method: 'POST', body: fd})
 				.then(function (r) { return r.json(); })
 				.then(cb)
-				.catch(function (e) {
-					log({lvl: 'err', text: 'Request failed: ' + e.message});
-					setRunning(false);
-				});
+				.catch(function (e) { log({lvl: 'err', text: 'Request failed: ' + e.message}); btnScan.disabled = false; });
 		}
 
-		// ── Scan sequence ─────────────────────────────────────────────────────
+		// ── Scan ─────────────────────────────────────────────────────────────
 
 		btnScan.addEventListener('click', function () {
-			if (running) return;
-			setRunning(true);
+			btnScan.disabled = true;
 			resultsEl.style.display = 'none';
 			tbody.innerHTML = '';
 			candidates = [];
 			chkAll.checked = false;
 			updateTrashBtn();
-			log({lvl: 'head', text: '── Initializing scan ────────────────────────────────────'});
+			counter.textContent = '';
+			log({lvl: 'head', text: '── Scanning ─────────────────────────────────────────────'});
 
-			ajax('chic_unused_scan', {step: 'init'}, function (res) {
-				if (!res.success) {
-					log({lvl: 'err', text: res.data.msg || 'Init failed'}); setRunning(false); return;
-				}
-				log(res.data.log);
-				counter.textContent = res.data.total_attachments + ' image attachments to check';
-				log({lvl: 'head', text: '── Scanning post content ────────────────────────────────'});
-				scanContent(0, 0);
-			});
-		});
-
-		function scanContent(cursor, total) {
-			ajax('chic_unused_scan', {step: 'content', cursor: cursor}, function (res) {
-				if (!res.success) { log({lvl: 'err', text: res.data.msg}); setRunning(false); return; }
-				log(res.data.log);
-				total += res.data.ids_found || 0;
-				if (res.data.done) {
-					log({lvl: 'head', text: '── Scanning post meta ───────────────────────────────────'});
-					scanMeta(0, 0);
-				} else {
-					scanContent(res.data.cursor, total);
-				}
-			});
-		}
-
-		function scanMeta(cursor, total) {
-			ajax('chic_unused_scan', {step: 'meta', cursor: cursor}, function (res) {
-				if (!res.success) { log({lvl: 'err', text: res.data.msg}); setRunning(false); return; }
-				log(res.data.log);
-				total += res.data.ids_found || 0;
-				if (res.data.done) {
-					log({lvl: 'head', text: '── Scanning site options ────────────────────────────────'});
-					scanOptions(0, 0);
-				} else {
-					scanMeta(res.data.cursor, total);
-				}
-			});
-		}
-
-		function scanOptions(cursor, total) {
-			ajax('chic_unused_scan', {step: 'options', cursor: cursor}, function (res) {
-				if (!res.success) { log({lvl: 'err', text: res.data.msg}); setRunning(false); return; }
-				log(res.data.log);
-				total += res.data.ids_found || 0;
-				if (res.data.done) {
-					log({lvl: 'head', text: '── Computing candidates ─────────────────────────────────'});
-					scanFinalize();
-				} else {
-					scanOptions(res.data.cursor, total);
-				}
-			});
-		}
-
-		function scanFinalize() {
-			ajax('chic_unused_scan', {step: 'finalize'}, function (res) {
-				if (!res.success) { log({lvl: 'err', text: res.data.msg}); setRunning(false); return; }
+			ajax('chic_unused_scan', {}, function (res) {
+				btnScan.disabled = false;
+				if (!res.success) { log({lvl: 'err', text: res.data.msg || 'Scan failed.'}); return; }
 				log(res.data.log);
 				candidates = res.data.candidates || [];
+				counter.textContent = res.data.total_attachments + ' image attachments checked';
 				renderTable(candidates);
-				setRunning(false);
 			});
-		}
+		});
 
 		function renderTable(items) {
 			var totalBytes = items.reduce(function (s, i) { return s + (i.bytes || 0); }, 0);
@@ -442,7 +327,7 @@ function chic_unused_images_render_page(): void {
 					'<td><input type="checkbox" data-id="' + item.id + '"></td>' +
 					'<td>' + (item.thumb
 						? '<img src="' + esc(item.thumb) + '" loading="lazy" alt="">'
-						: '<span style="color:#bbb;font-size:11px;">no thumb</span>') + '</td>' +
+						: '<span style="color:#bbb;font-size:11px;">—</span>') + '</td>' +
 					'<td title="' + esc(item.filename) + '">' + esc(item.filename) + '</td>' +
 					'<td>' + esc(item.size) + '</td>' +
 					'<td>' + esc(item.dims || '—') + '</td>' +
@@ -460,16 +345,11 @@ function chic_unused_images_render_page(): void {
 		}
 
 		chkAll.addEventListener('change', function () {
-			tbody.querySelectorAll('input[type=checkbox]').forEach(function (c) {
-				c.checked = chkAll.checked;
-			});
+			tbody.querySelectorAll('input[type=checkbox]').forEach(function (c) { c.checked = chkAll.checked; });
 			updateTrashBtn();
 		});
 
-		btnClear.addEventListener('click', function () {
-			logEl.innerHTML = '';
-			counter.textContent = '';
-		});
+		btnClear.addEventListener('click', function () { logEl.innerHTML = ''; counter.textContent = ''; });
 
 		// ── Trash selected ────────────────────────────────────────────────────
 
@@ -478,7 +358,7 @@ function chic_unused_images_render_page(): void {
 			tbody.querySelectorAll('input[type=checkbox]:checked').forEach(function (c) {
 				ids.push(parseInt(c.dataset.id, 10));
 			});
-			if (ids.length === 0) return;
+			if (!ids.length) return;
 			if (!confirm('Move ' + ids.length + ' image(s) to Trash?\n\nYou can restore them from Media → Trash before permanently deleting.')) return;
 
 			btnTrash.disabled = true;
@@ -546,219 +426,24 @@ function chic_unused_ajax_scan(): void {
 		wp_send_json_error( [ 'msg' => 'Unauthorized' ], 403 );
 	}
 
-	$step   = sanitize_key( $_POST['step'] ?? 'init' );
-	$cursor = max( 0, (int) ( $_POST['cursor'] ?? 0 ) );
-
-	switch ( $step ) {
-		case 'init':     chic_unused_step_init(); break;
-		case 'content':  chic_unused_step_content( $cursor ); break;
-		case 'meta':     chic_unused_step_meta( $cursor ); break;
-		case 'options':  chic_unused_step_options( $cursor ); break;
-		case 'finalize': chic_unused_step_finalize(); break;
-		default:         wp_send_json_error( [ 'msg' => 'Unknown step.' ] );
-	}
-}
-
-function chic_unused_step_init(): void {
 	global $wpdb;
 
-	// Fetch all non-trash image attachment IDs as a lookup map (key = id, value = true)
-	$raw_ids = $wpdb->get_col( "
+	// All non-trash image attachment IDs
+	$all_ids = array_map( 'intval', $wpdb->get_col( "
 		SELECT ID FROM {$wpdb->posts}
-		WHERE post_type = 'attachment'
-		  AND post_mime_type LIKE 'image/%'
-		  AND post_status != 'trash'
-	" );
-	$all_map = array_fill_keys( array_map( 'intval', $raw_ids ), true );
+		WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_status != 'trash'
+	" ) );
 
-	// Clear previous scan state
-	delete_transient( 'chic_unused_all_ids' );
-	delete_transient( 'chic_unused_used_ids' );
-	delete_transient( 'chic_unused_candidates' );
+	$result  = chic_unused_build_used_set();
+	$used    = array_fill_keys( $result['ids'], true );
+	$log     = $result['log'];
 
-	set_transient( 'chic_unused_all_ids',  $all_map, 2 * HOUR_IN_SECONDS );
-	set_transient( 'chic_unused_used_ids', [],        2 * HOUR_IN_SECONDS );
-
-	// Pre-resolve hardcoded theme URLs into the used set
-	$safelist_ids = [];
-	foreach ( chic_unused_theme_urls() as $url ) {
-		$id = attachment_url_to_postid( chic_unused_normalize_url( $url ) );
-		if ( $id > 0 ) $safelist_ids[] = $id;
-	}
-
-	// Attachment-parent safety net: if a post owns the attachment, keep it
-	$parented = $wpdb->get_col( "
-		SELECT a.ID FROM {$wpdb->posts} a
-		INNER JOIN {$wpdb->posts} p ON p.ID = a.post_parent
-		WHERE a.post_type     = 'attachment'
-		  AND a.post_mime_type LIKE 'image/%'
-		  AND a.post_status   != 'trash'
-		  AND a.post_parent   > 0
-		  AND p.post_status   NOT IN ('trash', 'auto-draft')
-	" );
-
-	$used = array_unique( array_merge( $safelist_ids, array_map( 'intval', $parented ) ) );
-	set_transient( 'chic_unused_used_ids', $used, 2 * HOUR_IN_SECONDS );
-
-	wp_send_json_success( [
-		'log' => [
-			[ 'lvl' => 'ok',  'text' => sprintf( 'Found %d image attachments to analyze.', count( $all_map ) ) ],
-			[ 'lvl' => 'dim', 'text' => sprintf( 'Safelisted %d IDs from hardcoded theme URLs + attachment parents.', count( $used ) ) ],
-		],
-		'total_attachments' => count( $all_map ),
-	] );
-}
-
-function chic_unused_step_content( int $cursor ): void {
-	global $wpdb;
-
-	$all_ids = get_transient( 'chic_unused_all_ids' );
-	if ( $all_ids === false ) {
-		wp_send_json_error( [ 'msg' => 'Scan session expired — please re-scan.' ] );
-	}
-
-	$chunk = 200;
-	$rows  = $wpdb->get_results( $wpdb->prepare(
-		"SELECT ID, post_content FROM {$wpdb->posts}
-		 WHERE ID > %d
-		   AND post_status NOT IN ('trash', 'auto-draft')
-		   AND post_type NOT IN ('revision', 'attachment')
-		 ORDER BY ID ASC
-		 LIMIT %d",
-		$cursor, $chunk
-	), ARRAY_A );
-
-	$new_ids = [];
-	foreach ( $rows as $row ) {
-		$new_ids = array_merge( $new_ids, chic_unused_ids_from_text( $row['post_content'], $all_ids ) );
-	}
-	$new_ids = array_unique( $new_ids );
-
-	if ( ! empty( $new_ids ) ) {
-		$used = get_transient( 'chic_unused_used_ids' ) ?: [];
-		set_transient( 'chic_unused_used_ids', array_unique( array_merge( $used, $new_ids ) ), 2 * HOUR_IN_SECONDS );
-	}
-
-	$done       = count( $rows ) < $chunk;
-	$new_cursor = empty( $rows ) ? $cursor : (int) end( $rows )['ID'];
-
-	$log = [];
-	if ( ! empty( $rows ) ) {
-		$log[] = [ 'lvl' => 'dim', 'text' => sprintf( '  posts %d–%d: %d image ref(s) found', $cursor + 1, $new_cursor, count( $new_ids ) ) ];
-	}
-	if ( $done ) {
-		$log[] = [ 'lvl' => 'ok', 'text' => 'Post content scan complete.' ];
-	}
-
-	wp_send_json_success( [ 'log' => $log, 'done' => $done, 'cursor' => $new_cursor, 'ids_found' => count( $new_ids ) ] );
-}
-
-function chic_unused_step_meta( int $cursor ): void {
-	global $wpdb;
-
-	$all_ids = get_transient( 'chic_unused_all_ids' );
-	if ( $all_ids === false ) {
-		wp_send_json_error( [ 'msg' => 'Scan session expired — please re-scan.' ] );
-	}
-
-	$chunk = 500;
-	$rows  = $wpdb->get_results( $wpdb->prepare(
-		"SELECT meta_id, meta_value FROM {$wpdb->postmeta}
-		 WHERE meta_id > %d
-		 ORDER BY meta_id ASC
-		 LIMIT %d",
-		$cursor, $chunk
-	), ARRAY_A );
-
-	$new_ids = [];
-	foreach ( $rows as $row ) {
-		$new_ids = array_merge( $new_ids, chic_unused_ids_from_value( $row['meta_value'], $all_ids ) );
-	}
-	$new_ids = array_unique( $new_ids );
-
-	if ( ! empty( $new_ids ) ) {
-		$used = get_transient( 'chic_unused_used_ids' ) ?: [];
-		set_transient( 'chic_unused_used_ids', array_unique( array_merge( $used, $new_ids ) ), 2 * HOUR_IN_SECONDS );
-	}
-
-	$done       = count( $rows ) < $chunk;
-	$new_cursor = empty( $rows ) ? $cursor : (int) end( $rows )['meta_id'];
-
-	$log = [];
-	if ( ! empty( $rows ) ) {
-		$log[] = [ 'lvl' => 'dim', 'text' => sprintf( '  meta rows %d–%d: %d image ref(s) found', $cursor + 1, $new_cursor, count( $new_ids ) ) ];
-	}
-	if ( $done ) {
-		$log[] = [ 'lvl' => 'ok', 'text' => 'Post meta scan complete.' ];
-	}
-
-	wp_send_json_success( [ 'log' => $log, 'done' => $done, 'cursor' => $new_cursor, 'ids_found' => count( $new_ids ) ] );
-}
-
-function chic_unused_step_options( int $cursor ): void {
-	global $wpdb;
-
-	$all_ids = get_transient( 'chic_unused_all_ids' );
-	if ( $all_ids === false ) {
-		wp_send_json_error( [ 'msg' => 'Scan session expired — please re-scan.' ] );
-	}
-
-	$chunk    = 100;
-	$t_like   = $wpdb->esc_like( '_transient_' )      . '%';
-	$st_like  = $wpdb->esc_like( '_site_transient_' ) . '%';
-
-	$rows = $wpdb->get_results( $wpdb->prepare(
-		"SELECT option_id, option_value FROM {$wpdb->options}
-		 WHERE option_id > %d
-		   AND option_name NOT LIKE %s
-		   AND option_name NOT LIKE %s
-		   AND option_name NOT IN ('cron', 'chic_unused_all_ids', 'chic_unused_used_ids', 'chic_unused_candidates')
-		 ORDER BY option_id ASC
-		 LIMIT %d",
-		$cursor, $t_like, $st_like, $chunk
-	), ARRAY_A );
-
-	$new_ids = [];
-	foreach ( $rows as $row ) {
-		$new_ids = array_merge( $new_ids, chic_unused_ids_from_value( $row['option_value'], $all_ids ) );
-	}
-	$new_ids = array_unique( $new_ids );
-
-	if ( ! empty( $new_ids ) ) {
-		$used = get_transient( 'chic_unused_used_ids' ) ?: [];
-		set_transient( 'chic_unused_used_ids', array_unique( array_merge( $used, $new_ids ) ), 2 * HOUR_IN_SECONDS );
-	}
-
-	$done       = count( $rows ) < $chunk;
-	$new_cursor = empty( $rows ) ? $cursor : (int) end( $rows )['option_id'];
-
-	$log = [];
-	if ( ! empty( $rows ) ) {
-		$log[] = [ 'lvl' => 'dim', 'text' => sprintf( '  option rows %d–%d: %d image ref(s) found', $cursor + 1, $new_cursor, count( $new_ids ) ) ];
-	}
-	if ( $done ) {
-		$log[] = [ 'lvl' => 'ok', 'text' => 'Options scan complete.' ];
-	}
-
-	wp_send_json_success( [ 'log' => $log, 'done' => $done, 'cursor' => $new_cursor, 'ids_found' => count( $new_ids ) ] );
-}
-
-function chic_unused_step_finalize(): void {
-	$all_ids = get_transient( 'chic_unused_all_ids' );
-	$used    = get_transient( 'chic_unused_used_ids' ) ?: [];
-
-	if ( $all_ids === false ) {
-		wp_send_json_error( [ 'msg' => 'Scan session expired — please re-scan.' ] );
-	}
-
-	$used_set   = array_fill_keys( $used, true );
 	$candidates = [];
+	foreach ( $all_ids as $id ) {
+		if ( isset( $used[ $id ] ) ) continue;
 
-	foreach ( array_keys( $all_ids ) as $id ) {
-		if ( isset( $used_set[ $id ] ) ) continue;
-
-		$post = get_post( $id );
-		if ( ! $post || $post->post_status === 'trash' ) continue;
+		$post     = get_post( $id );
+		if ( ! $post ) continue;
 
 		$filepath = get_attached_file( $id );
 		$filename  = $filepath ? basename( $filepath ) : '';
@@ -766,8 +451,8 @@ function chic_unused_step_finalize(): void {
 		if ( chic_unused_is_pattern_safe( $filename ) ) continue;
 
 		$meta  = wp_get_attachment_metadata( $id );
-		$dims  = '';
 		$bytes = 0;
+		$dims  = '';
 
 		if ( ! empty( $meta['width'] ) && ! empty( $meta['height'] ) ) {
 			$dims = $meta['width'] . '×' . $meta['height'];
@@ -796,24 +481,23 @@ function chic_unused_step_finalize(): void {
 		];
 	}
 
-	// Largest files first — highest impact at the top
+	// Largest files first
 	usort( $candidates, fn( $a, $b ) => $b['bytes'] <=> $a['bytes'] );
+
+	$total_bytes = array_sum( array_column( $candidates, 'bytes' ) );
+	$log[] = [ 'lvl' => 'done', 'text' => sprintf(
+		'Found %d unused image%s · %s can be freed.',
+		count( $candidates ),
+		count( $candidates ) === 1 ? '' : 's',
+		size_format( $total_bytes )
+	) ];
 
 	set_transient( 'chic_unused_candidates', array_column( $candidates, 'id' ), HOUR_IN_SECONDS );
 
-	$total_bytes = array_sum( array_column( $candidates, 'bytes' ) );
-
 	wp_send_json_success( [
-		'log' => [ [
-			'lvl'  => 'done',
-			'text' => sprintf(
-				'Scan complete: %d unused image%s found · %s can be freed.',
-				count( $candidates ),
-				count( $candidates ) === 1 ? '' : 's',
-				size_format( $total_bytes )
-			),
-		] ],
-		'candidates' => $candidates,
+		'log'              => $log,
+		'candidates'       => $candidates,
+		'total_attachments' => count( $all_ids ),
 	] );
 }
 
@@ -826,8 +510,10 @@ function chic_unused_ajax_trash(): void {
 		wp_send_json_error( [ 'msg' => 'Unauthorized' ], 403 );
 	}
 
-	$candidate_ids = get_transient( 'chic_unused_candidates' ) ?: [];
-	$candidate_set = array_fill_keys( array_map( 'intval', $candidate_ids ), true );
+	$candidate_set = array_fill_keys(
+		array_map( 'intval', get_transient( 'chic_unused_candidates' ) ?: [] ),
+		true
+	);
 
 	$raw = $_POST['ids'] ?? [];
 	if ( ! is_array( $raw ) ) $raw = [ $raw ];
@@ -837,37 +523,25 @@ function chic_unused_ajax_trash(): void {
 	);
 
 	if ( empty( $ids ) ) {
-		wp_send_json_error( [ 'msg' => 'No valid IDs provided or IDs not in candidate list.' ] );
+		wp_send_json_error( [ 'msg' => 'No valid IDs — run Scan first.' ] );
 	}
 
-	$log     = [];
-	$trashed = 0;
-	$errors  = 0;
+	$log = []; $trashed = 0; $errors = 0;
 
 	foreach ( $ids as $id ) {
 		$filename = basename( get_attached_file( $id ) ?: '' ) ?: "ID $id";
-		$result   = wp_trash_post( $id );
-		if ( $result ) {
-			$log[] = [ 'lvl' => 'ok',  'text' => "  Trashed: $filename" ];
-			$trashed++;
+		if ( wp_trash_post( $id ) ) {
+			$log[] = [ 'lvl' => 'ok',  'text' => "  Trashed: $filename" ]; $trashed++;
 		} else {
-			$log[] = [ 'lvl' => 'err', 'text' => "  Failed to trash: $filename" ];
-			$errors++;
+			$log[] = [ 'lvl' => 'err', 'text' => "  Failed to trash: $filename" ]; $errors++;
 		}
 	}
 
-	$log[] = [ 'lvl' => $errors > 0 ? 'warn' : 'done',
-		'text' => sprintf( 'Trashed %d image%s.%s',
-			$trashed,
-			$trashed === 1 ? '' : 's',
-			$errors > 0 ? " ($errors failed)" : ''
-		),
+	$log[] = [ 'lvl' => $errors ? 'warn' : 'done',
+		'text' => "Trashed $trashed image" . ( $trashed === 1 ? '' : 's' ) . ( $errors ? " ($errors failed)" : '' ) . '.',
 	];
 
-	wp_send_json_success( [
-		'log'         => $log,
-		'trash_count' => chic_unused_current_trash_count(),
-	] );
+	wp_send_json_success( [ 'log' => $log, 'trash_count' => chic_unused_current_trash_count() ] );
 }
 
 // ── AJAX: Empty Trash ─────────────────────────────────────────────────────────
@@ -886,19 +560,14 @@ function chic_unused_ajax_empty(): void {
 	global $wpdb;
 	$ids = $wpdb->get_col( "
 		SELECT ID FROM {$wpdb->posts}
-		WHERE post_type      = 'attachment'
-		  AND post_mime_type LIKE 'image/%'
-		  AND post_status    = 'trash'
+		WHERE post_type = 'attachment' AND post_mime_type LIKE 'image/%' AND post_status = 'trash'
 	" );
 
 	if ( empty( $ids ) ) {
 		wp_send_json_success( [ 'log' => [ [ 'lvl' => 'info', 'text' => 'Image trash is already empty.' ] ] ] );
 	}
 
-	$log     = [];
-	$deleted = 0;
-	$errors  = 0;
-	$bytes   = 0;
+	$log = []; $deleted = 0; $errors = 0; $bytes = 0;
 
 	foreach ( $ids as $id ) {
 		$id       = (int) $id;
@@ -906,7 +575,6 @@ function chic_unused_ajax_empty(): void {
 		$meta     = wp_get_attachment_metadata( $id );
 		$filename  = $filepath ? basename( $filepath ) : "ID $id";
 
-		// Calculate bytes before deletion
 		$file_bytes = 0;
 		if ( $filepath && file_exists( $filepath ) ) {
 			$file_bytes += (int) filesize( $filepath );
@@ -919,23 +587,18 @@ function chic_unused_ajax_empty(): void {
 			}
 		}
 
-		$result = wp_delete_attachment( $id, true );
-		if ( $result !== false ) {
+		if ( wp_delete_attachment( $id, true ) !== false ) {
 			$log[]  = [ 'lvl' => 'ok', 'text' => sprintf( '  Deleted: %s (%s)', $filename, size_format( $file_bytes ) ) ];
-			$bytes += $file_bytes;
-			$deleted++;
+			$bytes += $file_bytes; $deleted++;
 		} else {
-			$log[] = [ 'lvl' => 'err', 'text' => "  Failed to delete: $filename" ];
-			$errors++;
+			$log[] = [ 'lvl' => 'err', 'text' => "  Failed to delete: $filename" ]; $errors++;
 		}
 	}
 
-	$log[] = [ 'lvl' => $errors > 0 ? 'warn' : 'done',
+	$log[] = [ 'lvl' => $errors ? 'warn' : 'done',
 		'text' => sprintf( 'Permanently deleted %d image%s · %s freed.%s',
-			$deleted,
-			$deleted === 1 ? '' : 's',
-			size_format( $bytes ),
-			$errors > 0 ? " ($errors failed)" : ''
+			$deleted, $deleted === 1 ? '' : 's', size_format( $bytes ),
+			$errors ? " ($errors failed)" : ''
 		),
 	];
 
