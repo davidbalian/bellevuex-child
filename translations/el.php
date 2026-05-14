@@ -54,7 +54,7 @@ return [
 
 	/* ── Home page ───────────────────────────────────────────────────── */
 	'Chic Centre Suites hero photos'        => 'Φωτογραφίες από τα Chic Centre Suites',
-	'Stay in the Heart<br> of Athens'       => 'Ζήστε στην<br> Καρδιά της Αθήνας',
+	'Stay in the Heart<br> of Athens'       => 'ΔΙΑΜΟΝΗ ΣΤΗΝ ΚΑΡΔΙΑ<br>ΤΗΣ ΑΘΗΝΑΣ',
 	'Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.'
 		=> 'Οι σουίτες μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο — βήματα από την Πλατεία Συντάγματος, το Μοναστηράκι και την πεζόδρομο Ερμού.',
 	'Scroll to next section'                => 'Κύλιση στην επόμενη ενότητα',
