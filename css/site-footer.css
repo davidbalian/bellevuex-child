@@ -163,6 +163,7 @@ footer.footer,
 .site-footer__copyright,
 .site-footer__credit {
 	margin: 0;
+	font-size: 0.8rem;
 	opacity: 0.85;
 }
 
