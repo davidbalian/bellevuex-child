@@ -186,6 +186,9 @@ require_once __DIR__ . '/inc/tools-unused-images.php'; // recovery console — w
 require_once __DIR__ . '/inc/tools-aioseo-el.php';
 require_once __DIR__ . '/inc/tools-sitemap-llms.php';
 
+// ── JSON-LD structured data ───────────────────────────────────────────────────
+require_once __DIR__ . '/inc/jsonld.php';
+
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';
 
