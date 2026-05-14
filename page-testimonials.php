@@ -12,19 +12,6 @@ get_header();
 while ( have_posts() ) :
 	the_post();
 
-	$post_id = get_the_ID();
-
-	$hero_desktop = get_the_post_thumbnail_url( $post_id, 'full' ) ?: '';
-	$hero_mobile  = get_the_post_thumbnail_url( $post_id, 'medium_large' ) ?: $hero_desktop;
-
-	if ( '' === $hero_desktop ) {
-		$slides = chic_home_hero_slides( $post_id );
-		if ( ! empty( $slides[0]['desktop'] ) ) {
-			$hero_desktop = $slides[0]['desktop'];
-			$hero_mobile  = $slides[0]['mobile'] ?: $hero_desktop;
-		}
-	}
-
 	$reviews = chic_testimonials_enriched_rows();
 	?>
 
@@ -33,18 +20,15 @@ while ( have_posts() ) :
 	<section class="home-hero home-hero--static">
 
 		<div class="home-hero__slider-bleed js-hero-parallax">
-			<?php if ( $hero_desktop ) : ?>
 			<picture>
-				<source media="(max-width: 768px)" srcset="<?php echo esc_url( $hero_mobile ); ?>">
 				<img
-					src="<?php echo esc_url( $hero_desktop ); ?>"
-					alt="<?php echo ta_uc( 'Latest Reviews' ); ?>"
+					src="https://davidb1553.sg-host.com/wp-content/uploads/11-chic-centre-suites-athens-nearby-attractions-syntagma-square.webp"
+					alt="<?php echo ta( 'Syntagma Square with the Hellenic Parliament building and fountain' ); ?>"
 					loading="eager"
 					decoding="async"
 					fetchpriority="high"
 				>
 			</picture>
-			<?php endif; ?>
 		</div>
 
 		<div class="home-hero__overlay">
