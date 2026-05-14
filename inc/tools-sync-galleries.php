@@ -660,15 +660,26 @@ function chic_sync_find_attachments_by_filenames( array $filenames ): array {
 
 	if ( empty( $filenames ) ) return [];
 
-	// Build LIKE conditions: meta_value LIKE '%/filename' OR meta_value = 'filename'
+	// For each filename also search for the WP-generated -scaled variant
+	// (WordPress 5.3+ creates foo-scaled.webp when the original exceeds 2560px).
 	$conditions = [];
 	$values     = [];
+	$scaled_map = []; // scaled_filename => original_filename
 
 	foreach ( $filenames as $f ) {
 		$f_esc        = $wpdb->esc_like( $f );
 		$conditions[] = '( pm.meta_value LIKE %s OR pm.meta_value = %s )';
 		$values[]     = '%/' . $f_esc;
 		$values[]     = $f_esc;
+
+		$ext          = pathinfo( $f, PATHINFO_EXTENSION );
+		$stem         = $ext ? substr( $f, 0, -( strlen( $ext ) + 1 ) ) : $f;
+		$scaled       = $stem . '-scaled.' . $ext;
+		$scaled_esc   = $wpdb->esc_like( $scaled );
+		$conditions[] = '( pm.meta_value LIKE %s OR pm.meta_value = %s )';
+		$values[]     = '%/' . $scaled_esc;
+		$values[]     = $scaled_esc;
+		$scaled_map[ $scaled ] = $f;
 	}
 
 	$sql = $wpdb->prepare(
@@ -684,14 +695,14 @@ function chic_sync_find_attachments_by_filenames( array $filenames ): array {
 
 	$rows = $wpdb->get_results( $sql );
 
-	// Build map: basename => [post_ids]
+	// Build map, folding -scaled variants back to their original filename key.
 	$map = [];
 	foreach ( $rows as $row ) {
 		$basename = basename( $row->meta_value );
-		$map[ $basename ][] = (int) $row->post_id;
+		$key      = $scaled_map[ $basename ] ?? $basename;
+		$map[ $key ][] = (int) $row->post_id;
 	}
 
-	// Re-key by the original requested filenames (handles any case normalisation).
 	$result = [];
 	foreach ( $filenames as $f ) {
 		$result[ $f ] = $map[ $f ] ?? [];
