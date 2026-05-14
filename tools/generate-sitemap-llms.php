@@ -12,17 +12,30 @@ if ( function_exists( 'chic_sitemap_collect_urls' ) ) return;
 /* ── URL collection ─────────────────────────────────────────────────────── */
 
 /**
- * Returns canonical EN paths for every public page + suite.
+ * Returns canonical EN paths for the sitemap: front page, key marketing pages,
+ * legal policy pages, and all published suites.
  * Each item: [ 'path', 'lastmod', 'priority', 'changefreq' ]
  */
 function chic_sitemap_collect_urls(): array {
-	$front_id    = (int) get_option( 'page_on_front' );
-	$deny_slugs  = [
+	$front_id = (int) get_option( 'page_on_front' );
+	$deny_slugs = [
 		'cart', 'checkout', 'checkout-2', 'my-account', 'order-received',
 		'order-tracking', 'lost-password', 'thank-you', 'account', 'register',
 	];
-	$legal_slugs = [ 'privacy-policy', 'cookie-policy', 'terms-and-conditions' ];
-	$urls        = [];
+	/** Page templates allowed in the sitemap (home is included via $front_id). */
+	$sitemap_page_templates = [
+		'page-explore-athens.php',
+		'page-testimonials.php',
+		'page-privacy-policy.php',
+		'page-cookie-policy.php',
+		'page-terms-and-conditions.php',
+	];
+	$legal_templates = [
+		'page-privacy-policy.php',
+		'page-cookie-policy.php',
+		'page-terms-and-conditions.php',
+	];
+	$urls = [];
 
 	// Enumerate published pages.
 	$pages = get_posts( [
@@ -32,11 +45,21 @@ function chic_sitemap_collect_urls(): array {
 		'no_found_rows'  => true,
 	] );
 	foreach ( $pages as $page ) {
-		if ( in_array( $page->post_name, $deny_slugs, true ) ) continue;
-		if ( '1' === (string) get_post_meta( $page->ID, '_aioseo_robots_noindex', true ) ) continue;
+		$tpl = get_page_template_slug( $page->ID );
+		$in_sitemap = ( $page->ID === $front_id )
+			|| ( $tpl && in_array( $tpl, $sitemap_page_templates, true ) );
+		if ( ! $in_sitemap ) {
+			continue;
+		}
+		if ( in_array( $page->post_name, $deny_slugs, true ) ) {
+			continue;
+		}
+		if ( '1' === (string) get_post_meta( $page->ID, '_aioseo_robots_noindex', true ) ) {
+			continue;
+		}
 
 		$is_home  = ( $page->ID === $front_id );
-		$is_legal = in_array( $page->post_name, $legal_slugs, true );
+		$is_legal = $tpl && in_array( $tpl, $legal_templates, true );
 		$path     = wp_make_link_relative( get_permalink( $page->ID ) );
 
 		$urls[] = [
