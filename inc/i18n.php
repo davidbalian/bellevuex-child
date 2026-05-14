@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'CHIC_DEFAULT_LANG',    'en' );
 define( 'CHIC_SUPPORTED_LANGS', [ 'en', 'el' ] );
-define( 'CHIC_I18N_VERSION',    '1' );
+define( 'CHIC_I18N_VERSION',    '2' );
 
 /* ── Language detection ──────────────────────────────────────────────────── */
 
@@ -40,6 +40,12 @@ function chic_get_current_lang(): string {
 add_action( 'init', function () {
 	add_rewrite_rule( '^el/?$',          'index.php?lang=el',                          'top' );
 	add_rewrite_rule( '^el/(.+?)/?$',    'index.php?lang=el&pagename=$matches[1]',     'top' );
+	// Registered last so WP checks it first among `top` rules: Greek MotoPress singles.
+	add_rewrite_rule(
+		'^el/accommodation/([^/]+)/?$',
+		'index.php?lang=el&post_type=mphb_room_type&name=$matches[1]',
+		'top'
+	);
 }, 1 );
 
 add_filter( 'query_vars', function ( array $vars ): array {
@@ -47,12 +53,57 @@ add_filter( 'query_vars', function ( array $vars ): array {
 	return $vars;
 } );
 
+// Remap legacy/catch-all `pagename=accommodation/slug` to the accommodation CPT.
+add_filter( 'request', function ( array $query_vars ): array {
+	if ( ( $query_vars['lang'] ?? '' ) !== 'el' ) {
+		return $query_vars;
+	}
+	$pagename = $query_vars['pagename'] ?? '';
+	if ( ! is_string( $pagename ) || '' === $pagename ) {
+		return $query_vars;
+	}
+	if ( ! preg_match( '#^accommodation/([^/]+)$#', $pagename, $m ) ) {
+		return $query_vars;
+	}
+	unset( $query_vars['pagename'] );
+	$query_vars['post_type'] = 'mphb_room_type';
+	$query_vars['name']      = $m[1];
+	return $query_vars;
+}, 5 );
+
 // Force the static front page when /el/ is requested without a pagename.
 add_action( 'pre_get_posts', function ( WP_Query $q ) {
-	if ( ! $q->is_main_query() ) return;
-	if ( $q->get( 'lang' ) === 'el' && '' === (string) $q->get( 'pagename' ) ) {
-		$q->set( 'page_id', (int) get_option( 'page_on_front' ) );
+	if ( ! $q->is_main_query() ) {
+		return;
 	}
+	if ( (string) $q->get( 'lang' ) !== 'el' ) {
+		return;
+	}
+	if ( 'page' !== get_option( 'show_on_front' ) ) {
+		return;
+	}
+	$front = (int) get_option( 'page_on_front' );
+	if ( $front <= 0 ) {
+		return;
+	}
+	if ( '' !== (string) $q->get( 'pagename' ) ) {
+		return;
+	}
+	if ( '' !== (string) $q->get( 'name' ) ) {
+		return;
+	}
+	if ( (int) $q->get( 'p' ) > 0 ) {
+		return;
+	}
+	$post_type = $q->get( 'post_type' );
+	if ( is_string( $post_type ) && '' !== $post_type && 'page' !== $post_type ) {
+		return;
+	}
+	if ( is_array( $post_type ) && ! in_array( 'page', $post_type, true ) ) {
+		return;
+	}
+	$q->set( 'page_id', $front );
+	$q->set( 'post_type', 'page' );
 } );
 
 // Flush rewrite rules on theme activation.
@@ -156,6 +207,47 @@ function chic_localized_url( string $path = '/', ?string $lang = null ): string 
 	}
 	return home_url( '/' . $lang . $path );
 }
+
+/**
+ * Prefix absolute permalinks with /el/ on Greek front-end requests.
+ */
+function chic_localize_front_permalink( string $url ): string {
+	if ( '' === $url || CHIC_DEFAULT_LANG === chic_get_current_lang() ) {
+		return $url;
+	}
+	if ( is_admin() ) {
+		return $url;
+	}
+	$rel = wp_make_link_relative( $url );
+	if ( $rel === $url || '' === $rel ) {
+		return $url;
+	}
+	return chic_localized_url( $rel );
+}
+
+add_filter(
+	'post_type_link',
+	function ( string $post_link, $post, $leavename = false, $sample = false ): string {
+		if ( $sample || ! $post instanceof WP_Post || 'mphb_room_type' !== $post->post_type ) {
+			return $post_link;
+		}
+		return chic_localize_front_permalink( $post_link );
+	},
+	10,
+	4
+);
+
+add_filter(
+	'page_link',
+	function ( string $link, int $post_id, bool $sample = false ): string {
+		if ( $sample ) {
+			return $link;
+		}
+		return chic_localize_front_permalink( $link );
+	},
+	10,
+	3
+);
 
 function chic_lang_switch_url( string $target_lang ): string {
 	$raw_path  = (string) parse_url( $_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH );
