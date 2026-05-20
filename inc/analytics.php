@@ -1,36 +1,24 @@
 <?php
 /**
- * Google Analytics (gtag.js) with Consent Mode defaults.
+ * Google Analytics (gtag.js) — load-on-accept.
  *
- * Loads gtag in the head with analytics_storage denied until the cookie
- * banner grants consent via js/cookie-banner.js.
+ * Exposes the measurement ID to js/cookie-banner.js, which injects gtag
+ * only after the user accepts cookies (or on return visits with prior accept).
  */
 defined( 'ABSPATH' ) || exit;
 
 const CHIC_GA_MEASUREMENT_ID = 'G-X78QTLBHND';
 
-add_action( 'wp_enqueue_scripts', 'chic_analytics_enqueue', 5 );
+add_action( 'wp_enqueue_scripts', 'chic_analytics_localize', 20 );
 
-function chic_analytics_enqueue(): void {
+function chic_analytics_localize(): void {
 	if ( is_admin() || is_feed() || is_preview() ) {
 		return;
 	}
 
-	$id     = CHIC_GA_MEASUREMENT_ID;
-	$handle = 'chic-gtag';
-	$url    = 'https://www.googletagmanager.com/gtag/js?id=' . rawurlencode( $id );
-
-	wp_register_script( $handle, $url, [], null, false );
-	wp_script_add_data( $handle, 'async', true );
-
-	wp_add_inline_script(
-		$handle,
-		"window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}"
-		. "gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',wait_for_update:500});"
-		. "gtag('js',new Date());"
-		. "gtag('config','" . esc_js( $id ) . "');",
-		'before'
+	wp_localize_script(
+		'chic-cookie-banner',
+		'chicAnalytics',
+		[ 'id' => CHIC_GA_MEASUREMENT_ID ]
 	);
-
-	wp_enqueue_script( $handle );
 }

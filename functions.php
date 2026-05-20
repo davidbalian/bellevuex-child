@@ -183,7 +183,7 @@ require_once __DIR__ . '/inc/suite-data.php';
 // ── Cookie consent banner ─────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/cookie-banner.php';
 
-// ── Google Analytics (consent-gated) ──────────────────────────────────────────
+// ── Google Analytics (load-on-accept via cookie banner) ───────────────────────
 require_once __DIR__ . '/inc/analytics.php';
 
 // ── Admin tools ───────────────────────────────────────────────────────────────
