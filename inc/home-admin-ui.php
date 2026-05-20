@@ -12,7 +12,7 @@ add_action( 'admin_enqueue_scripts', function ( $hook ) {
 	wp_enqueue_media();
 	$dir = get_stylesheet_directory_uri();
 	$ver = wp_get_theme()->get( 'Version' );
-	wp_enqueue_script( 'chic-home-admin', "$dir/js/home-admin-ui.js", [ 'jquery' ], $ver, true );
+	wp_enqueue_script( 'chic-home-admin', "$dir/js/home-admin-ui.js", [], $ver, true );
 } );
 
 // ── Meta box ──────────────────────────────────────────────────────────────────

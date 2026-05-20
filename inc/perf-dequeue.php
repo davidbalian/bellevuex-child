@@ -4,9 +4,9 @@
  * strip always-wasteful globals, and inject a hero LCP preload on the homepage.
  *
  * "Custom template pages" = page-home.php, page-explore-athens.php,
- * page-testimonials.php, and any single mphb_room_type post. These templates
- * are 100% hand-rolled — they carry zero Elementor, WooCommerce, EA, social-icons,
- * or parent-theme markup, so those assets are dead weight.
+ * page-testimonials.php, legal page templates, 404, and any single mphb_room_type
+ * post. These templates are 100% hand-rolled — they carry zero Elementor,
+ * WooCommerce, EA, social-icons, or parent-theme markup, so those assets are dead weight.
  */
 
 // ── Global always-safe removals ───────────────────────────────────────────────
@@ -28,10 +28,12 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_dequeue_style( 'dashicons' );
 	}
 
-	// jquery-migrate: move to footer (don't remove — MPHB/WooCommerce rely on it).
-	global $wp_scripts;
-	if ( isset( $wp_scripts->registered['jquery-migrate'] ) ) {
-		$wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
+	// jquery-migrate: footer on legacy pages; stripped on custom templates (see below).
+	if ( ! chic_is_custom_template() ) {
+		global $wp_scripts;
+		if ( isset( $wp_scripts->registered['jquery-migrate'] ) ) {
+			$wp_scripts->add_data( 'jquery-migrate', 'group', 1 );
+		}
 	}
 
 	// ── Google Fonts (global) ─────────────────────────────────────────────────
@@ -83,8 +85,22 @@ function chic_is_custom_template(): bool {
 		|| is_page_template( [
 			'page-explore-athens.php',
 			'page-testimonials.php',
+			'page-privacy-policy.php',
+			'page-cookie-policy.php',
+			'page-terms-and-conditions.php',
 		] )
-		|| is_singular( 'mphb_room_type' );
+		|| is_singular( 'mphb_room_type' )
+		|| is_404();
+}
+
+/**
+ * Strip jQuery from the footer queue on hand-rolled templates (late pass).
+ */
+function chic_dequeue_frontend_jquery(): void {
+	foreach ( [ 'jquery', 'jquery-core', 'jquery-migrate' ] as $handle ) {
+		wp_dequeue_script( $handle );
+		wp_deregister_script( $handle );
+	}
 }
 
 add_action( 'wp_enqueue_scripts', function () {
@@ -345,7 +361,33 @@ add_action( 'wp_enqueue_scripts', function () {
 		}
 	}
 
+	// ── jQuery (custom templates are 100% vanilla JS; booking is off-site) ────
+	chic_dequeue_frontend_jquery();
+
+	// MotoPress Hotel Booking frontend (datepickers, etc.) — not used in our templates.
+	foreach ( array_keys( $wp_scripts->registered ) as $handle ) {
+		$src = $wp_scripts->registered[ $handle ]->src ?? '';
+		if ( strpos( $src, '/plugins/motopress-hotel-booking/' ) !== false ) {
+			wp_dequeue_script( $handle );
+			wp_deregister_script( $handle );
+		}
+	}
+	foreach ( array_keys( $wp_styles->registered ) as $handle ) {
+		$src = $wp_styles->registered[ $handle ]->src ?? '';
+		if ( strpos( $src, '/plugins/motopress-hotel-booking/' ) !== false ) {
+			wp_dequeue_style( $handle );
+			wp_deregister_style( $handle );
+		}
+	}
+
 }, 9999 );
+
+add_action( 'wp_print_scripts', function () {
+	if ( ! chic_is_custom_template() ) {
+		return;
+	}
+	chic_dequeue_frontend_jquery();
+}, 100 );
 
 
 // ── Hero LCP preload ──────────────────────────────────────────────────────────
