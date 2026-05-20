@@ -61,15 +61,6 @@
 	margin: 0 0 var(--home-space-md);
 }
 
-.home-intro__title::after {
-	content: '';
-	display: block;
-	width: 3rem;
-	height: 2px;
-	background: var(--home-color-accent);
-	margin: var(--home-space-sm) auto 0;
-}
-
 .home-intro__lede {
 	color: var(--home-color-text);
 	margin: 0;

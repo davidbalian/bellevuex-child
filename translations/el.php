@@ -58,7 +58,7 @@ return [
 	'Our suites, spread across three buildings on the same road, steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.'
 		=> 'Οι σουίτες μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο, βήματα από την Πλατεία Συντάγματος, το Μοναστηράκι και την πεζόδρομο Ερμού.',
 	'Scroll to next section'                => 'Κύλιση στην επόμενη ενότητα',
-	'Our Suites'                            => 'Οι Σουίτες μας',
+	'Welcome to Athens'                     => 'ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΗΝ ΑΘΗΝΑ',
 	'Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.'
 		=> 'Τα πλήρως εξοπλισμένα διαμερίσματά μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο, στην καρδιά της Αθήνας, μόλις 5 λεπτά με τα πόδια από το Σύνταγμα και το Μοναστηράκι, και δίπλα στον εμβληματικό πεζόδρομο της Ερμού, όπου μπορείτε να εξερευνήσετε την πόλη, να βιώσετε την ιστορία και τον πολιτισμό της και, φυσικά, να απολαύσετε ψώνια.',
 
