@@ -78,6 +78,12 @@
 	transform-origin: center top;
 }
 
+/* First slide: crop from the left. */
+.home-hero__slide.home-hero__slide--first img {
+	object-position: left center;
+	transform-origin: left center;
+}
+
 /* Prevent flash of stacked slides before Swiper initialises */
 .home-hero__carousel:not(.swiper-initialized) .swiper-slide:not(:first-child) {
 	display: none;
@@ -246,15 +252,7 @@ html[lang^="el"] .page-home .home-hero__title {
 		display: none;
 	}
 
-	/* Mobile crop: show right side of first hero photo, left side of last (object-fit: cover). */
-	.home-hero__slide--first.home-hero__slide--last img {
-		object-position: center center;
-	}
-
-	.home-hero__slide--first:not(.home-hero__slide--last) img {
-		object-position: right center;
-	}
-
+	/* Mobile crop: show left side of last hero photo (object-fit: cover). */
 	.home-hero__slide--last:not(.home-hero__slide--first) img {
 		object-position: left center;
 	}
