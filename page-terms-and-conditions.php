@@ -19,7 +19,7 @@ get_header();
 			<h2><?php te( 'Arrival and Departure' ); ?></h2>
 			<p><?php te( 'Check-in starts at 14:00 on your arrival day. Check-out: 11:00 AM on the departure day.' ); ?></p>
 			<p><?php te( 'We offer you an easy and secure key-less access to your suite. This access allows you to check-in without our physical presence. Prior to your arrival, you will receive a unique access code corresponding to your reservation. This code will be valid for the duration of your stay.' ); ?></p>
-			<p><?php te( 'Each guest has their personal code for the apartment, as well as the code for building and floor access sent around 14:00 or even earlier if permitted by availability. The ground floor door is locked after 18:00 — if you arrive later, use the code provided.' ); ?></p>
+			<p><?php te( 'Each guest has their personal code for the apartment, as well as the code for building and floor access sent around 14:00 or even earlier if permitted by availability. The ground floor door is locked after 18:00. If you arrive later, use the code provided.' ); ?></p>
 			<p><?php te( 'In case you need our physical presence, you can find us daily at our office from 9:00 AM to 16:00 on the ground floor of 11 Theseos Street.' ); ?></p>
 		</section>
 

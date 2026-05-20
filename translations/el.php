@@ -55,12 +55,12 @@ return [
 	/* ── Home page ───────────────────────────────────────────────────── */
 	'Chic Centre Suites hero photos'        => 'Φωτογραφίες από τα Chic Centre Suites',
 	'Stay in the Heart<br> of Athens'       => 'ΔΙΑΜΟΝΗ ΣΤΗΝ<br>ΚΑΡΔΙΑ ΤΗΣ ΑΘΗΝΑΣ',
-	'Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.'
-		=> 'Οι σουίτες μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο — βήματα από την Πλατεία Συντάγματος, το Μοναστηράκι και την πεζόδρομο Ερμού.',
+	'Our suites, spread across three buildings on the same road, steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.'
+		=> 'Οι σουίτες μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο, βήματα από την Πλατεία Συντάγματος, το Μοναστηράκι και την πεζόδρομο Ερμού.',
 	'Scroll to next section'                => 'Κύλιση στην επόμενη ενότητα',
 	'Our Suites'                            => 'Οι Σουίτες μας',
 	'Our fully equipped apartments are located in three buildings on the same road in the heart of Athens, just a 5-minute walk from Syntagma Square and Monastiraki, and only steps away from the iconic pedestrian street of Ermou, where you can explore the city&rsquo;s treasures, experience its culture and history, and, of course, enjoy shopping.'
-		=> 'Τα πλήρως εξοπλισμένα διαμερίσματά μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο, στην καρδιά της Αθήνας — μόλις 5 λεπτά με τα πόδια από το Σύνταγμα και το Μοναστηράκι, και δίπλα στον εμβληματικό πεζόδρομο της Ερμού, όπου μπορείτε να εξερευνήσετε την πόλη, να βιώσετε την ιστορία και τον πολιτισμό της και, φυσικά, να απολαύσετε ψώνια.',
+		=> 'Τα πλήρως εξοπλισμένα διαμερίσματά μας βρίσκονται σε τρία κτίρια στον ίδιο δρόμο, στην καρδιά της Αθήνας, μόλις 5 λεπτά με τα πόδια από το Σύνταγμα και το Μοναστηράκι, και δίπλα στον εμβληματικό πεζόδρομο της Ερμού, όπου μπορείτε να εξερευνήσετε την πόλη, να βιώσετε την ιστορία και τον πολιτισμό της και, φυσικά, να απολαύσετε ψώνια.',
 
 	/* ── 404 page ────────────────────────────────────────────────────── */
 	'404 error'                             => 'Σφάλμα 404',
@@ -144,8 +144,8 @@ return [
 	'Explore Athens / Athina'   => 'Εξερευνήστε την Αθήνα',
 	'A City Steeped in History, Culture, and Ancient Landmarks'
 		=> 'Μια Πόλη Γεμάτη Ιστορία, Πολιτισμό και Αρχαία Μνημεία',
-	'Staying at Athens means immersing yourself in a destination where ancient history meets vibrant modern life. From iconic landmarks to hidden local gems, Athens offers an unforgettable experience for every traveler — and at Chic Centre Suites Athens, you are perfectly positioned to explore it all.'
-		=> 'Το να μένετε στην Αθήνα σημαίνει να βυθίζεστε σε έναν προορισμό όπου η αρχαία ιστορία συναντά τη σύγχρονη ζωή. Από τα εμβληματικά αξιοθέατα μέχρι τα κρυφά τοπικά στολίδια, η Αθήνα χαρίζει αξέχαστες εμπειρίες σε κάθε επισκέπτη — και από τα Chic Centre Suites, βρίσκεστε στο ιδανικό σημείο για να τα ανακαλύψετε όλα.',
+	'Staying at Athens means immersing yourself in a destination where ancient history meets vibrant modern life. From iconic landmarks to hidden local gems, Athens offers an unforgettable experience for every traveler, and at Chic Centre Suites Athens, you are perfectly positioned to explore it all.'
+		=> 'Το να μένετε στην Αθήνα σημαίνει να βυθίζεστε σε έναν προορισμό όπου η αρχαία ιστορία συναντά τη σύγχρονη ζωή. Από τα εμβληματικά αξιοθέατα μέχρι τα κρυφά τοπικά στολίδια, η Αθήνα χαρίζει αξέχαστες εμπειρίες σε κάθε επισκέπτη, και από τα Chic Centre Suites, βρίσκεστε στο ιδανικό σημείο για να τα ανακαλύψετε όλα.',
 	'Located just steps from Ermou Street and within a short walk of Syntagma Square and Monastiraki, your stay places you at the very center of culture, history, shopping, and gastronomy.'
 		=> 'Δίπλα στην Ερμού και σε κοντινή απόσταση από το Σύνταγμα και το Μοναστηράκι, η παραμονή σας σάς τοποθετεί στο επίκεντρο του πολιτισμού, της ιστορίας, των αγορών και της γαστρονομίας.',
 	'Also Worth Exploring'      => 'Αξίζει Επίσης να Εξερευνήσετε',
@@ -168,7 +168,7 @@ return [
 		=> 'Εξωτερική άποψη του Μουσείου Ακρόπολης στην Αθήνα',
 	'Syntagma Square'           => 'Πλατεία Συντάγματος',
 	'Visit Syntagma Square, the central square of Athens, to witness the impressive changing of the guard ceremony in front of the Hellenic Parliament building. The square is also surrounded by shops, cafes, and is a starting point for many walking tours. Named after the Constitution that Otto, the first King of Greece, was obliged to grant in 1843, the square stands in front of the 19th-century Old Royal Palace, which has housed the Greek Parliament since 1934.'
-		=> 'Επισκεφθείτε την Πλατεία Συντάγματος, το κέντρο της Αθήνας, για να παρακολουθήσετε την εντυπωσιακή αλλαγή φρουράς μπροστά στη Βουλή των Ελλήνων. Ονομάστηκε έτσι από το Σύνταγμα που αναγκάστηκε να παραχωρήσει ο Όθωνας το 1843 — η πλατεία βρίσκεται μπροστά στο Παλαιό Ανάκτορο, που στεγάζει τη Βουλή από το 1934.',
+		=> 'Επισκεφθείτε την Πλατεία Συντάγματος, το κέντρο της Αθήνας, για να παρακολουθήσετε την εντυπωσιακή αλλαγή φρουράς μπροστά στη Βουλή των Ελλήνων. Ονομάστηκε έτσι από το Σύνταγμα που αναγκάστηκε να παραχωρήσει ο Όθωνας το 1843, η πλατεία βρίσκεται μπροστά στο Παλαιό Ανάκτορο, που στεγάζει τη Βουλή από το 1934.',
 	'Syntagma Square with the Hellenic Parliament building and fountain'
 		=> 'Πλατεία Συντάγματος με τη Βουλή των Ελλήνων και το σιντριβάνι',
 	'Plaka'                     => 'Πλάκα',
@@ -237,7 +237,7 @@ return [
 	'Suite 1 is a modern studio in Athens city center, ideally located just steps from Ermou Street, one of the most popular shopping and pedestrian areas in the capital. This 30m² Athens accommodation is perfect for couples or solo travelers seeking a central and comfortable stay.'
 		=> 'Η Σουίτα 1 είναι ένα σύγχρονο studio στο κέντρο της Αθήνας, ιδανικά τοποθετημένο δίπλα στην Ερμού, έναν από τους πιο δημοφιλείς πεζόδρομους της πρωτεύουσας. Το 30τ.μ. αυτό κατάλυμα είναι ιδανικό για ζευγάρια ή μεμονωμένους ταξιδιώτες που αναζητούν κεντρική και άνετη παραμονή.',
 	'The studio features a comfortable double bed, a cozy seating area with sofa, and a private balcony, offering the perfect space to relax after a day of exploring Athens. The interior combines natural tones with a modern and functional layout, creating a warm and practical environment.'
-		=> 'Το studio διαθέτει διπλό κρεβάτι, άνετο χώρο καθιστικού με καναπέ και ιδιωτικό μπαλκόνι — ιδανικό για χαλάρωση μετά από μια μέρα εξερεύνησης στην Αθήνα. Το εσωτερικό συνδυάζει φυσικές αποχρώσεις με σύγχρονη διάταξη.',
+		=> 'Το studio διαθέτει διπλό κρεβάτι, άνετο χώρο καθιστικού με καναπέ και ιδιωτικό μπαλκόνι, ιδανικό για χαλάρωση μετά από μια μέρα εξερεύνησης στην Αθήνα. Το εσωτερικό συνδυάζει φυσικές αποχρώσεις με σύγχρονη διάταξη.',
 	'Guests can enjoy a fully equipped kitchen, a modern bathroom with shower, smart TV access, high-speed WiFi and all essential amenities for a convenient stay in Athens.'
 		=> 'Οι επισκέπτες απολαμβάνουν πλήρως εξοπλισμένη κουζίνα, σύγχρονο μπάνιο με ντους, Smart TV, γρήγορο Wi-Fi και όλες τις απαραίτητες παροχές για άνετη παραμονή στην Αθήνα.',
 	'Located within walking distance of major attractions, restaurants, cafés, and shopping streets, Suite 1 is an excellent choice for travelers looking for a centrally located studio near Ermou Street and Syntagma Square with a private balcony and easy city access.'
@@ -248,7 +248,7 @@ return [
 	'The apartment features a separate bedroom with a comfortable double bed and a living room with a sofa bed, offering privacy and flexibility for both short and longer stays. Its functional layout makes it an excellent choice for families visiting Athens.'
 		=> 'Το διαμέρισμα διαθέτει ξεχωριστό υπνοδωμάτιο με διπλό κρεβάτι και καθιστικό με καναπέ-κρεβάτι, προσφέροντας ιδιωτικότητα και ευελιξία. Η λειτουργική διαρρύθμισή του το καθιστά ιδανικό για οικογένειες.',
 	'Guests can enjoy a fully equipped kitchen, a modern bathroom with shower, smart TV access, high-speed WiFi and the added convenience of a washing machine, ideal for extended stays. A private balcony provides a relaxing outdoor space after a day exploring the city.'
-		=> 'Πλήρως εξοπλισμένη κουζίνα, σύγχρονο μπάνιο, Smart TV, γρήγορο Wi-Fi και πλυντήριο ρούχων — ιδανικό για παρατεταμένες διαμονές. Το ιδιωτικό μπαλκόνι προσφέρει υπαίθριο χώρο χαλάρωσης.',
+		=> 'Πλήρως εξοπλισμένη κουζίνα, σύγχρονο μπάνιο, Smart TV, γρήγορο Wi-Fi και πλυντήριο ρούχων, ιδανικό για παρατεταμένες διαμονές. Το ιδιωτικό μπαλκόνι προσφέρει υπαίθριο χώρο χαλάρωσης.',
 	"Located within walking distance of Athens' main attractions, restaurants, cafés, and shopping areas, Suite 2 is a practical and comfortable base for travelers looking for a centrally located family apartment in Athens with extra space and home-like amenities."
 		=> 'Σε βολική απόσταση από τα κύρια αξιοθέατα, εστιατόρια, καφέ και εμπορικά κέντρα, η Σουίτα 2 είναι πρακτική και άνετη βάση για οικογένειες στο κέντρο της Αθήνας.',
 
@@ -288,7 +288,7 @@ return [
 	'Avra Suite is a spacious 52m² one-bedroom apartment in Athens city center, designed for families or small groups of up to four guests. Located near the city\'s most iconic landmarks, it offers easy access to the Acropolis, Monastiraki, and Ermou Street.'
 		=> 'Η Σουίτα Avra είναι ένα ευρύχωρο διαμέρισμα 52τ.μ. ενός υπνοδωματίου στο κέντρο της Αθήνας, ιδανικό για οικογένειες ή μικρές παρέες έως τέσσερα άτομα. Κοντά στα πιο εμβληματικά αξιοθέατα της πόλης, με εύκολη πρόσβαση στην Ακρόπολη, το Μοναστηράκι και την Ερμού.',
 	'The suite features a private bedroom, a separate living area with sofa bed, modern bathroom with Jacuzzi bathtub for added comfort after a day of sightseeing, a private balcony, fully equipped kitchen, high-speed WiFi, smart TV access and modern entertainment amenities make it ideal for both short city breaks and longer stays.'
-		=> 'Ξεχωριστό υπνοδωμάτιο, καθιστικό με καναπέ-κρεβάτι, σύγχρονο μπάνιο με τζακούζι, ιδιωτικό μπαλκόνι, πλήρως εξοπλισμένη κουζίνα, γρήγορο Wi-Fi και Smart TV — ιδανικό τόσο για σύντομες αστικές διαδρομές όσο και για παρατεταμένες παραμονές.',
+		=> 'Ξεχωριστό υπνοδωμάτιο, καθιστικό με καναπέ-κρεβάτι, σύγχρονο μπάνιο με τζακούζι, ιδιωτικό μπαλκόνι, πλήρως εξοπλισμένη κουζίνα, γρήγορο Wi-Fi και Smart TV, ιδανικό τόσο για σύντομες αστικές διαδρομές όσο και για παρατεταμένες παραμονές.',
 	'With generous space and premium features, Avra Suite is a perfect choice for travelers seeking comfort in the heart of Athens.'
 		=> 'Με άφθονο χώρο και premium παροχές, η Σουίτα Avra είναι η ιδανική επιλογή για ταξιδιώτες που αναζητούν άνεση στην καρδιά της Αθήνας.',
 
@@ -311,7 +311,7 @@ return [
 	'Kohili Suite is a spacious premium apartment in Athens city center, designed for travelers who value comfort, style, and relaxation in a central location.'
 		=> 'Η Σουίτα Kohili είναι ένα ευρύχωρο premium διαμέρισμα στο κέντρο της Αθήνας, σχεδιασμένο για ταξιδιώτες που εκτιμούν την άνεση, το στυλ και τη χαλάρωση.',
 	'This elegant 37m² suite features a comfortable double bed, a cozy seating area, and a private balcony, creating the perfect setting for a memorable city stay. Earthy tones and soft lighting enhance the calming atmosphere, while the private Jacuzzi bathtub offers an added touch of luxury after a day exploring Athens.'
-		=> 'Το κομψό 37τ.μ. suite διαθέτει διπλό κρεβάτι, χώρο καθιστικού και ιδιωτικό μπαλκόνι — ιδανικό για αξέχαστη αστική παραμονή. Γήινες αποχρώσεις και μαλακός φωτισμός δημιουργούν ηρεμιστική ατμόσφαιρα, ενώ το ιδιωτικό τζακούζι προσθέτει πινελιά πολυτέλειας.',
+		=> 'Το κομψό 37τ.μ. suite διαθέτει διπλό κρεβάτι, χώρο καθιστικού και ιδιωτικό μπαλκόνι, ιδανικό για αξέχαστη αστική παραμονή. Γήινες αποχρώσεις και μαλακός φωτισμός δημιουργούν ηρεμιστική ατμόσφαιρα, ενώ το ιδιωτικό τζακούζι προσθέτει πινελιά πολυτέλειας.',
 	'Ideal for couples, the suite also includes a fully equipped kitchen, modern bathroom with Jacuzzi bathtub, high-speed WiFi, and smart TV access, ensuring a seamless and enjoyable experience.'
 		=> 'Ιδανικό για ζευγάρια, το suite διαθέτει επίσης πλήρως εξοπλισμένη κουζίνα, σύγχρονο μπάνιο με τζακούζι, γρήγορο Wi-Fi και Smart TV για απρόσκοπτη και ευχάριστη εμπειρία.',
 	'Located close to Athens\' historical landmarks, shopping areas, and vibrant dining spots, Kohili Suite combines premium comfort with the convenience of staying in the heart of the city.'
@@ -454,8 +454,8 @@ return [
 		=> 'Το check-in ξεκινά στις 14:00 της ημέρας άφιξης. Check-out: 11:00 π.μ. την ημέρα αναχώρησης.',
 	'We offer you an easy and secure key-less access to your suite. This access allows you to check-in without our physical presence. Prior to your arrival, you will receive a unique access code corresponding to your reservation. This code will be valid for the duration of your stay.'
 		=> 'Σας προσφέρουμε εύκολη και ασφαλή πρόσβαση χωρίς κλειδί. Αυτή η πρόσβαση σας επιτρέπει να κάνετε check-in χωρίς τη φυσική μας παρουσία. Πριν από την άφιξή σας θα λάβετε έναν μοναδικό κωδικό πρόσβασης που αντιστοιχεί στην κράτησή σας και θα ισχύει για όλη τη διάρκεια της παραμονής σας.',
-	'Each guest has their personal code for the apartment, as well as the code for building and floor access sent around 14:00 or even earlier if permitted by availability. The ground floor door is locked after 18:00 — if you arrive later, use the code provided.'
-		=> 'Κάθε επισκέπτης λαμβάνει προσωπικό κωδικό για το διαμέρισμα, καθώς και κωδικό για το κτίριο και τον όροφο, αποστέλλεται περίπου στις 14:00 ή νωρίτερα εάν το επιτρέπει η διαθεσιμότητα. Η πόρτα του ισογείου κλειδώνει μετά τις 18:00 — αν φτάσετε αργότερα, χρησιμοποιήστε τον κωδικό που σας εστάλη.',
+	'Each guest has their personal code for the apartment, as well as the code for building and floor access sent around 14:00 or even earlier if permitted by availability. The ground floor door is locked after 18:00. If you arrive later, use the code provided.'
+		=> 'Κάθε επισκέπτης λαμβάνει προσωπικό κωδικό για το διαμέρισμα, καθώς και κωδικό για το κτίριο και τον όροφο, αποστέλλεται περίπου στις 14:00 ή νωρίτερα εάν το επιτρέπει η διαθεσιμότητα. Η πόρτα του ισογείου κλειδώνει μετά τις 18:00. Αν φτάσετε αργότερα, χρησιμοποιήστε τον κωδικό που σας εστάλη.',
 	'In case you need our physical presence, you can find us daily at our office from 9:00 AM to 16:00 on the ground floor of 11 Theseos Street.'
 		=> 'Αν χρειάζεστε τη φυσική μας παρουσία, θα μας βρείτε καθημερινά στο γραφείο μας από τις 9:00 έως τις 16:00, στο ισόγειο της οδού Θησέως 11.',
 	'Reservations'              => 'Κρατήσεις',

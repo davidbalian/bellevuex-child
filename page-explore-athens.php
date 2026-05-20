@@ -46,7 +46,7 @@ $more        = chic_explore_athens_more();
 		<div class="explore-athens-intro__inner">
 			<span class="explore-athens-intro__eyebrow"><?php te_uc( 'Explore Athens / Athina' ); ?></span>
 			<h2 class="explore-athens-intro__title"><?php te( 'A City Steeped in History, Culture, and Ancient Landmarks' ); ?></h2>
-			<p class="explore-athens-intro__lede"><?php te( 'Staying at Athens means immersing yourself in a destination where ancient history meets vibrant modern life. From iconic landmarks to hidden local gems, Athens offers an unforgettable experience for every traveler — and at Chic Centre Suites Athens, you are perfectly positioned to explore it all.' ); ?></p>
+			<p class="explore-athens-intro__lede"><?php te( 'Staying at Athens means immersing yourself in a destination where ancient history meets vibrant modern life. From iconic landmarks to hidden local gems, Athens offers an unforgettable experience for every traveler, and at Chic Centre Suites Athens, you are perfectly positioned to explore it all.' ); ?></p>
 			<p class="explore-athens-intro__lede"><?php te( 'Located just steps from Ermou Street and within a short walk of Syntagma Square and Monastiraki, your stay places you at the very center of culture, history, shopping, and gastronomy.' ); ?></p>
 		</div>
 	</section>

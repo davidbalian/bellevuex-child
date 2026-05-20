@@ -234,7 +234,7 @@ function _chic_llms_contact_map_lines( bool $is_el ): string {
 		$label = $is_el
 			? t( $b['label'] )
 			: $b['short_label'] . ': ' . $b['label'];
-		$out .= '- ' . $label . ' — [' . $map_word . '](' . $b['maps'] . ")\n";
+		$out .= '- ' . $label . ', [' . $map_word . '](' . $b['maps'] . ")\n";
 	}
 
 	return $out;
@@ -257,7 +257,7 @@ function chic_llms_render( string $lang = 'en' ): string {
 			. "\n"
 			. "> Μπουτίκ διαμερίσματα βραχυχρόνιας μίσθωσης στην καρδιά της Αθήνας.\n"
 			. "\n"
-			. "Η Chic Centre Suites προσφέρει σύγχρονα, πλήρως εξοπλισμένα διαμερίσματα στο κέντρο της Αθήνας — λίγα βήματα από την Ακρόπολη, το Μοναστηράκι, την Πλατεία Συντάγματος και την πεζόδρομο Ερμού. Τα καταλύματα βρίσκονται σε τρία κτίρια στις οδούς Θησέως και Χαβρίου, ιδανικά για ζευγάρια, οικογένειες και μεμονωμένους ταξιδιώτες.\n"
+			. "Η Chic Centre Suites προσφέρει σύγχρονα, πλήρως εξοπλισμένα διαμερίσματα στο κέντρο της Αθήνας, λίγα βήματα από την Ακρόπολη, το Μοναστηράκι, την Πλατεία Συντάγματος και την πεζόδρομο Ερμού. Τα καταλύματα βρίσκονται σε τρία κτίρια στις οδούς Θησέως και Χαβρίου, ιδανικά για ζευγάρια, οικογένειες και μεμονωμένους ταξιδιώτες.\n"
 			. "\n"
 			. "## Βασικές Σελίδες\n"
 			. "\n"
@@ -295,7 +295,7 @@ function chic_llms_render( string $lang = 'en' ): string {
 		. "\n"
 		. "> Boutique short-stay suites in the heart of Athens, Greece.\n"
 		. "\n"
-		. "Chic Centre Suites offers stylish, fully equipped serviced apartments in Athens city center — steps from the Acropolis, Monastiraki, Syntagma Square, and Ermou Street. Spread across three buildings on Thiseos and Chavriou streets (10562 Athens), the suites combine modern comfort with easy access to the city's cultural, historical, and commercial highlights. Ideal for couples, families, and solo travelers on short breaks or extended stays.\n"
+		. "Chic Centre Suites offers stylish, fully equipped serviced apartments in Athens city center, steps from the Acropolis, Monastiraki, Syntagma Square, and Ermou Street. Spread across three buildings on Thiseos and Chavriou streets (10562 Athens), the suites combine modern comfort with easy access to the city's cultural, historical, and commercial highlights. Ideal for couples, families, and solo travelers on short breaks or extended stays.\n"
 		. "\n"
 		. "## Key Pages\n"
 		. "\n"
@@ -373,7 +373,7 @@ function _chic_llms_suite_rows( string $lang ): string {
 			}
 
 			$line = '- [' . $display_title . '](' . $url . ')';
-			if ( $summary_parts ) $line .= ' — ' . implode( ', ', $summary_parts );
+			if ( $summary_parts ) $line .= ', ' . implode( ', ', $summary_parts );
 			$out .= $line . "\n";
 		}
 

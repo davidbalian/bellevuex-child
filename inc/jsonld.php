@@ -163,7 +163,7 @@ function chic_jsonld_current_page_description(): string {
  * so the LodgingBusiness entity carries language-appropriate copy.
  */
 function chic_jsonld_hotel_description(): string {
-	$en = 'Chic Centre Suites is a collection of modern serviced apartments in the heart of Athens, spread across three buildings in the historical city centre. Perfectly located within walking distance of the Acropolis, Monastiraki Square, and Ermou shopping street, each suite features fully equipped kitchens, high-speed WiFi, smart TVs with streaming access, and contemporary interiors — ideal for couples, families, solo travellers, and small groups.';
+	$en = 'Chic Centre Suites is a collection of modern serviced apartments in the heart of Athens, spread across three buildings in the historical city centre. Perfectly located within walking distance of the Acropolis, Monastiraki Square, and Ermou shopping street, each suite features fully equipped kitchens, high-speed WiFi, smart TVs with streaming access, and contemporary interiors, ideal for couples, families, solo travellers, and small groups.';
 	if ( chic_get_current_lang() === 'el' ) {
 		$front_id = (int) get_option( 'page_on_front' );
 		if ( $front_id > 0 ) {

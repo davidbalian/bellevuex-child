@@ -377,7 +377,7 @@ function chic_suite_amenities( int $post_id ): array {
 		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
 		[ 'icon' => 'fas fa-couch',                                   'label' => t( 'Sofa' ) ],
 		[ 'icon' => 'fas fa-shower',                                  'label' => t( 'Shower' ) ],
-		[ 'icon' => 'fas fa-home',                                    'label' => $size ? $size . 'm²' : '—' ],
+		[ 'icon' => 'fas fa-home',                                    'label' => $size ? $size . 'm²' : '-' ],
 	];
 }
 

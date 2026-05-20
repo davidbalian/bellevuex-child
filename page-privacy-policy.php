@@ -45,7 +45,7 @@ get_header();
 				<li><?php echo wp_kses_post( t_html( '<strong>Postal address:</strong> 11 Thiseos, 10562 Athens, Greece' ) ); ?></li>
 				<li><?php echo wp_kses_post( t_html( '<strong>Telephone number:</strong> <a href="tel:+35799674630">+357 99674630</a>' ) ); ?></li>
 			</ul>
-			<p><?php te( 'You have the right to make a complaint at any time to the Commissioner for the Protection of Personal Data. We would, however, appreciate the chance to deal with your concerns before you do so — please contact us in the first instance.' ); ?></p>
+			<p><?php te( 'You have the right to make a complaint at any time to the Commissioner for the Protection of Personal Data. We would, however, appreciate the chance to deal with your concerns before you do so, please contact us in the first instance.' ); ?></p>
 		</section>
 
 		<section>

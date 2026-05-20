@@ -70,7 +70,7 @@ $hero_slides = chic_home_hero_slides( get_the_ID() );
 			<div class="home-hero__inner">
 				<div class="home-hero__content">
 					<h1 class="home-hero__title fade-in fade-in-delay-0"><?php echo wp_kses_post( t_uc_html( 'Stay in the Heart<br> of Athens' ) ); ?></h1>
-					<p class="home-hero__text fade-in fade-in-delay-1"><?php te( 'Our suites, spread across three buildings on the same road — steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.' ); ?></p>
+					<p class="home-hero__text fade-in fade-in-delay-1"><?php te( 'Our suites, spread across three buildings on the same road, steps from Syntagma Square, Monastiraki, and the Ermou pedestrian street.' ); ?></p>
 					<div class="home-hero__ctas fade-in fade-in-delay-2">
 						<a
 							class="home-hero__cta btn btn--secondary"
