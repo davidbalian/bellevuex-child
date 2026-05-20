@@ -10,7 +10,7 @@ function chic_header_get_config_id(): int {
 
 function chic_header_item_href( array $item ): string {
 	// Hard-coded primary nav targets — keyed on English label (routing key, not display text).
-	$label_key = strtolower( trim( $item['label'] ?? '' ) );
+	$label_key = strtolower( trim( $item['label_en'] ?? $item['label'] ?? '' ) );
 	$hard_nav  = [
 		'home'           => chic_localized_url( '/' ),
 		'explore athens' => chic_localized_url( '/explore-and-experience-athens/' ),
@@ -40,15 +40,16 @@ function chic_header_get_menu(): array {
 	if ( $pid && function_exists( 'get_field' ) ) {
 		$acf_rows = get_field( 'chic_hdr_menu_items', $pid );
 		if ( ! empty( $acf_rows ) && is_array( $acf_rows ) ) {
+			$lang  = chic_get_current_lang();
 			$items = [];
 			foreach ( $acf_rows as $row ) {
 				$items[] = [
-					'label'       => $row['label_en'] ?? '',
-					'link_type'   => $row['link_type'] ?? 'placeholder',
-					'url'         => $row['url'] ?? '',
-					'page'        => $row['page_id'] ?? 0,
-					'is_mega'     => ! empty( $row['is_mega'] ),
-					'mega_groups' => [],
+					'label'     => $row[ 'label_' . $lang ] ?? $row['label_en'] ?? '',
+					'label_en'  => $row['label_en'] ?? '',
+					'link_type' => $row['link_type'] ?? 'placeholder',
+					'url'       => $row['url'] ?? '',
+					'page'      => $row['page_id'] ?? 0,
+					'is_mega'   => ! empty( $row['is_mega'] ),
 				];
 			}
 			return $items;
@@ -86,13 +87,14 @@ function chic_header_render_items( bool $mobile = false ): void {
 
 	foreach ( $items as $item ) {
 		$raw_label     = $item['label'] ?? '';
-		$label_key     = strtolower( trim( $raw_label ) );
-		$english_label = $hard_labels[ $label_key ] ?? $raw_label;
+		$route_label   = strtolower( trim( $item['label_en'] ?? $raw_label ) );
+		$english_label = $hard_labels[ $route_label ] ?? ( $item['label_en'] ?? $raw_label );
 		$href          = chic_header_item_href( $item );
-		$is_book       = 'book now' === strtolower( trim( $item['label'] ?? '' ) );
-		$is_mega       = ! empty( $item['is_mega'] ) && ! empty( $item['mega_groups'] );
+		$is_book       = 'book now' === $route_label;
+		$is_mega       = ! empty( $item['is_mega'] );
 		$translated    = t( $english_label );
-		$label         = esc_html( $is_book ? chic_el_strip_monotonic_tonos( $translated ) : $translated );
+		$display       = isset( $item['label_en'] ) ? $raw_label : $translated;
+		$label         = esc_html( $is_book ? chic_el_strip_monotonic_tonos( $display ) : $display );
 		$classes  = 'menu-item';
 		if ( $is_mega ) $classes .= ' menu-item-has-children menu-item-has-mega';
 
@@ -209,7 +211,8 @@ function chic_header_book_now_url(): string {
 	$items = chic_header_get_menu();
 	if ( ! empty( $items ) ) {
 		foreach ( $items as $item ) {
-			if ( 'book now' === strtolower( trim( $item['label'] ?? '' ) ) ) {
+			$route_label = strtolower( trim( $item['label_en'] ?? $item['label'] ?? '' ) );
+			if ( 'book now' === $route_label ) {
 				return chic_header_item_href( $item );
 			}
 		}
