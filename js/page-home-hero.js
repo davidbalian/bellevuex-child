@@ -82,6 +82,9 @@
 			loop: true,
 			slidesPerView: 1,
 			speed: TRANSITION_MS,
+			allowTouchMove: false,
+			simulateTouch: false,
+			preventInteractionOnTransition: true,
 			autoplay: reducedMotion ? false : {
 				delay: AUTOPLAY_DELAY_MS,
 				disableOnInteraction: false,

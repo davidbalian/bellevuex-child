@@ -59,6 +59,12 @@
 	height: 100%;
 }
 
+.home-hero:not(.home-hero--static) .home-hero__carousel {
+	pointer-events: none;
+	touch-action: none;
+	user-select: none;
+}
+
 .home-hero__slide {
 	position: absolute;
 	inset: 0;
@@ -228,7 +234,7 @@ html[lang^="el"] .page-home .home-hero__title {
 	}
 
 	.home-hero:not(.home-hero--static) > .home-hero__slider-bleed::after {
-		opacity: 0.75 !important;
+		opacity: 1 !important;
 	}
 
 	.home-hero__overlay {
