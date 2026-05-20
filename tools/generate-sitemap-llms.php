@@ -35,7 +35,8 @@ function chic_sitemap_collect_urls(): array {
 		'page-cookie-policy.php',
 		'page-terms-and-conditions.php',
 	];
-	$urls = [];
+	$page_urls  = [];
+	$suite_urls = [];
 
 	// Enumerate published pages.
 	$pages = get_posts( [
@@ -62,7 +63,7 @@ function chic_sitemap_collect_urls(): array {
 		$is_legal = $tpl && in_array( $tpl, $legal_templates, true );
 		$path     = wp_make_link_relative( get_permalink( $page->ID ) );
 
-		$urls[] = [
+		$page_urls[] = [
 			'path'       => $path,
 			'lastmod'    => gmdate( 'Y-m-d', strtotime( $page->post_modified_gmt ) ),
 			'priority'   => $is_home ? '1.0' : ( $is_legal ? '0.3' : '0.7' ),
@@ -70,33 +71,28 @@ function chic_sitemap_collect_urls(): array {
 		];
 	}
 
-	// Enumerate published suites (mphb_room_type).
-	$suites = get_posts( [
-		'post_type'      => 'mphb_room_type',
-		'post_status'    => 'publish',
-		'posts_per_page' => -1,
-		'no_found_rows'  => true,
-		'orderby'        => 'menu_order title',
-		'order'          => 'ASC',
-	] );
-	foreach ( $suites as $suite ) {
-		if ( '1' === (string) get_post_meta( $suite->ID, '_aioseo_robots_noindex', true ) ) continue;
-		$urls[] = [
-			'path'       => wp_make_link_relative( get_permalink( $suite->ID ) ),
-			'lastmod'    => gmdate( 'Y-m-d', strtotime( $suite->post_modified_gmt ) ),
+	// Enumerate published suites in theme display order.
+	foreach ( chic_home_get_all_suites_ordered() as $suite ) {
+		if ( '1' === (string) get_post_meta( $suite['id'], '_aioseo_robots_noindex', true ) ) {
+			continue;
+		}
+		$modified = get_post_field( 'post_modified_gmt', $suite['id'] );
+		$suite_urls[] = [
+			'path'       => wp_make_link_relative( $suite['permalink'] ),
+			'lastmod'    => $modified ? gmdate( 'Y-m-d', strtotime( $modified ) ) : gmdate( 'Y-m-d' ),
 			'priority'   => '0.9',
 			'changefreq' => 'weekly',
 		];
 	}
 
-	// Home first, then alpha.
-	usort( $urls, function ( $a, $b ) {
+	// Home first, then remaining pages alpha, then suites in display order.
+	usort( $page_urls, function ( $a, $b ) {
 		if ( '/' === $a['path'] ) return -1;
 		if ( '/' === $b['path'] ) return  1;
 		return strcmp( $a['path'], $b['path'] );
 	} );
 
-	return $urls;
+	return array_merge( $page_urls, $suite_urls );
 }
 
 /* ── Sitemap XML ────────────────────────────────────────────────────────── */
@@ -228,15 +224,33 @@ a:hover{text-decoration:underline}
 /* ── llms.txt ───────────────────────────────────────────────────────────── */
 
 /**
+ * Markdown contact lines for each building (address + map link).
+ */
+function _chic_llms_contact_map_lines( bool $is_el ): string {
+	$map_word = $is_el ? 'Χάρτης' : 'Map';
+	$out      = '';
+
+	foreach ( chic_home_buildings() as $b ) {
+		$label = $is_el
+			? t( $b['label'] )
+			: $b['short_label'] . ': ' . $b['label'];
+		$out .= '- ' . $label . ' — [' . $map_word . '](' . $b['maps'] . ")\n";
+	}
+
+	return $out;
+}
+
+/**
  * Renders the llms.txt body for the given language.
  *
  * @param string $lang  'en' or 'el'
  */
 function chic_llms_render( string $lang = 'en' ): string {
-	$site  = rtrim( home_url( '/' ), '/' );
-	$is_el = ( 'el' === $lang );
-	$pfx   = $is_el ? $site . '/el' : $site;
-	$suites = _chic_llms_suite_rows( $lang );
+	$site       = rtrim( home_url( '/' ), '/' );
+	$is_el      = ( 'el' === $lang );
+	$pfx        = $is_el ? $site . '/el' : $site;
+	$suites     = _chic_llms_suite_rows( $lang );
+	$map_lines  = _chic_llms_contact_map_lines( $is_el );
 
 	if ( $is_el ) {
 		return "# Chic Centre Suites\n"
@@ -270,9 +284,7 @@ function chic_llms_render( string $lang = 'en' ): string {
 			. "\n"
 			. "- Email: contact@chiccentresuites.com\n"
 			. "- Τηλέφωνο: +357 99674630 / +30 6982102221\n"
-			. "- Θησέως 11, 1ος Όροφος, 10562 Αθήνα — [Χάρτης](https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7)\n"
-			. "- Θησέως 13, 4ος Όροφος, 10562 Αθήνα — [Χάρτης](https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A)\n"
-			. "- Χαβρίου 2, 2ος Όροφος, 10562 Αθήνα — [Χάρτης](https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8)\n"
+			. $map_lines
 			. "\n"
 			. "## Κράτηση\n"
 			. "\n"
@@ -310,9 +322,7 @@ function chic_llms_render( string $lang = 'en' ): string {
 		. "\n"
 		. "- Email: contact@chiccentresuites.com\n"
 		. "- Phone: +357 99674630 / +30 6982102221\n"
-		. "- Thiseos 11: 11 Thiseos, Floor 1, 10562 Athens — [Map](https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7)\n"
-		. "- Thiseos 13: 13 Thiseos, Floor 4, 10562 Athens — [Map](https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A)\n"
-		. "- Chavriou 2: 2 Chavriou, Floor 2, 10562 Athens — [Map](https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8)\n"
+		. $map_lines
 		. "\n"
 		. "## Booking\n"
 		. "\n"
@@ -343,25 +353,13 @@ function _chic_llms_suite_rows( string $lang ): string {
 
 		$out .= '### ' . $heading . "\n\n";
 
-		$posts = get_posts( [
-			'post_type'      => 'mphb_room_type',
-			'post_status'    => 'publish',
-			'posts_per_page' => -1,
-			'no_found_rows'  => true,
-			'orderby'        => 'menu_order title',
-			'order'          => 'ASC',
-			'tax_query'      => [ [
-				'taxonomy' => 'mphb_room_type_category',
-				'field'    => 'slug',
-				'terms'    => $b['term'],
-			] ],
-		] );
+		$suites = chic_home_get_suites( $b['term'] );
 
-		foreach ( $posts as $suite ) {
-			$title = get_the_title( $suite->ID );
+		foreach ( $suites as $suite ) {
+			$title = $suite['title'];
 			$key   = strtolower( trim( $title ) );
 			$data  = $all_data[ $key ] ?? null;
-			$url   = $pfx . wp_make_link_relative( get_permalink( $suite->ID ) );
+			$url   = $pfx . wp_make_link_relative( $suite['permalink'] );
 
 			$display_title = $is_el
 				? _chic_llms_translate_suite_title( $title )

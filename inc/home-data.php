@@ -10,24 +10,89 @@ function chic_home_buildings(): array {
 			'term'           => 'thiseos-11',
 			'short_label'    => 'Thiseos 11',
 			'label'          => '11 Thiseos, Floor 1, 10562 Athens',
-			'maps'           => 'https://maps.app.goo.gl/hCFxRXMY6xKPDG3T7',
+			'maps'           => 'https://maps.app.goo.gl/MvpXTE7YqntLY3rC6',
 			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/2-chic-centre-suites-athens-thisseos-11-common-seating-area-athens.webp',
+			'suite_order'    => [
+				'Avra Suite',
+				'Zakynthos Suite',
+				'Santorini Suite',
+				'Kohili Suite',
+				'Korali Suite',
+				'Paros Suite',
+				'Mykonos Suite',
+				'Ammos Suite',
+				'Ermou Suite',
+				'Pelagos Suite',
+			],
 		],
 		[
 			'term'           => 'thiseos13',
 			'short_label'    => 'Thiseos 13',
 			'label'          => '13 Thiseos, Floor 4, 10562 Athens',
-			'maps'           => 'https://maps.app.goo.gl/YbpkkEj8YbHoQoV4A',
+			'maps'           => 'https://maps.app.goo.gl/CGVBd7sJzNA59DeZ6',
 			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-thisseos-13-corridor-athens.webp',
+			'suite_order'    => [
+				'Ocean Suite',
+				'Ginger Suite',
+				'Gray Suite',
+				'Sunshine Suite',
+				'Forest Suite',
+			],
 		],
 		[
 			'term'           => 'chavriou2',
 			'short_label'    => 'Chavriou 2',
 			'label'          => '2 Chavriou, Floor 2, 10562 Athens',
-			'maps'           => 'https://maps.app.goo.gl/kmVN1pyNxdU6rt8m8',
+			'maps'           => 'https://maps.app.goo.gl/wS26rSd7fWL7XgAb7',
 			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-chavriou-2-reception-desk-athens.webp',
+			'suite_order'    => [
+				'Suite 1',
+				'Suite 2',
+				'Suite 3',
+				'Suite 4',
+				'Suite 5',
+				'Suite 6',
+			],
 		],
 	];
+}
+
+/**
+ * Returns a building config by mphb_room_type_category slug, or null.
+ */
+function chic_home_building_by_term( string $term_slug ): ?array {
+	foreach ( chic_home_buildings() as $building ) {
+		if ( $building['term'] === $term_slug ) {
+			return $building;
+		}
+	}
+	return null;
+}
+
+/**
+ * Sorts suite card arrays to match an explicit title order.
+ * Unknown suites fall to the end, then alphabetical by title.
+ *
+ * @param array[] $cards  Each item must include a 'title' key.
+ * @param string[] $order MPHB post titles in display order.
+ * @return array[]
+ */
+function chic_home_sort_suites( array $cards, array $order ): array {
+	$rank = [];
+	foreach ( array_values( $order ) as $index => $title ) {
+		$rank[ strtolower( trim( $title ) ) ] = $index;
+	}
+
+	usort( $cards, static function ( array $a, array $b ) use ( $rank ): int {
+		$ra = $rank[ strtolower( trim( $a['title'] ) ) ] ?? PHP_INT_MAX;
+		$rb = $rank[ strtolower( trim( $b['title'] ) ) ] ?? PHP_INT_MAX;
+		if ( $ra !== $rb ) {
+			return $ra <=> $rb;
+		}
+		return strcasecmp( $a['title'], $b['title'] );
+	} );
+
+	return $cards;
 }
 
 /**
@@ -75,7 +140,26 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
 		];
 	}
 
+	$building = chic_home_building_by_term( $term_slug );
+	if ( ! empty( $building['suite_order'] ) ) {
+		$cards = chic_home_sort_suites( $cards, $building['suite_order'] );
+	}
+
 	return $cards;
+}
+
+/**
+ * Returns all suite cards across buildings in display order.
+ *
+ * @param string $image_size  WP image size for thumb_url. Default 'medium_large'.
+ * @return array[]  Each item: { id, title, permalink, thumb_url, capacity_label }
+ */
+function chic_home_get_all_suites_ordered( string $image_size = 'medium_large' ): array {
+	$all = [];
+	foreach ( chic_home_buildings() as $building ) {
+		$all = array_merge( $all, chic_home_get_suites( $building['term'], $image_size ) );
+	}
+	return $all;
 }
 
 /**
