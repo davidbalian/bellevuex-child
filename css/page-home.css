@@ -41,7 +41,7 @@
 /* ── Hero (base layout: css/page-home-hero.css) ───────────────────────────── */
 
 .page-home .home-hero__slider-bleed::after {
-	opacity: 0.5;
+	opacity: 0.75 !important;
 }
 
 /* ── Intro ───────────────────────────────────────────────────────────────── */
