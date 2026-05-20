@@ -279,8 +279,8 @@ function chic_home_hero_slides( int $post_id ): array {
 			[
 				'id'            => 0,
 				'alt'           => 'Chic Centre Suites Athens nearby attractions',
-				'desktop'       => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.webp' ),
-				'mobile'        => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.webp' ),
+				'desktop'       => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.avif' ),
+				'mobile'        => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.avif' ),
 				'fetchpriority' => 'auto',
 				'srcset'        => '',
 				'mobile_srcset' => '',
@@ -315,24 +315,30 @@ function chic_home_hero_slides( int $post_id ): array {
 		];
 	}
 
-	chic_home_hero_apply_third_slide_avif( $slides );
+	chic_home_hero_apply_avif_slides( $slides );
 
 	return $slides;
 }
 
 /**
- * Third hero slide uses the AVIF upload (smaller than the legacy WebP attachment).
+ * Hero slides 2–3 use AVIF uploads (smaller than legacy WebP attachments).
  *
  * @param array[] $slides  Slide rows from chic_home_hero_slides().
  */
-function chic_home_hero_apply_third_slide_avif( array &$slides ): void {
-	if ( ! isset( $slides[2] ) ) {
-		return;
-	}
+function chic_home_hero_apply_avif_slides( array &$slides ): void {
+	$overrides = [
+		1 => '10-chic-centre-suites-athens-nearby-attractions.avif',
+		2 => '5-chic-centre-suites-athens-nearby-restaurants.avif',
+	];
 
-	$avif = chic_upload_url( '5-chic-centre-suites-athens-nearby-restaurants.avif' );
-	$slides[2]['desktop']       = $avif;
-	$slides[2]['mobile']        = $avif;
-	$slides[2]['srcset']        = '';
-	$slides[2]['mobile_srcset'] = '';
+	foreach ( $overrides as $index => $filename ) {
+		if ( ! isset( $slides[ $index ] ) ) {
+			continue;
+		}
+		$url = chic_upload_url( $filename );
+		$slides[ $index ]['desktop']       = $url;
+		$slides[ $index ]['mobile']        = $url;
+		$slides[ $index ]['srcset']        = '';
+		$slides[ $index ]['mobile_srcset'] = '';
+	}
 }
