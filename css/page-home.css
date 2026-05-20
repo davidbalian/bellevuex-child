@@ -92,7 +92,7 @@
 	font-family: var(--home-font-heading);
 	font-weight: 600;
 	text-transform: uppercase;
-	color: var(--home-color-heading);
+	color: var(--home-color-primary);
 	margin: 0 0 0.5rem;
 }
 

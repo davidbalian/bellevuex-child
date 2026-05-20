@@ -39,7 +39,7 @@
 .explore-athens-intro__title {
 	margin-top: 0;
 	margin-bottom: 1.25rem;
-	color: var(--home-color-heading, #23272a);
+	color: var(--home-color-primary);
 }
 
 .explore-athens-intro__lede {
@@ -101,7 +101,7 @@
 .explore-attraction__body h2 {
 	margin-top: 0;
 	margin-bottom: 1rem;
-	color: var(--home-color-heading, #23272a);
+	color: var(--home-color-primary);
 }
 
 .explore-attraction__body p {
@@ -125,7 +125,7 @@
 .explore-athens-more__heading {
 	margin-top: 0;
 	margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
-	color: var(--home-color-heading, #23272a);
+	color: var(--home-color-primary);
 }
 
 .explore-more__grid {
