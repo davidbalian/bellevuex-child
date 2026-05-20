@@ -94,9 +94,9 @@ function chic_home_hero_slides( int $post_id ): array {
 		return [
 			[
 				'id'            => 0,
-				'alt'           => 'Chic Centre Suites Athens suite interior',
-				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-no-balcony-ginger-main-room-athens.webp',
-				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-no-balcony-ginger-main-room-athens.webp',
+				'alt'           => 'Chic Centre Suites Athens Mykonos suite main room',
+				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp',
+				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp',
 				'fetchpriority' => 'high',
 				'srcset'        => '',
 				'mobile_srcset' => '',
@@ -112,9 +112,9 @@ function chic_home_hero_slides( int $post_id ): array {
 			],
 			[
 				'id'            => 0,
-				'alt'           => 'Chic Centre Suites Athens deluxe suite kitchen',
-				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/3-chic-centre-suites-athens-deluxe-suite-ocean-kitchen-athens.webp',
-				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/3-chic-centre-suites-athens-deluxe-suite-ocean-kitchen-athens.webp',
+				'alt'           => 'Chic Centre Suites Athens nearby restaurants',
+				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/5-chic-centre-suites-athens-nearby-restaurants.webp',
+				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/5-chic-centre-suites-athens-nearby-restaurants.webp',
 				'fetchpriority' => 'low',
 				'srcset'        => '',
 				'mobile_srcset' => '',
