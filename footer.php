@@ -39,10 +39,37 @@ defined( 'ABSPATH' ) || exit;
 			<!-- Awards -->
 			<section class="site-footer__column">
 				<h3 class="site-footer__heading"><?php te_uc( 'Awards' ); ?></h3>
+				<?php
+				$_chic_awards_uploads = wp_upload_dir();
+				$_chic_awards_base    = empty( $_chic_awards_uploads['error'] ) ? trailingslashit( $_chic_awards_uploads['baseurl'] ) : '';
+				$_chic_footer_awards  = array(
+					array(
+						'file' => 'booking-award-2026.avif',
+						'alt'  => 'Booking.com Traveller Review Awards 2026 — 8.9 out of 10',
+					),
+					array(
+						'file' => 'kayak-award.avif',
+						'alt'  => 'KAYAK Travel Awards Winner',
+					),
+					array(
+						'file' => 'hoterl-social-award.avif',
+						'alt'  => 'Hotel.social Certificate of Excellence 2026 — 9.0 Review Score',
+					),
+				);
+				?>
 				<div class="site-footer__awards">
-					<div class="site-footer__award" aria-hidden="true"></div>
-					<div class="site-footer__award" aria-hidden="true"></div>
-					<div class="site-footer__award" aria-hidden="true"></div>
+					<?php foreach ( $_chic_footer_awards as $_chic_award ) : ?>
+						<?php if ( '' === $_chic_awards_base ) { continue; } ?>
+						<img
+							class="site-footer__award"
+							src="<?php echo esc_url( $_chic_awards_base . $_chic_award['file'] ); ?>"
+							alt="<?php echo esc_attr( $_chic_award['alt'] ); ?>"
+							width="200"
+							height="280"
+							loading="lazy"
+							decoding="async"
+						>
+					<?php endforeach; ?>
 				</div>
 			</section>
 
