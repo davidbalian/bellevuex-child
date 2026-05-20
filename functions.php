@@ -183,6 +183,9 @@ require_once __DIR__ . '/inc/suite-data.php';
 // ── Cookie consent banner ─────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/cookie-banner.php';
 
+// ── Google Analytics (consent-gated) ──────────────────────────────────────────
+require_once __DIR__ . '/inc/analytics.php';
+
 // ── Admin tools ───────────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/tools-sync-galleries.php';
 require_once __DIR__ . '/inc/tools-unused-images.php'; // recovery console — will be replaced with fixed scanner after recovery
