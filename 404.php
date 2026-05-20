@@ -15,7 +15,7 @@ $slide       = $hero_slides[1] ?? $hero_slides[0];
 
 <main class="page-404">
 
-	<section class="home-hero home-hero--static home-hero--404" aria-label="<?php echo ta( '404 error' ); ?>">
+	<section class="home-hero home-hero--static home-hero--404" aria-label="<?php echo Chic_Page_Content::get_attr( 'option', '404', 'aria' ); ?>">
 
 		<div class="home-hero__slider-bleed">
 			<picture>
@@ -41,12 +41,12 @@ $slide       = $hero_slides[1] ?? $hero_slides[0];
 		<div class="home-hero__overlay">
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered fade-in">
-					<p class="hero-404__label"><?php te_uc( '404 Error' ); ?></p>
-					<h1 class="home-hero__title hero-404__heading"><?php te_uc( 'Page Not Found' ); ?></h1>
-					<p class="home-hero__text"><?php te( "The page you're looking for doesn't exist or may have been moved." ); ?></p>
+					<p class="hero-404__label"><?php echo esc_html( Chic_Page_Content::get_text_uc( 'option', '404', 'error_label' ) ); ?></p>
+					<h1 class="home-hero__title hero-404__heading"><?php echo esc_html( Chic_Page_Content::get_text_uc( 'option', '404', 'heading' ) ); ?></h1>
+					<p class="home-hero__text"><?php echo esc_html( Chic_Page_Content::get_text( 'option', '404', 'body' ) ); ?></p>
 					<div class="home-hero__ctas">
 						<a href="<?php echo esc_url( chic_localized_url( '/' ) ); ?>" class="btn btn--secondary">
-							<?php te_uc( 'Return to Homepage' ); ?>
+							<?php echo esc_html( Chic_Page_Content::get_text_uc( 'option', '404', 'return_label' ) ); ?>
 						</a>
 					</div>
 				</div>

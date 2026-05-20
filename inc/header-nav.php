@@ -34,7 +34,29 @@ function chic_header_item_href( array $item ): string {
 }
 
 function chic_header_get_menu(): array {
-	$items = get_post_meta( chic_header_config_id(), '_chic_header_menu', true );
+	$pid = chic_header_config_id();
+
+	// ACF Repeater — preferred source (populated after seeder runs).
+	if ( $pid && function_exists( 'get_field' ) ) {
+		$acf_rows = get_field( 'chic_hdr_menu_items', $pid );
+		if ( ! empty( $acf_rows ) && is_array( $acf_rows ) ) {
+			$items = [];
+			foreach ( $acf_rows as $row ) {
+				$items[] = [
+					'label'       => $row['label_en'] ?? '',
+					'link_type'   => $row['link_type'] ?? 'placeholder',
+					'url'         => $row['url'] ?? '',
+					'page'        => $row['page_id'] ?? 0,
+					'is_mega'     => ! empty( $row['is_mega'] ),
+					'mega_groups' => [],
+				];
+			}
+			return $items;
+		}
+	}
+
+	// Fallback: legacy post-meta storage.
+	$items = $pid ? get_post_meta( $pid, '_chic_header_menu', true ) : [];
 	return is_array( $items ) ? $items : [];
 }
 
@@ -201,9 +223,16 @@ function chic_output_custom_header(): void {
 		<div class="site-header__inner">
 
 			<a class="site-header__brand" href="<?php echo esc_url( chic_localized_url( '/' ) ); ?>" rel="home">
+				<?php
+				$_hdr_logo_pid = chic_header_config_id();
+				$_hdr_logo_src = Chic_Page_Content::get_image_url( $_hdr_logo_pid, 'hdr', 'logo', 'full' )
+					?: 'https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png';
+				$_hdr_logo_alt = Chic_Page_Content::get_image_alt( $_hdr_logo_pid, 'hdr', 'logo' )
+					?: get_bloginfo( 'name' );
+				?>
 				<img
-					src="https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png"
-					alt="<?php echo esc_attr( get_bloginfo( 'name' ) ); ?>"
+					src="<?php echo esc_url( $_hdr_logo_src ); ?>"
+					alt="<?php echo esc_attr( $_hdr_logo_alt ); ?>"
 					class="site-header__logo"
 					loading="eager"
 				>

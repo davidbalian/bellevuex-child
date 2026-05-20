@@ -192,6 +192,9 @@ require_once __DIR__ . '/inc/jsonld.php';
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';
 
+// ── ACF page-meta: field groups, resolver, seeder ────────────────────────────
+require_once __DIR__ . '/inc/page-meta/chic-page-meta.php';
+
 // ── Force custom templates (priority 99 — overrides Elementor template_include) ─
 add_filter( 'template_include', function ( $template ) {
 	if ( is_singular( 'mphb_room_type' ) ) {
