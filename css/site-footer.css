@@ -84,22 +84,20 @@ footer.footer,
 	font-weight: 600;
 }
 
-/* ── Awards (one row; cells shrink below 5rem when column is narrow) ── */
+/* ── Awards (uniform height; width follows each image aspect ratio) ── */
 
 .site-footer__awards {
-	display: grid;
-	grid-template-columns: repeat(3, minmax(0, 5rem));
+	display: flex;
+	flex-wrap: wrap;
 	gap: 0.75rem;
-	justify-content: start;
-	align-items: start;
+	align-items: flex-end;
 }
 
 .site-footer__award {
 	display: block;
-	width: 100%;
-	height: auto;
-	max-height: 5rem;
-	object-fit: contain;
+	height: 6rem;
+	max-height: 6rem;
+	width: auto;
 	border-radius: 6px;
 }
 
