@@ -11,6 +11,13 @@
 	color: var(--home-color-text, #5c5c5c);
 }
 
+/* ── Hero ──────────────────────────────────────────────────────────────────── */
+
+/* Disable shared vignette scrim from page-home-hero.css on suite pages only. */
+.page-accommodation .home-hero__slider-bleed::after {
+	content: none;
+}
+
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
 
 .suite-amenities {

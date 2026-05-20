@@ -55,12 +55,14 @@ while ( have_posts() ) :
 			<div class="home-hero__inner">
 				<div class="home-hero__content home-hero__content--centered fade-in fade-in-delay-0">
 					<h1 class="home-hero__title"><?php echo esc_html( $suite_title_caps ); ?></h1>
+					<!--
 					<div class="home-hero__ctas">
 						<a
 							class="home-hero__cta btn btn--primary js-view-photos"
 							href="#suite-photos"
 						><?php te_uc( 'View Photos' ); ?></a>
 					</div>
+					-->
 				</div>
 			</div>
 		</div>
