@@ -40,6 +40,10 @@
 
 /* ── Hero: see css/page-home-hero.css ───────────────────────────────────── */
 
+.page-home .home-hero__title {
+	margin-bottom: 0;
+}
+
 /* ── Intro ───────────────────────────────────────────────────────────────── */
 
 .home-intro {
