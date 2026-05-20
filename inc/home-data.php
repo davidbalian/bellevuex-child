@@ -4,6 +4,24 @@
  * Building configuration and suite data helper for the Home page template.
  */
 
+/**
+ * True when the Home page template should run (English front page or /el/).
+ *
+ * is_page_template( 'page-home.php' ) fails on the default-language front page
+ * because WP sets is_front_page without is_page; Greek /el/ injects pagename so
+ * is_page_template works there only.
+ */
+function chic_is_home_page(): bool {
+	if ( is_page_template( 'page-home.php' ) ) {
+		return true;
+	}
+	if ( ! is_front_page() || 'page' !== get_option( 'show_on_front' ) ) {
+		return false;
+	}
+	$front_id = (int) get_option( 'page_on_front' );
+	return $front_id > 0 && 'page-home.php' === get_page_template_slug( $front_id );
+}
+
 function chic_home_buildings(): array {
 	return [
 		[

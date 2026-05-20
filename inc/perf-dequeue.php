@@ -79,11 +79,12 @@ add_action( 'template_redirect', function () {
  * parent theme's generic CSS/JS are not used on any of these pages.
  */
 function chic_is_custom_template(): bool {
-	return is_page_template( [
-		'page-home.php',
-		'page-explore-athens.php',
-		'page-testimonials.php',
-	] ) || is_singular( 'mphb_room_type' );
+	return chic_is_home_page()
+		|| is_page_template( [
+			'page-explore-athens.php',
+			'page-testimonials.php',
+		] )
+		|| is_singular( 'mphb_room_type' );
 }
 
 add_action( 'wp_enqueue_scripts', function () {
@@ -350,7 +351,7 @@ add_action( 'wp_enqueue_scripts', function () {
 // ── Hero LCP preload ──────────────────────────────────────────────────────────
 
 add_action( 'wp_head', function () {
-	if ( ! is_page_template( 'page-home.php' ) ) {
+	if ( ! chic_is_home_page() ) {
 		return;
 	}
 

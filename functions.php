@@ -192,8 +192,7 @@ require_once __DIR__ . '/inc/jsonld.php';
 // ── Performance: targeted dequeues + hero LCP preload ────────────────────────
 require_once __DIR__ . '/inc/perf-dequeue.php';
 
-// ── Force single-mphb_room_type.php for all accommodation posts ──────────────
-// Runs at priority 99 to override Elementor's template_include hook.
+// ── Force custom templates (priority 99 — overrides Elementor template_include) ─
 add_filter( 'template_include', function ( $template ) {
 	if ( is_singular( 'mphb_room_type' ) ) {
 		$custom = get_stylesheet_directory() . '/single-mphb_room_type.php';
@@ -201,6 +200,15 @@ add_filter( 'template_include', function ( $template ) {
 			return $custom;
 		}
 	}
+
+	// English front page: is_front_page without is_page can skip page-home.php otherwise.
+	if ( chic_is_home_page() ) {
+		$custom = get_stylesheet_directory() . '/page-home.php';
+		if ( file_exists( $custom ) ) {
+			return $custom;
+		}
+	}
+
 	return $template;
 }, 99 );
 
@@ -240,7 +248,7 @@ add_action( 'wp_enqueue_scripts', function () {
 
 	wp_enqueue_script( 'chic-mobile-nav', "$dir/js/mobile-nav.js", [], $ver, true );
 
-	if ( is_page_template( 'page-home.php' ) ) {
+	if ( chic_is_home_page() ) {
 		wp_enqueue_style(  'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                    $ver );
 		wp_enqueue_script( 'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                    $ver, true );
 		wp_enqueue_style(  'chic-page-home',       "$dir/css/page-home.css",                          [ 'chic-tokens' ],                     $ver );
