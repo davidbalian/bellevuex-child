@@ -187,11 +187,7 @@ function chic_jsonld_parse_date_label( string $label ): string {
 
 /** Logo URL — resolves to the current domain (same image path as header-nav.php). */
 function chic_jsonld_logo_url(): string {
-	$upload = wp_upload_dir();
-	if ( ! empty( $upload['error'] ) || empty( $upload['baseurl'] ) ) {
-		return home_url( '/wp-content/uploads/chic-centre-suites-logo-no-text.png' );
-	}
-	return trailingslashit( $upload['baseurl'] ) . 'chic-centre-suites-logo-no-text.png';
+	return chic_upload_url( 'chic-centre-suites-logo-no-text.png' );
 }
 
 /* ── Shared facilities list ────────────────────────────────────────────────── */

@@ -29,7 +29,7 @@ function chic_home_buildings(): array {
 			'short_label'    => 'Thiseos 11',
 			'label'          => '11 Thiseos, Floor 1, 10562 Athens',
 			'maps'           => 'https://maps.app.goo.gl/MvpXTE7YqntLY3rC6',
-			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/2-chic-centre-suites-athens-thisseos-11-common-seating-area-athens.webp',
+			'building_image' => chic_upload_url( '2-chic-centre-suites-athens-thisseos-11-common-seating-area-athens.webp' ),
 			'suite_order'    => [
 				'Avra Suite',
 				'Zakynthos Suite',
@@ -48,7 +48,7 @@ function chic_home_buildings(): array {
 			'short_label'    => 'Thiseos 13',
 			'label'          => '13 Thiseos, Floor 4, 10562 Athens',
 			'maps'           => 'https://maps.app.goo.gl/CGVBd7sJzNA59DeZ6',
-			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-thisseos-13-corridor-athens.webp',
+			'building_image' => chic_upload_url( '1-chic-centre-suites-athens-thisseos-13-corridor-athens.webp' ),
 			'suite_order'    => [
 				'Ocean Suite',
 				'Ginger Suite',
@@ -62,7 +62,7 @@ function chic_home_buildings(): array {
 			'short_label'    => 'Chavriou 2',
 			'label'          => '2 Chavriou, Floor 2, 10562 Athens',
 			'maps'           => 'https://maps.app.goo.gl/wS26rSd7fWL7XgAb7',
-			'building_image' => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-chavriou-2-reception-desk-athens.webp',
+			'building_image' => chic_upload_url( '1-chic-centre-suites-athens-chavriou-2-reception-desk-athens.webp' ),
 			'suite_order'    => [
 				'Suite 1',
 				'Suite 2',
@@ -270,8 +270,8 @@ function chic_home_hero_slides( int $post_id ): array {
 			[
 				'id'            => 0,
 				'alt'           => 'Chic Centre Suites Athens Mykonos suite main room',
-				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp',
-				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp',
+				'desktop'       => chic_upload_url( '1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp' ),
+				'mobile'        => chic_upload_url( '1-chic-centre-suites-athens-suite-terrace-mykonos-main-room-athens.webp' ),
 				'fetchpriority' => 'high',
 				'srcset'        => '',
 				'mobile_srcset' => '',
@@ -279,8 +279,8 @@ function chic_home_hero_slides( int $post_id ): array {
 			[
 				'id'            => 0,
 				'alt'           => 'Chic Centre Suites Athens nearby attractions',
-				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/10-chic-centre-suites-athens-nearby-attractions.webp',
-				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/10-chic-centre-suites-athens-nearby-attractions.webp',
+				'desktop'       => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.webp' ),
+				'mobile'        => chic_upload_url( '10-chic-centre-suites-athens-nearby-attractions.webp' ),
 				'fetchpriority' => 'auto',
 				'srcset'        => '',
 				'mobile_srcset' => '',
@@ -288,8 +288,8 @@ function chic_home_hero_slides( int $post_id ): array {
 			[
 				'id'            => 0,
 				'alt'           => 'Chic Centre Suites Athens nearby restaurants',
-				'desktop'       => 'https://davidb1553.sg-host.com/wp-content/uploads/5-chic-centre-suites-athens-nearby-restaurants.webp',
-				'mobile'        => 'https://davidb1553.sg-host.com/wp-content/uploads/5-chic-centre-suites-athens-nearby-restaurants.webp',
+				'desktop'       => chic_upload_url( '5-chic-centre-suites-athens-nearby-restaurants.webp' ),
+				'mobile'        => chic_upload_url( '5-chic-centre-suites-athens-nearby-restaurants.webp' ),
 				'fetchpriority' => 'low',
 				'srcset'        => '',
 				'mobile_srcset' => '',

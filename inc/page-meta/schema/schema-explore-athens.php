@@ -7,7 +7,7 @@ Chic_Page_Meta_Schema::register( 'explore', [
 	'hero_image'      => [
 		'type'        => 'image',
 		'label'       => 'Hero Image',
-		'default_url' => 'https://davidb1553.sg-host.com/wp-content/uploads/7-chic-centre-suites-athens-nearby-attractions-acropolis.webp',
+		'default_url' => chic_upload_url( '7-chic-centre-suites-athens-nearby-attractions-acropolis.webp' ),
 		'alt_default' => 'The Acropolis of Athens at sunset, overlooking the city',
 	],
 	'hero_heading'    => [ 'type' => 'text', 'label' => 'Hero Heading', 'default' => 'EXPLORE AND<br>EXPERIENCE ATHENS' ],

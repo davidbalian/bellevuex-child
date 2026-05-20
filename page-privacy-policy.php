@@ -18,7 +18,13 @@ get_header();
 		<section>
 			<h2><?php te( 'Introduction' ); ?></h2>
 			<p><?php te( "We are very happy to welcome you to Chic Centre Suites' privacy notice." ); ?></p>
-			<p><?php printf( t( 'P. Yiatros Monoprosopi I.K.E operates the %s website.' ), '<a href="https://chiccentresuites.com/" target="_blank" rel="noopener noreferrer">https://chiccentresuites.com/</a>' ); ?></p>
+			<p><?php
+				$site_url = esc_url( home_url( '/' ) );
+				printf(
+					t( 'P. Yiatros Monoprosopi I.K.E operates the %s website.' ),
+					'<a href="' . $site_url . '" target="_blank" rel="noopener noreferrer">' . esc_html( $site_url ) . '</a>'
+				);
+			?></p>
 			<p><?php te( 'The company respects your privacy and is committed to protecting your personal data. This privacy notice will inform you as to how we look after your personal data when you visit our website (regardless of where you visit it from) and tell you about your privacy rights and how the law protects you.' ); ?></p>
 			<p><?php te( 'Please also make use of the Glossary to understand the meaning of some of the terms used in this privacy notice.' ); ?></p>
 		</section>

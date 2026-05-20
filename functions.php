@@ -31,7 +31,8 @@ include( STYLESHEETPATH . '/customizer-polylang.php');
 add_filter( 'woocommerce_order_button_text', 'bbloomer_rename_place_order_button', 9999 );
   
 function bbloomer_rename_place_order_button() {
-    echo '<script>document.getElementsByClassName("payment_method_cardlink_payment_gateway_woocommerce")[0].getElementsByTagName("img")[0].src="https://chiccentresuites.com/wp-content/uploads/cardlinkLogo.svg";</script>';
+	$cardlink_logo = esc_url( content_url( 'uploads/cardlinkLogo.svg' ) );
+	echo '<script>document.getElementsByClassName("payment_method_cardlink_payment_gateway_woocommerce")[0].getElementsByTagName("img")[0].src="' . $cardlink_logo . '";</script>';
    return 'CardLink Payment Gateway'; 
 }
 add_filter( 'mphb_sc_checkout_submit_wrapper_frm_submit_button', 'mphb_sc_checkout_submit_wrapper_frm_submit_buttonm', 9999 );
@@ -149,9 +150,10 @@ function Calendar_Sync() {
 
     //echo "Logged-in User ID: $user_id";
 	if($user_id == 7){
+		$ical_sync_url = esc_url( admin_url( 'admin.php?page=mphb_ical_import&action=sync&accommodation_ids=all' ) );
 		echo '<script>
 		setInterval(function() {
-     window.location.href="https://chiccentresuites.com/wp-admin/admin.php?page=mphb_ical_import&action=sync&accommodation_ids=all";
+     window.location.href="' . $ical_sync_url . '";
 	}, 80 * 1000); 
 		</script>';
 	}
@@ -163,6 +165,7 @@ add_filter( 'wpml_show_footer_language_selector', '__return_false' );
 
 // ── i18n: custom Greek translation layer (must load before template_redirect) ──
 require_once __DIR__ . '/inc/i18n.php';
+require_once __DIR__ . '/inc/uploads.php';
 
 // ── Header component ──────────────────────────────────────────────────────────
 require_once __DIR__ . '/inc/header-defaults.php';

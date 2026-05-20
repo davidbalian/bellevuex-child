@@ -7,7 +7,7 @@ function chic_header_default_menu() {
 		[
 			'label'       => 'Home',
 			'link_type'   => 'url',
-			'url'         => 'https://davidb1553.sg-host.com/',
+			'url'         => home_url( '/' ),
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
@@ -15,7 +15,7 @@ function chic_header_default_menu() {
 		[
 			'label'       => 'Explore Athens',
 			'link_type'   => 'url',
-			'url'         => 'https://davidb1553.sg-host.com/explore-and-experience-athens/',
+			'url'         => home_url( '/explore-and-experience-athens/' ),
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],
@@ -31,7 +31,7 @@ function chic_header_default_menu() {
 		[
 			'label'       => 'Reviews',
 			'link_type'   => 'url',
-			'url'         => 'https://davidb1553.sg-host.com/reviews-what-people-say/',
+			'url'         => home_url( '/reviews-what-people-say/' ),
 			'page'        => 0,
 			'is_mega'     => 0,
 			'mega_groups' => [],

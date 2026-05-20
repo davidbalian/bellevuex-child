@@ -9,7 +9,7 @@ Chic_Page_Meta_Schema::register( 'hdr', [
 	'logo' => [
 		'type'        => 'image',
 		'label'       => 'Header Logo',
-		'default_url' => 'https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png',
+		'default_url' => chic_upload_url( 'chic-centre-suites-logo-no-text.png' ),
 		'alt_default' => '',
 	],
 

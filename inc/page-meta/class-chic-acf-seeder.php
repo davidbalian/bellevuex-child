@@ -305,7 +305,7 @@ class Chic_Acf_Seeder {
 		$pid = self::find_page_by_template( 'page-explore-athens.php' );
 		if ( ! $pid ) return;
 
-		self::seed_image(     'chic_explore_hero_image',     'https://davidb1553.sg-host.com/wp-content/uploads/7-chic-centre-suites-athens-nearby-attractions-acropolis.webp', $pid );
+		self::seed_image(     'chic_explore_hero_image',     chic_upload_url( '7-chic-centre-suites-athens-nearby-attractions-acropolis.webp' ), $pid );
 		self::seed_bilingual( 'chic_explore_hero_image_alt', 'The Acropolis of Athens at sunset, overlooking the city', $pid );
 		self::seed_bilingual( 'chic_explore_hero_heading',   'EXPLORE AND<br>EXPERIENCE ATHENS', $pid );
 		self::seed_bilingual( 'chic_explore_hero_subhead',   "Discover the timeless beauty of Greece's capital from the heart of the city", $pid );
@@ -353,7 +353,7 @@ class Chic_Acf_Seeder {
 		$pid = self::find_page_by_template( 'page-testimonials.php' );
 		if ( ! $pid ) return;
 
-		self::seed_image(     'chic_tsm_hero_image',     'https://davidb1553.sg-host.com/wp-content/uploads/11-chic-centre-suites-athens-nearby-attractions-syntagma-square.webp', $pid );
+		self::seed_image(     'chic_tsm_hero_image',     chic_upload_url( '11-chic-centre-suites-athens-nearby-attractions-syntagma-square.webp' ), $pid );
 		self::seed_bilingual( 'chic_tsm_hero_image_alt', 'Syntagma Square with the Hellenic Parliament building and fountain', $pid );
 		self::seed_bilingual( 'chic_tsm_hero_heading',   'Latest Reviews', $pid );
 		self::seed_bilingual( 'chic_tsm_section_aria',   'Guest reviews',  $pid );
@@ -418,7 +418,7 @@ class Chic_Acf_Seeder {
 		$pid = chic_header_config_id();
 		if ( ! $pid ) return;
 
-		self::seed_image(     'chic_hdr_logo',     'https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png', $pid );
+		self::seed_image(     'chic_hdr_logo',     chic_upload_url( 'chic-centre-suites-logo-no-text.png' ), $pid );
 		self::seed_bilingual( 'chic_hdr_logo_alt', 'Chic Centre Suites', $pid );
 
 		$items = [];

@@ -1,7 +1,6 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
-define( 'CHIC_PLACEHOLDER_IMG', 'https://davidb1553.sg-host.com/wp-content/uploads/off-your-first-reservation.jpg' );
 
 // Thin wrapper so header-nav.php callers don't need to know about header-acf.php.
 function chic_header_get_config_id(): int {
@@ -188,7 +187,7 @@ function chic_header_render_mega_panel( array $groups ): void {
 										</div>
 									<?php endif; ?>
 									<?php foreach ( ( $group['suites'] ?? [] ) as $sIdx => $suite ) :
-										$img = ! empty( $suite['image_url'] ) ? $suite['image_url'] : CHIC_PLACEHOLDER_IMG;
+										$img = ! empty( $suite['image_url'] ) ? $suite['image_url'] : chic_upload_url( 'off-your-first-reservation.jpg' );
 										$alt = esc_attr( $suite['label'] ?? '' );
 										$active = empty( $group['building_image'] ) && 0 === $sIdx;
 									?>
@@ -233,7 +232,7 @@ function chic_output_custom_header(): void {
 				<?php
 				$_hdr_logo_pid = chic_header_config_id();
 				$_hdr_logo_src = Chic_Page_Content::get_image_url( $_hdr_logo_pid, 'hdr', 'logo', 'full' )
-					?: 'https://davidb1553.sg-host.com/wp-content/uploads/chic-centre-suites-logo-no-text.png';
+					?: chic_upload_url( 'chic-centre-suites-logo-no-text.png' );
 				$_hdr_logo_alt = Chic_Page_Content::get_image_alt( $_hdr_logo_pid, 'hdr', 'logo' )
 					?: get_bloginfo( 'name' );
 				?>
