@@ -11,12 +11,21 @@ defined( 'ABSPATH' ) || exit;
  */
 class Chic_Acf_Seeder {
 
-	const SEED_VERSION = 1;
+	const SEED_VERSION = 2;
 
 	public static function maybe_run(): void {
 		if ( ! function_exists( 'get_field' ) || ! function_exists( 'update_field' ) ) return;
-		if ( (int) get_option( 'chic_acf_seed_version', 0 ) >= self::SEED_VERSION ) return;
-		self::run();
+		$current = (int) get_option( 'chic_acf_seed_version', 0 );
+		if ( $current >= self::SEED_VERSION ) {
+			return;
+		}
+		if ( $current < 1 ) {
+			self::run();
+		}
+		if ( $current < self::SEED_VERSION ) {
+			require_once __DIR__ . '/class-chic-acf-seeder-backfill.php';
+			Chic_Acf_Seeder_Backfill::run( self::SEED_VERSION );
+		}
 		update_option( 'chic_acf_seed_version', self::SEED_VERSION, false );
 	}
 
@@ -43,14 +52,12 @@ class Chic_Acf_Seeder {
 
 	/**
 	 * Seed paired _en / _el text fields.
-	 * EL is only seeded when t() returns a string that differs from EN —
-	 * if no translation is found, the EL field stays empty so the resolver
-	 * can fall back to the schema default + t() at render time.
+	 * EL uses t_el() so Greek is written in wp-admin (t() would stay English there).
 	 */
 	private static function seed_bilingual( string $base_name, string $en, $post_id, string $el = '' ): void {
-		if ( '' === $el && function_exists( 't' ) ) {
-			$translated = (string) t( $en );
-			$el = ( $translated !== $en ) ? $translated : '';
+		if ( '' === $el && function_exists( 't_el' ) ) {
+			$translated = t_el( $en );
+			$el         = ( $translated !== $en ) ? $translated : '';
 		}
 		self::seed_field( $base_name . '_en', $en, $post_id );
 		if ( '' !== $el ) {
@@ -107,7 +114,7 @@ class Chic_Acf_Seeder {
 	}
 
 	/** Return the ID of the first page using a given page template. */
-	private static function find_page_by_template( string $tpl ): int {
+	public static function find_page_by_template( string $tpl ): int {
 		$posts = get_posts( [
 			'post_type'      => 'page',
 			'posts_per_page' => 1,
@@ -156,9 +163,9 @@ class Chic_Acf_Seeder {
 			$rows[] = [
 				'term_slug'      => $b['term'],
 				'short_label_en' => $b['short_label'],
-				'short_label_el' => (string) t( $b['short_label'] ),
+				'short_label_el' => (string) t_el( $b['short_label'] ),
 				'address_en'     => $b['label'],
-				'address_el'     => (string) t( $b['label'] ),
+				'address_el'     => (string) t_el( $b['label'] ),
 				'maps_url'       => $b['maps'],
 				'building_image' => $img_id > 0 ? $img_id : 0,
 			];
@@ -191,7 +198,7 @@ class Chic_Acf_Seeder {
 		];
 		$rows = array_map( static fn( $f ) => [
 			'label_en' => $f,
-			'label_el' => (string) t( $f ),
+			'label_el' => (string) t_el( $f ),
 		], $items );
 		self::seed_repeater( 'chic_ss_facilities', $rows, $pid );
 	}
@@ -206,9 +213,9 @@ class Chic_Acf_Seeder {
 		];
 		$rows = array_map( static fn( $n ) => [
 			'heading_en' => $n[0],
-			'heading_el' => (string) t( $n[0] ),
+			'heading_el' => (string) t_el( $n[0] ),
 			'body_en'    => $n[1],
-			'body_el'    => (string) t( $n[1] ),
+			'body_el'    => (string) t_el( $n[1] ),
 		], $notes );
 		self::seed_repeater( 'chic_ss_hygiene', $rows, $pid );
 	}
@@ -249,7 +256,7 @@ class Chic_Acf_Seeder {
 			$rows[] = [
 				'image'  => $img_id > 0 ? $img_id : 0,
 				'alt_en' => $alt,
-				'alt_el' => (string) t( $alt ),
+				'alt_el' => (string) t_el( $alt ),
 			];
 		}
 		self::seed_repeater( 'chic_ss_awards', $rows, $pid );
@@ -315,12 +322,12 @@ class Chic_Acf_Seeder {
 			if ( $img_id <= 0 ) self::log_missing_image( $att['image'] );
 			$att_rows[] = [
 				'title_en' => $att['title'],
-				'title_el' => (string) t( $att['title'] ),
+				'title_el' => (string) t_el( $att['title'] ),
 				'body_en'  => $att['body'],
-				'body_el'  => (string) t( $att['body'] ),
+				'body_el'  => (string) t_el( $att['body'] ),
 				'image'    => $img_id > 0 ? $img_id : 0,
 				'alt_en'   => $att['alt'],
-				'alt_el'   => (string) t( $att['alt'] ),
+				'alt_el'   => (string) t_el( $att['alt'] ),
 			];
 		}
 		self::seed_repeater( 'chic_ea_attractions', $att_rows, $pid );
@@ -330,9 +337,9 @@ class Chic_Acf_Seeder {
 		foreach ( chic_explore_athens_more() as $item ) {
 			$more_rows[] = [
 				'title_en' => $item['title'],
-				'title_el' => (string) t( $item['title'] ),
+				'title_el' => (string) t_el( $item['title'] ),
 				'body_en'  => $item['body'],
-				'body_el'  => (string) t( $item['body'] ),
+				'body_el'  => (string) t_el( $item['body'] ),
 			];
 		}
 		self::seed_repeater( 'chic_ea_more_items', $more_rows, $pid );
@@ -360,13 +367,13 @@ class Chic_Acf_Seeder {
 				'country_code'    => $r['country_code'],
 				'suite'           => $room_id > 0 ? $room_id : 0,
 				'suite_label_en'  => $r['suite_label'],
-				'suite_label_el'  => (string) t( $r['suite_label'] ),
+				'suite_label_el'  => (string) t_el( $r['suite_label'] ),
 				'source_label_en' => $r['source_label'],
-				'source_label_el' => (string) t( $r['source_label'] ),
+				'source_label_el' => (string) t_el( $r['source_label'] ),
 				'date_label_en'   => $r['date_label'],
-				'date_label_el'   => (string) t( $r['date_label'] ),
+				'date_label_el'   => (string) t_el( $r['date_label'] ),
 				'review_en'       => $r['review'],
-				'review_el'       => (string) t( $r['review'] ),
+				'review_el'       => (string) t_el( $r['review'] ),
 			];
 		}
 		self::seed_repeater( 'chic_tsm_reviews', $rows, $pid );
@@ -392,7 +399,7 @@ class Chic_Acf_Seeder {
 
 			$paras    = is_array( $data['description'] ) ? array_filter( $data['description'] ) : [ $data['description'] ];
 			$html_en  = '<p>' . implode( "</p>\n<p>", $paras ) . '</p>';
-			$html_el  = '<p>' . implode( "</p>\n<p>", array_map( 't', $paras ) ) . '</p>';
+			$html_el  = '<p>' . implode( "</p>\n<p>", array_map( 't_el', $paras ) ) . '</p>';
 
 			self::seed_field( 'chic_suite_description_en', $html_en, $pid );
 			self::seed_field( 'chic_suite_description_el', $html_el, $pid );
@@ -432,7 +439,7 @@ class Chic_Acf_Seeder {
 
 			$items[] = [
 				'label_en'  => $item['label'],
-				'label_el'  => (string) t( $item['label'] ),
+				'label_el'  => (string) t_el( $item['label'] ),
 				'link_type' => $type,
 				'url'       => $url,
 				'page_id'   => 0,

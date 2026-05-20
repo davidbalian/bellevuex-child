@@ -17,11 +17,17 @@ while ( have_posts() ) :
 	$building  = chic_suite_building( $post_id );
 	$gallery   = chic_suite_gallery_ids( $post_id );
 
-	// Suite description: ACF WYSIWYG, fallback to PHP data.
+	// Suite description: ACF WYSIWYG, fallback to PHP data (+ t() on paragraphs).
 	$_lang             = chic_get_current_lang();
 	$_description_html = function_exists( 'get_field' )
 		? (string) ( get_field( 'chic_suite_description_' . $_lang, $post_id ) ?: '' )
 		: '';
+	if ( 'el' === $_lang && $_description_html !== '' && function_exists( 'get_field' ) ) {
+		$_en_desc = (string) ( get_field( 'chic_suite_description_en', $post_id ) ?: '' );
+		if ( $_description_html === $_en_desc ) {
+			$_description_html = '';
+		}
+	}
 	if ( empty( $_description_html ) ) {
 		$_desc_paras = chic_suite_description( $post_id );
 		foreach ( $_desc_paras as $_para ) {

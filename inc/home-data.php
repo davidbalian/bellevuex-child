@@ -76,10 +76,83 @@ function chic_home_buildings(): array {
 }
 
 /**
+ * Building list for templates: ACF Site Settings when seeded, merged with PHP defaults.
+ *
+ * Keeps suite_order and term slugs from chic_home_buildings(); labels, maps, and images
+ * come from chic_ss_buildings when rows exist.
+ *
+ * @return array[] Same shape as chic_home_buildings().
+ */
+function chic_site_buildings(): array {
+	static $cache = null;
+	if ( null !== $cache ) {
+		return $cache;
+	}
+
+	$defaults = chic_home_buildings();
+	$by_term  = [];
+	foreach ( $defaults as $b ) {
+		$by_term[ $b['term'] ] = $b;
+	}
+
+	if ( ! class_exists( 'Chic_Page_Content' ) ) {
+		$cache = $defaults;
+		return $cache;
+	}
+
+	$acf_rows = Chic_Page_Content::get_repeater( 'option', 'chic_ss_buildings' );
+	if ( empty( $acf_rows ) ) {
+		$cache = $defaults;
+		return $cache;
+	}
+
+	$merged = [];
+	foreach ( $acf_rows as $row ) {
+		$term = (string) ( $row['term_slug'] ?? '' );
+		if ( '' === $term || ! isset( $by_term[ $term ] ) ) {
+			continue;
+		}
+		$base = $by_term[ $term ];
+
+		$image = (string) ( $row['building_image'] ?? '' );
+		if ( '' === $image && ! empty( $row['building_image_id'] ) ) {
+			$url = wp_get_attachment_image_url( (int) $row['building_image_id'], 'full' );
+			if ( $url ) {
+				$image = $url;
+			}
+		}
+		if ( '' === $image ) {
+			$image = $base['building_image'];
+		}
+
+		$short = (string) ( $row['short_label'] ?? '' );
+		$addr  = (string) ( $row['address'] ?? '' );
+		if ( '' === $short ) {
+			$short = 'el' === chic_get_current_lang() ? t_el( $base['short_label'] ) : $base['short_label'];
+		}
+		if ( '' === $addr ) {
+			$addr = 'el' === chic_get_current_lang() ? t_el( $base['label'] ) : $base['label'];
+		}
+
+		$merged[] = [
+			'term'           => $term,
+			'short_label'    => $short,
+			'label'          => $addr,
+			'maps'           => (string) ( $row['maps_url'] ?? $base['maps'] ),
+			'building_image' => $image,
+			'suite_order'    => $base['suite_order'],
+		];
+	}
+
+	$cache = ! empty( $merged ) ? $merged : $defaults;
+	return $cache;
+}
+
+/**
  * Returns a building config by mphb_room_type_category slug, or null.
  */
 function chic_home_building_by_term( string $term_slug ): ?array {
-	foreach ( chic_home_buildings() as $building ) {
+	foreach ( chic_site_buildings() as $building ) {
 		if ( $building['term'] === $term_slug ) {
 			return $building;
 		}
@@ -174,7 +247,7 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
  */
 function chic_home_get_all_suites_ordered( string $image_size = 'medium_large' ): array {
 	$all = [];
-	foreach ( chic_home_buildings() as $building ) {
+	foreach ( chic_site_buildings() as $building ) {
 		$all = array_merge( $all, chic_home_get_suites( $building['term'], $image_size ) );
 	}
 	return $all;

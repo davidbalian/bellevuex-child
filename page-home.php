@@ -112,7 +112,7 @@ $hero_slides = chic_home_hero_slides( $_pid );
 	if ( '#' === $chic_home_book_now_url ) {
 		$chic_home_book_now_url = 'https://direct-book.com/properties/chiccentresuitesathens';
 	}
-	foreach ( chic_home_buildings() as $building ) :
+	foreach ( chic_site_buildings() as $building ) :
 		$suites = chic_home_get_suites( $building['term'], 'large' );
 		if ( empty( $suites ) ) continue;
 		$_suite_instance++;
@@ -121,13 +121,13 @@ $hero_slides = chic_home_hero_slides( $_pid );
 
 	<section class="home-building fade-in">
 		<div class="home-building__inner">
-			<h2 class="home-building__title"><?php echo esc_html( t_uc( $building['short_label'] ) ); ?></h2>
+			<h2 class="home-building__title"><?php echo esc_html( 'el' === chic_get_current_lang() ? chic_el_strip_monotonic_tonos( $building['short_label'] ) : $building['short_label'] ); ?></h2>
 			<a
 				class="home-building__address-link chic-type-meta"
 				href="<?php echo esc_url( $building['maps'] ); ?>"
 				target="_blank"
 				rel="noopener noreferrer"
-			><?php echo esc_html( t( $building['label'] ) ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></a>
+			><?php echo esc_html( $building['label'] ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></a>
 		</div>
 	</section>
 

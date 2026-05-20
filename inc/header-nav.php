@@ -63,11 +63,11 @@ function chic_header_get_menu(): array {
 
 function chic_header_get_mphb_mega_groups(): array {
 	$groups = [];
-	foreach ( chic_home_buildings() as $b ) {
+	foreach ( chic_site_buildings() as $b ) {
 		$suites = chic_home_get_suites( $b['term'], 'full' );
 		if ( empty( $suites ) ) continue;
 		$groups[] = [
-			'building_label' => t( $b['short_label'] ?? $b['label'] ),
+			'building_label' => $b['short_label'] ?? $b['label'],
 			'building_image' => $b['building_image'] ?? '',
 			'suites'         => array_map( fn( $s ) => [
 				'label'     => chic_translate_suite_title( $s['title'] ),
@@ -92,9 +92,13 @@ function chic_header_render_items( bool $mobile = false ): void {
 		$href          = chic_header_item_href( $item );
 		$is_book       = 'book now' === $route_label;
 		$is_mega       = ! empty( $item['is_mega'] );
-		$translated    = t( $english_label );
-		$display       = isset( $item['label_en'] ) ? $raw_label : $translated;
-		$label         = esc_html( $is_book ? chic_el_strip_monotonic_tonos( $display ) : $display );
+		$display = $raw_label;
+		if ( '' === $display ) {
+			$display = t( $english_label );
+		} elseif ( 'el' === chic_get_current_lang() && isset( $item['label_en'] ) && $display === $item['label_en'] ) {
+			$display = t( $item['label_en'] );
+		}
+		$label = esc_html( $is_book ? chic_el_strip_monotonic_tonos( $display ) : $display );
 		$classes  = 'menu-item';
 		if ( $is_mega ) $classes .= ' menu-item-has-children menu-item-has-mega';
 

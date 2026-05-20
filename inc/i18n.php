@@ -152,6 +152,15 @@ function t( string $key ): string {
 	return $map[ $key ] ?? $key;
 }
 
+/**
+ * Greek translation from translations/el.php regardless of current locale.
+ * Used by ACF seeding/backfill in wp-admin where chic_get_current_lang() is always en.
+ */
+function t_el( string $en ): string {
+	$map = chic_get_translations( 'el' );
+	return $map[ $en ] ?? $en;
+}
+
 function te( string $key ): void {
 	echo esc_html( t( $key ) );
 }
