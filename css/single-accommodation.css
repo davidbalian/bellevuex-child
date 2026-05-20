@@ -18,6 +18,14 @@
 	content: none;
 }
 
+.page-accommodation .home-hero__title {
+	margin: 0;
+	padding: 1rem 1.5rem;
+	background: #fff;
+	border-radius: 12px;
+	color: var(--color-primary);
+}
+
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
 
 .suite-amenities {
