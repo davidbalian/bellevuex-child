@@ -38,11 +38,7 @@
 	color: var(--home-color-text);
 }
 
-/* ── Hero (base layout: css/page-home-hero.css) ───────────────────────────── */
-
-.page-home .home-hero__slider-bleed::after {
-	opacity: 0.75 !important;
-}
+/* ── Hero: see css/page-home-hero.css ───────────────────────────────────── */
 
 /* ── Intro ───────────────────────────────────────────────────────────────── */
 

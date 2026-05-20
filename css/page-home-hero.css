@@ -48,6 +48,11 @@
 	z-index: 1;
 }
 
+/* Homepage slider hero only (not static heroes on suite / explore / etc.) */
+.home-hero:not(.home-hero--static) > .home-hero__slider-bleed::after {
+	opacity: 0.75 !important;
+}
+
 .home-hero__carousel,
 .home-hero__carousel .swiper-wrapper,
 .home-hero__carousel .swiper-slide {
@@ -214,6 +219,10 @@ html[lang^="el"] .page-home .home-hero__title {
 		background:
 			radial-gradient(ellipse at top left,    rgba(0,0,0,0.55) 0%, transparent 60%),
 			linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.65) 100%);
+	}
+
+	.home-hero:not(.home-hero--static) > .home-hero__slider-bleed::after {
+		opacity: 0.75 !important;
 	}
 
 	.home-hero__overlay {
