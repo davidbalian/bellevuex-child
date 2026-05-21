@@ -110,8 +110,55 @@
 
 /* ── Leaflet chrome ──────────────────────────────────────────────────────── */
 
-.home-map__canvas .leaflet-bottom.leaflet-right {
+.home-map__canvas .leaflet-attribution-flag {
 	display: none !important;
+}
+
+.home-map__canvas .leaflet-bottom.leaflet-right {
+	right: 0.75rem;
+	bottom: 0.75rem;
+}
+
+.home-map__canvas .leaflet-control-zoom {
+	border: 0;
+	box-shadow:
+		0 1px 2px rgb( 0 0 0 / 0.04 ),
+		0 6px 18px rgb( 0 0 0 / 0.08 );
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.home-map__canvas .leaflet-control-zoom a {
+	width: 2.25rem;
+	height: 2.25rem;
+	line-height: 2.25rem;
+	background: rgb( 255 255 255 / 0.96 );
+	color: var( --home-color-heading, #23272a );
+	border-bottom: 1px solid rgb( 0 0 0 / 0.06 );
+	font-size: 1.125rem;
+	font-weight: 600;
+	text-indent: 0;
+	text-decoration: none;
+	transition:
+		background-color 180ms ease,
+		color 180ms ease;
+}
+
+.home-map__canvas .leaflet-control-zoom a:last-child {
+	border-bottom: 0;
+}
+
+.home-map__canvas .leaflet-control-zoom a:hover,
+.home-map__canvas .leaflet-control-zoom a:focus-visible {
+	background: var( --color-primary, #224195 );
+	color: #fff;
+	outline: none;
+}
+
+.home-map__canvas .leaflet-control-zoom a.leaflet-disabled {
+	background: rgb( 255 255 255 / 0.72 );
+	color: rgb( 0 0 0 / 0.28 );
+	cursor: default;
 }
 
 @media ( max-width: 48rem ) {

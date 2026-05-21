@@ -8,6 +8,7 @@
 	var LABEL_BELOW_TERM = 'thiseos-11';
 	var TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	var TILE_OPTS = {
+		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
 		subdomains: 'abcd',
 		maxZoom: MAP_MAX_ZOOM,
 	};
@@ -35,7 +36,11 @@
 	}
 
 	function isLabelBelow( marker ) {
-		return marker.term === LABEL_BELOW_TERM;
+		if ( marker.term === LABEL_BELOW_TERM ) {
+			return true;
+		}
+
+		return /Thiseos 11|Θησέως 11/i.test( String( marker.name || '' ) );
 	}
 
 	function markerHtml( marker ) {
@@ -64,6 +69,14 @@
 			iconSize: [ 132, 58 ],
 			iconAnchor: [ 66, 52 ],
 		};
+	}
+
+	function getMarkerBounds( markers ) {
+		return L.latLngBounds(
+			markers.map( function ( marker ) {
+				return [ marker.lat, marker.lng ];
+			} )
+		);
 	}
 
 	function openMapsUrl( url ) {
@@ -102,25 +115,29 @@
 		return leafletMarker;
 	}
 
-	function getGroupCenter( group ) {
-		return group.getBounds().getCenter();
-	}
+	function applyInitialView( map, bounds ) {
+		var center = bounds.getCenter();
 
-	function finalizeMapView( map, group ) {
 		map.invalidateSize( { animate: false } );
-		map.setView( getGroupCenter( group ), MAP_ZOOM, { animate: false } );
+		map.fitBounds( bounds, {
+			maxZoom: MAP_MAX_ZOOM,
+			padding: [ 32, 32 ],
+			animate: false,
+		} );
+
+		if ( map.getZoom() < 19 ) {
+			map.setView( center, MAP_ZOOM, { animate: false } );
+		}
 	}
 
-	function bindViewFinalizers( map, group, root ) {
-		var finalized = false;
-
-		function runFinalize() {
-			finalizeMapView( map, group );
+	function bindInitialView( map, bounds, root ) {
+		function runApply() {
+			applyInitialView( map, bounds );
 		}
 
-		runFinalize();
+		runApply();
 
-		map.whenReady( runFinalize );
+		map.whenReady( runApply );
 
 		if ( 'ResizeObserver' in window ) {
 			var resizeObserver = new ResizeObserver( function ( entries ) {
@@ -129,19 +146,15 @@
 					return;
 				}
 
-				runFinalize();
-
-				if ( ! finalized ) {
-					finalized = true;
-					resizeObserver.disconnect();
-				}
+				runApply();
+				resizeObserver.disconnect();
 			} );
 
 			resizeObserver.observe( root );
 		}
 
 		requestAnimationFrame( function () {
-			requestAnimationFrame( runFinalize );
+			requestAnimationFrame( runApply );
 		} );
 	}
 
@@ -159,11 +172,14 @@
 
 		var reducedMotion = window.matchMedia &&
 			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
+		var bounds = getMarkerBounds( markers );
+		var center = bounds.getCenter();
 
 		var map = L.map( root, {
+			center: center,
+			zoom: MAP_ZOOM,
 			scrollWheelZoom: false,
 			zoomControl: false,
-			attributionControl: false,
 			minZoom: MAP_MIN_ZOOM,
 			maxZoom: MAP_MAX_ZOOM,
 			fadeAnimation: ! reducedMotion,
@@ -172,19 +188,17 @@
 
 		L.control.zoom( { position: 'bottomright' } ).addTo( map );
 
-		var tileLayer = L.tileLayer( TILE_URL, TILE_OPTS ).addTo( map );
+		if ( map.attributionControl ) {
+			map.attributionControl.setPrefix( '' );
+		}
 
-		var leafletMarkers = markers.map( function ( marker ) {
-			return createMarker( map, marker );
+		L.tileLayer( TILE_URL, TILE_OPTS ).addTo( map );
+
+		markers.forEach( function ( marker ) {
+			createMarker( map, marker );
 		} );
 
-		var group = L.featureGroup( leafletMarkers );
-
-		tileLayer.on( 'load', function () {
-			finalizeMapView( map, group );
-		} );
-
-		bindViewFinalizers( map, group, root );
+		bindInitialView( map, bounds, root );
 	}
 
 	function observeMap( root ) {
