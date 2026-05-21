@@ -317,23 +317,44 @@ function chic_suite_capacity( int $post_id ): int {
 }
 
 /**
- * Returns the display capacity label for the current language.
- * ACF chic_suite_capacity_{en|el} → PHP data map → numeric MPHB fallback.
+ * Read a bilingual ACF text field for one language (meta + get_field).
  */
-function chic_suite_capacity_label( int $post_id ): string {
-	$lang = chic_get_current_lang();
-
+function _chic_suite_acf_lang_value( int $post_id, string $field_base, string $lang ): string {
+	$field = $field_base . '_' . $lang;
+	$meta  = get_post_meta( $post_id, $field, true );
+	if ( is_string( $meta ) && $meta !== '' ) {
+		return $meta;
+	}
 	if ( function_exists( 'get_field' ) ) {
-		$val = (string) ( get_field( 'chic_suite_capacity_' . $lang, $post_id ) ?: '' );
-		if ( 'el' === $lang && $val !== '' ) {
-			$en = (string) ( get_field( 'chic_suite_capacity_en', $post_id ) ?: '' );
-			if ( $val === $en ) {
-				$val = '';
-			}
-		}
-		if ( $val !== '' ) {
+		$val = get_field( $field, $post_id );
+		if ( is_string( $val ) && $val !== '' ) {
 			return $val;
 		}
+	}
+	return '';
+}
+
+/**
+ * Returns the display capacity label for the current (or given) language.
+ * ACF chic_suite_capacity_{en|el} → PHP data map → numeric MPHB fallback.
+ *
+ * @param int         $post_id Suite mphb_room_type post ID.
+ * @param string|null $lang    Optional lang code (en|el); defaults to chic_get_current_lang().
+ */
+function chic_suite_capacity_label( int $post_id, ?string $lang = null ): string {
+	$lang = $lang ?? chic_get_current_lang();
+
+	$val = _chic_suite_acf_lang_value( $post_id, 'chic_suite_capacity', $lang );
+
+	if ( 'el' === $lang && $val !== '' ) {
+		$en = _chic_suite_acf_lang_value( $post_id, 'chic_suite_capacity', 'en' );
+		if ( $val === $en ) {
+			$val = '';
+		}
+	}
+
+	if ( $val !== '' ) {
+		return $val;
 	}
 
 	$data = _chic_suite_data_for( $post_id );

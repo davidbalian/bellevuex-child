@@ -194,6 +194,11 @@ function chic_home_sort_suites( array $cards, array $order ): array {
  * @return array[]  Each item: { id, title, permalink, thumb_url, capacity_label }
  */
 function chic_home_get_suites( string $term_slug, string $image_size = 'medium_large' ): array {
+	if ( ! function_exists( 'chic_suite_capacity_label' ) ) {
+		require_once __DIR__ . '/suite-data.php';
+	}
+
+	$lang  = chic_get_current_lang();
 	$query = new WP_Query( [
 		'post_type'      => 'mphb_room_type',
 		'posts_per_page' => -1,
@@ -210,16 +215,12 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
 	$cards = [];
 
 	foreach ( $query->posts as $post ) {
-		$capacity = function_exists( 'chic_suite_capacity_label' )
-			? chic_suite_capacity_label( $post->ID )
-			: '';
-
 		$cards[] = [
 			'id'              => $post->ID,
 			'title'           => get_the_title( $post ),
 			'permalink'       => get_permalink( $post ),
 			'thumb_url'       => get_the_post_thumbnail_url( $post->ID, $image_size ) ?: '',
-			'capacity_label'  => $capacity,
+			'capacity_label'  => chic_suite_capacity_label( $post->ID, $lang ),
 		];
 	}
 
