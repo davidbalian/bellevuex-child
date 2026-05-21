@@ -46,6 +46,9 @@ return [
 	'11 Thiseos, Floor 1, 10562 Athens' => 'Θησέως 11, 1ος Όροφος, 10562 Αθήνα',
 	'13 Thiseos, Floor 4, 10562 Athens' => 'Θησέως 13, 4ος Όροφος, 10562 Αθήνα',
 	'2 Chavriou, Floor 2, 10562 Athens' => 'Χαβρίου 2, 2ος Όροφος, 10562 Αθήνα',
+	'11 Thiseos, 10562 Athens, Greece'  => 'Θησέως 11, 10562 Αθήνα, Ελλάδα',
+	'13 Thiseos, 10562 Athens, Greece'  => 'Θησέως 13, 10562 Αθήνα, Ελλάδα',
+	'2 Chavriou, 10562 Athens, Greece'  => 'Χαβρίου 2, 10562 Αθήνα, Ελλάδα',
 
 	/* ── Hero fallback alt texts ─────────────────────────────────────── */
 	'Chic Centre Suites Athens suite interior'      => 'Εσωτερικό σουίτας στα Chic Centre Suites Αθήνα',

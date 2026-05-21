@@ -13,9 +13,9 @@ $_phone1  = Chic_Page_Content::get_direct( 'option', 'chic_footer_phone_1',     
 $_phone1h = Chic_Page_Content::get_direct( 'option', 'chic_footer_phone_1_href', 'tel:+35799674630' );
 $_phone2  = Chic_Page_Content::get_direct( 'option', 'chic_footer_phone_2',      '+30 6982102221' );
 $_phone2h = Chic_Page_Content::get_direct( 'option', 'chic_footer_phone_2_href', 'tel:+306982102221' );
-$_addr1   = Chic_Page_Content::get_direct( 'option', 'chic_footer_address_1',    '11 Thiseos, 10562 Athens, Greece' );
-$_addr2   = Chic_Page_Content::get_direct( 'option', 'chic_footer_address_2',    '13 Thiseos, 10562 Athens, Greece' );
-$_addr3   = Chic_Page_Content::get_direct( 'option', 'chic_footer_address_3',    '2 Chavriou, 10562 Athens, Greece' );
+$_addr1   = t( Chic_Page_Content::get_direct( 'option', 'chic_footer_address_1', '11 Thiseos, 10562 Athens, Greece' ) );
+$_addr2   = t( Chic_Page_Content::get_direct( 'option', 'chic_footer_address_2', '13 Thiseos, 10562 Athens, Greece' ) );
+$_addr3   = t( Chic_Page_Content::get_direct( 'option', 'chic_footer_address_3', '2 Chavriou, 10562 Athens, Greece' ) );
 $_gemi    = Chic_Page_Content::get_direct( 'option', 'chic_footer_gemi',          '150824901000' );
 
 $_privacy = Chic_Page_Content::get_text( 'option', 'footer', 'privacy_label' );
