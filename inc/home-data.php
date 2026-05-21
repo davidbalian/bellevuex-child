@@ -210,17 +210,9 @@ function chic_home_get_suites( string $term_slug, string $image_size = 'medium_l
 	$cards = [];
 
 	foreach ( $query->posts as $post ) {
-		$terms    = get_the_terms( $post->ID, 'mphb_room_type_category' );
-		$capacity = '';
-
-		if ( $terms && ! is_wp_error( $terms ) ) {
-			foreach ( $terms as $term ) {
-				if ( preg_match( '/^up-to-(\d+)-guests$/', $term->slug, $m ) ) {
-					$capacity = sprintf( t( 'Hosting up to %d guests' ), (int) $m[1] );
-					break;
-				}
-			}
-		}
+		$capacity = function_exists( 'chic_suite_capacity_label' )
+			? chic_suite_capacity_label( $post->ID )
+			: '';
 
 		$cards[] = [
 			'id'              => $post->ID,

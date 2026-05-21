@@ -317,6 +317,34 @@ function chic_suite_capacity( int $post_id ): int {
 }
 
 /**
+ * Returns the display capacity label for the current language.
+ * ACF chic_suite_capacity_{en|el} → PHP data map → numeric MPHB fallback.
+ */
+function chic_suite_capacity_label( int $post_id ): string {
+	$lang = chic_get_current_lang();
+
+	if ( function_exists( 'get_field' ) ) {
+		$val = (string) ( get_field( 'chic_suite_capacity_' . $lang, $post_id ) ?: '' );
+		if ( 'el' === $lang && $val !== '' ) {
+			$en = (string) ( get_field( 'chic_suite_capacity_en', $post_id ) ?: '' );
+			if ( $val === $en ) {
+				$val = '';
+			}
+		}
+		if ( $val !== '' ) {
+			return $val;
+		}
+	}
+
+	$data = _chic_suite_data_for( $post_id );
+	if ( $data && ! empty( $data['capacity'] ) ) {
+		return t( $data['capacity'] );
+	}
+
+	return sprintf( t( 'Up to %d guests' ), chic_suite_capacity( $post_id ) );
+}
+
+/**
  * Returns the suite size string from MPHB post meta (mphb_size).
  */
 function chic_suite_size( int $post_id ): string {
@@ -357,7 +385,7 @@ function chic_suite_amenities( int $post_id ): array {
 		$hl         = $translated_highlight_map[ $data['highlight'] ] ?? $translated_highlight_map['shower'];
 
 		return [
-			[ 'icon' => 'fas fa-user-plus',                               'label' => t( $data['capacity'] ) ],
+			[ 'icon' => 'fas fa-user-plus',                               'label' => chic_suite_capacity_label( $post_id ) ],
 			[ 'icon' => 'fas fa-bed',                                     'label' => t( 'King Size Bed' ) ],
 			[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
 			[ 'icon' => $sofa_icon,                                       'label' => t( $data['sofa'] ) ],
@@ -367,12 +395,11 @@ function chic_suite_amenities( int $post_id ): array {
 	}
 
 	// MPHB fallback for suites not in the map
-	$capacity = chic_suite_capacity( $post_id );
-	$size     = chic_suite_size( $post_id );
-	$bed      = chic_suite_bed_type( $post_id );
+	$size = chic_suite_size( $post_id );
+	$bed  = chic_suite_bed_type( $post_id );
 
 	return [
-		[ 'icon' => 'fas fa-user-plus',                               'label' => sprintf( t( 'Up to %d guests' ), $capacity ) ],
+		[ 'icon' => 'fas fa-user-plus',                               'label' => chic_suite_capacity_label( $post_id ) ],
 		[ 'icon' => 'fas fa-bed',                                     'label' => t( $bed ) ],
 		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
 		[ 'icon' => 'fas fa-couch',                                   'label' => t( 'Sofa' ) ],

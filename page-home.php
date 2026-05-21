@@ -156,7 +156,7 @@ $hero_slides = chic_home_hero_slides( $_pid );
 							<div class="suite-card__body">
 								<h3 class="suite-card__title"><?php echo esc_html( chic_translate_suite_title_uc( $suite['title'] ) ); ?></h3>
 								<?php if ( $suite['capacity_label'] ) : ?>
-									<p class="suite-card__capacity chic-type-meta"><?php echo esc_html( t( $suite['capacity_label'] ) ); ?></p>
+									<p class="suite-card__capacity chic-type-meta"><?php echo esc_html( $suite['capacity_label'] ); ?></p>
 								<?php endif; ?>
 								<span class="suite-card__cta chic-type-meta"><?php te_uc( 'View' ); ?> <svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="1" y1="10" x2="10" y2="1"/><polyline points="4,1 10,1 10,7"/></svg></span>
 							</div>
