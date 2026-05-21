@@ -60,6 +60,12 @@ h1 {
 	letter-spacing: -0.005em;
 }
 
+@media (max-width: 768px) {
+	h1 {
+		font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.35rem) !important;
+	}
+}
+
 h2 {
 	font-size: clamp(1.75rem, 2.2vw + 0.75rem, 2.5rem) !important;
 	font-weight: 700 !important;

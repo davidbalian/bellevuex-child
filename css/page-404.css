@@ -26,3 +26,9 @@
 .hero-404__heading {
 	font-size: clamp(3rem, 6vw, 5rem) !important;
 }
+
+@media (max-width: 768px) {
+	.hero-404__heading {
+		font-size: calc(clamp(3rem, 6vw, 5rem) - 0.35rem) !important;
+	}
+}

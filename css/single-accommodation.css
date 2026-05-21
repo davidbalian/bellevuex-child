@@ -42,12 +42,6 @@
 	max-width: none;
 }
 
-@media (max-width: 768px) {
-	.suite-hero__title {
-		font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.35rem) !important;
-	}
-}
-
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
 
 .suite-amenities {
