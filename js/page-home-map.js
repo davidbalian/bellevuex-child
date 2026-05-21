@@ -5,7 +5,6 @@
 	var MAP_ZOOM = 20;
 	var TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	var TILE_OPTS = {
-		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
 		subdomains: 'abcd',
 		maxZoom: 20,
 	};
@@ -100,7 +99,7 @@
 		var map = L.map( root, {
 			scrollWheelZoom: false,
 			zoomControl: false,
-			attributionControl: true,
+			attributionControl: false,
 			fadeAnimation: ! reducedMotion,
 			zoomAnimation: ! reducedMotion,
 		} );

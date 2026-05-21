@@ -105,27 +105,6 @@
 
 /* ── Leaflet chrome ──────────────────────────────────────────────────────── */
 
-.home-map__canvas .leaflet-control-attribution {
-	margin: 0;
-	padding: 0.25rem 0.5rem;
-	background: rgb( 255 255 255 / 0.82 );
-	color: #888;
-	font-size: 0.625rem;
-	line-height: 1.4;
-	border-radius: 0;
-}
-
-.home-map__canvas .leaflet-control-attribution a {
-	color: #666;
-	text-decoration: none;
-}
-
-.home-map__canvas .leaflet-control-attribution a:hover,
-.home-map__canvas .leaflet-control-attribution a:focus-visible {
-	color: var( --color-primary, #224195 );
-	text-decoration: underline;
-}
-
 @media ( max-width: 48rem ) {
 	.home-map__canvas {
 		height: clamp( 18rem, 52vw, 22rem );
