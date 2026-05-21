@@ -2,6 +2,7 @@
 	'use strict';
 
 	var SELECTOR = '.js-home-map';
+	var MAP_ZOOM = 20;
 	var TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	var TILE_OPTS = {
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -76,6 +77,11 @@
 		return leafletMarker;
 	}
 
+	function setMapView( map, group, reducedMotion ) {
+		var center = group.getBounds().getCenter();
+		map.setView( center, MAP_ZOOM, { animate: ! reducedMotion } );
+	}
+
 	function initMap( root ) {
 		if ( root.dataset.mapReady === '1' || typeof L === 'undefined' ) {
 			return;
@@ -106,20 +112,13 @@
 		} );
 
 		var group = L.featureGroup( leafletMarkers );
-		var bounds = group.getBounds();
-		map.fitBounds( bounds, {
-			padding: [ 16, 16 ],
-			maxZoom: 19,
-			animate: ! reducedMotion,
-		} );
 
-		// Buildings sit on the same block — nudge one level closer when fitBounds caps out.
-		if ( map.getZoom() < 19 ) {
-			map.setView( bounds.getCenter(), 19, { animate: ! reducedMotion } );
-		}
+		// Fixed street-level zoom — fitBounds was too conservative for three adjacent buildings.
+		setMapView( map, group, reducedMotion );
 
 		requestAnimationFrame( function () {
 			map.invalidateSize();
+			setMapView( map, group, reducedMotion );
 		} );
 	}
 
