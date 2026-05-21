@@ -6,12 +6,19 @@
 	var MAP_MIN_ZOOM = 16;
 	var MAP_MAX_ZOOM = 20;
 	var LABEL_BELOW_TERM = 'thiseos-11';
-	var TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+	var TILE_URL_EL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
+	var STYLE_URL_EN = 'https://tiles.openfreemap.org/styles/positron';
 	var TILE_OPTS = {
 		attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
 		subdomains: 'abcd',
 		maxZoom: MAP_MAX_ZOOM,
 	};
+	var EN_LABEL_TEXT_FIELD = [
+		'coalesce',
+		[ 'get', 'name_en' ],
+		[ 'get', 'name:latin' ],
+		[ 'get', 'name' ],
+	];
 
 	function parseMarkers( root ) {
 		var raw = root.getAttribute( 'data-markers' );
@@ -84,6 +91,54 @@
 			return;
 		}
 		window.open( url, '_blank', 'noopener,noreferrer' );
+	}
+
+	function getMapLang( root ) {
+		return root.getAttribute( 'data-map-lang' ) === 'el' ? 'el' : 'en';
+	}
+
+	function textFieldUsesPlaceNames( textField ) {
+		var raw = JSON.stringify( textField || '' );
+		return /name[_:]?(en|latin|nonlatin|el)/.test( raw );
+	}
+
+	function applyEnglishLabels( glMap ) {
+		var style = glMap.getStyle();
+		if ( ! style || ! style.layers ) {
+			return;
+		}
+
+		style.layers.forEach( function ( layer ) {
+			if (
+				layer.type !== 'symbol' ||
+				! layer.layout ||
+				! layer.layout[ 'text-field' ] ||
+				! textFieldUsesPlaceNames( layer.layout[ 'text-field' ] )
+			) {
+				return;
+			}
+
+			glMap.setLayoutProperty( layer.id, 'text-field', EN_LABEL_TEXT_FIELD );
+		} );
+	}
+
+	function addBasemap( map, lang ) {
+		if ( lang === 'en' && typeof L.maplibreGL === 'function' ) {
+			var vectorLayer = L.maplibreGL( {
+				style: STYLE_URL_EN,
+			} ).addTo( map );
+
+			var glMap = vectorLayer.getMaplibreMap();
+			if ( glMap ) {
+				glMap.on( 'load', function () {
+					applyEnglishLabels( glMap );
+				} );
+			}
+
+			return;
+		}
+
+		L.tileLayer( TILE_URL_EL, TILE_OPTS ).addTo( map );
 	}
 
 	function createMarker( map, marker ) {
@@ -190,7 +245,7 @@
 			map.attributionControl.setPrefix( '' );
 		}
 
-		L.tileLayer( TILE_URL, TILE_OPTS ).addTo( map );
+		addBasemap( map, getMapLang( root ) );
 
 		markers.forEach( function ( marker ) {
 			createMarker( map, marker );

@@ -19,6 +19,10 @@
 	font-family: 'Manrope', system-ui, sans-serif;
 }
 
+.home-map__canvas .leaflet-gl-layer canvas {
+	outline: none;
+}
+
 /* ── Custom markers: label card + minimal dot (no teardrop pin) ──────────── */
 
 .home-map__pin {

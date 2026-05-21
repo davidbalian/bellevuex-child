@@ -268,12 +268,25 @@ add_action( 'wp_enqueue_scripts', function () {
 		wp_enqueue_script( 'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                    $ver, true );
 		wp_enqueue_style(  'chic-leaflet',         "$dir/assets/vendor/leaflet/leaflet.css",          [],                                    $leaflet_css_ver );
 		wp_enqueue_script( 'chic-leaflet',         "$dir/assets/vendor/leaflet/leaflet.js",           [],                                    $leaflet_js_ver, true );
+
+		$map_js_deps = [ 'chic-leaflet' ];
+		if ( 'en' === chic_get_current_lang() ) {
+			$maplibre_css_ver     = (string) filemtime( $theme_dir . '/assets/vendor/maplibre/maplibre-gl.css' );
+			$maplibre_js_ver      = (string) filemtime( $theme_dir . '/assets/vendor/maplibre/maplibre-gl.js' );
+			$maplibre_leaflet_ver = (string) filemtime( $theme_dir . '/assets/vendor/maplibre/leaflet-maplibre-gl.js' );
+
+			wp_enqueue_style(  'chic-maplibre',          "$dir/assets/vendor/maplibre/maplibre-gl.css",          [], $maplibre_css_ver );
+			wp_enqueue_script( 'chic-maplibre',          "$dir/assets/vendor/maplibre/maplibre-gl.js",           [], $maplibre_js_ver, true );
+			wp_enqueue_script( 'chic-maplibre-leaflet',  "$dir/assets/vendor/maplibre/leaflet-maplibre-gl.js",   [ 'chic-leaflet', 'chic-maplibre' ], $maplibre_leaflet_ver, true );
+			$map_js_deps[] = 'chic-maplibre-leaflet';
+		}
+
 		wp_enqueue_style(  'chic-page-home',       "$dir/css/page-home.css",                          [ 'chic-tokens' ],                     $ver );
 		wp_enqueue_style(  'chic-page-home-hero',  "$dir/css/page-home-hero.css",                     [ 'chic-tokens', 'chic-page-home', 'chic-swiper' ], $ver );
 		wp_enqueue_style(  'chic-home-map',        "$dir/css/home-map.css",                           [ 'chic-tokens', 'chic-page-home' ], $map_css_ver );
 		wp_enqueue_script( 'chic-page-home-hero',   "$dir/js/page-home-hero.js",    [ 'chic-swiper', 'chic-scroll-fade-in' ], $ver, true );
 		wp_enqueue_script( 'chic-page-home-suites', "$dir/js/page-home-suites.js", [ 'chic-swiper' ],                        $ver, true );
-		wp_enqueue_script( 'chic-page-home-map',    "$dir/js/page-home-map.js",    [ 'chic-leaflet' ],                       $map_js_ver, true );
+		wp_enqueue_script( 'chic-page-home-map',    "$dir/js/page-home-map.js",    $map_js_deps,                           $map_js_ver, true );
 	}
 
 	if ( is_page_template( 'page-explore-athens.php' ) ) {

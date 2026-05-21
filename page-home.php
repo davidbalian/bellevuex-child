@@ -196,6 +196,7 @@ $hero_slides = chic_home_hero_slides( $_pid );
 	<section class="home-map fade-in" aria-label="<?php echo esc_attr( t( 'Map of Chic Centre Suites buildings' ) ); ?>">
 		<div
 			class="home-map__canvas js-home-map"
+			data-map-lang="<?php echo esc_attr( chic_get_current_lang() ); ?>"
 			data-markers="<?php echo esc_attr( wp_json_encode( chic_home_map_markers() ) ); ?>"
 		></div>
 	</section>
