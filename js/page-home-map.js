@@ -2,7 +2,7 @@
 	'use strict';
 
 	var SELECTOR = '.js-home-map';
-	var MAP_ZOOM = 20;
+	var MAP_ZOOM = 17;
 	var MAP_MIN_ZOOM = 16;
 	var MAP_MAX_ZOOM = 20;
 	var LABEL_BELOW_TERM = 'thiseos-11';
@@ -120,14 +120,12 @@
 
 		map.invalidateSize( { animate: false } );
 		map.fitBounds( bounds, {
-			maxZoom: MAP_MAX_ZOOM,
+			maxZoom: MAP_ZOOM,
 			padding: [ 32, 32 ],
 			animate: false,
 		} );
 
-		if ( map.getZoom() < 19 ) {
-			map.setView( center, MAP_ZOOM, { animate: false } );
-		}
+		map.setView( center, MAP_ZOOM, { animate: false } );
 	}
 
 	function bindInitialView( map, bounds, root ) {
