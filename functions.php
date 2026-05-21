@@ -260,10 +260,14 @@ add_action( 'wp_enqueue_scripts', function () {
 	if ( chic_is_home_page() ) {
 		wp_enqueue_style(  'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.css", [],                                    $ver );
 		wp_enqueue_script( 'chic-swiper',          "$dir/assets/vendor/swiper/swiper-bundle.min.js",  [],                                    $ver, true );
+		wp_enqueue_style(  'chic-leaflet',         "$dir/assets/vendor/leaflet/leaflet.css",          [],                                    $ver );
+		wp_enqueue_script( 'chic-leaflet',         "$dir/assets/vendor/leaflet/leaflet.js",           [],                                    $ver, true );
 		wp_enqueue_style(  'chic-page-home',       "$dir/css/page-home.css",                          [ 'chic-tokens' ],                     $ver );
 		wp_enqueue_style(  'chic-page-home-hero',  "$dir/css/page-home-hero.css",                     [ 'chic-tokens', 'chic-page-home', 'chic-swiper' ], $ver );
+		wp_enqueue_style(  'chic-home-map',        "$dir/css/home-map.css",                           [ 'chic-tokens', 'chic-page-home' ], $ver );
 		wp_enqueue_script( 'chic-page-home-hero',   "$dir/js/page-home-hero.js",    [ 'chic-swiper', 'chic-scroll-fade-in' ], $ver, true );
 		wp_enqueue_script( 'chic-page-home-suites', "$dir/js/page-home-suites.js", [ 'chic-swiper' ],                        $ver, true );
+		wp_enqueue_script( 'chic-page-home-map',    "$dir/js/page-home-map.js",    [ 'chic-leaflet' ],                       $ver, true );
 	}
 
 	if ( is_page_template( 'page-explore-athens.php' ) ) {

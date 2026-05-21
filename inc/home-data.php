@@ -28,6 +28,8 @@ function chic_home_buildings(): array {
 			'term'           => 'thiseos-11',
 			'short_label'    => 'Thiseos 11',
 			'label'          => '11 Thiseos, Floor 1, 10562 Athens',
+			'lat'            => 37.975882,
+			'lng'            => 23.730716,
 			'maps'           => 'https://maps.app.goo.gl/MvpXTE7YqntLY3rC6',
 			'building_image' => chic_upload_url( '2-chic-centre-suites-athens-thisseos-11-common-seating-area-athens.webp' ),
 			'suite_order'    => [
@@ -47,6 +49,8 @@ function chic_home_buildings(): array {
 			'term'           => 'thiseos13',
 			'short_label'    => 'Thiseos 13',
 			'label'          => '13 Thiseos, Floor 4, 10562 Athens',
+			'lat'            => 37.975789,
+			'lng'            => 23.730583,
 			'maps'           => 'https://maps.app.goo.gl/CGVBd7sJzNA59DeZ6',
 			'building_image' => chic_upload_url( '1-chic-centre-suites-athens-thisseos-13-corridor-athens.webp' ),
 			'suite_order'    => [
@@ -61,6 +65,8 @@ function chic_home_buildings(): array {
 			'term'           => 'chavriou2',
 			'short_label'    => 'Chavriou 2',
 			'label'          => '2 Chavriou, Floor 2, 10562 Athens',
+			'lat'            => 37.976052,
+			'lng'            => 23.731090,
 			'maps'           => 'https://maps.app.goo.gl/wS26rSd7fWL7XgAb7',
 			'building_image' => chic_upload_url( '1-chic-centre-suites-athens-chavriou-2-reception-desk-athens.webp' ),
 			'suite_order'    => [
@@ -138,6 +144,8 @@ function chic_site_buildings(): array {
 			'term'           => $term,
 			'short_label'    => $short,
 			'label'          => $addr,
+			'lat'            => $base['lat'],
+			'lng'            => $base['lng'],
 			'maps'           => (string) ( $row['maps_url'] ?? $base['maps'] ),
 			'building_image' => $image,
 			'suite_order'    => $base['suite_order'],
@@ -146,6 +154,40 @@ function chic_site_buildings(): array {
 
 	$cache = ! empty( $merged ) ? $merged : $defaults;
 	return $cache;
+}
+
+/**
+ * Marker payload for the homepage buildings map.
+ *
+ * @return array<int, array{name: string, lat: float, lng: float, url: string}>
+ */
+function chic_home_map_markers(): array {
+	$defaults = [];
+	foreach ( chic_home_buildings() as $building ) {
+		$defaults[ $building['term'] ] = $building;
+	}
+
+	$markers = [];
+	foreach ( chic_site_buildings() as $building ) {
+		$base = $defaults[ $building['term'] ] ?? null;
+		if ( ! $base || ! isset( $base['lat'], $base['lng'] ) ) {
+			continue;
+		}
+
+		$name = $building['short_label'];
+		if ( $name === $base['short_label'] ) {
+			$name = t( $base['short_label'] );
+		}
+
+		$markers[] = [
+			'name' => $name,
+			'lat'  => (float) $base['lat'],
+			'lng'  => (float) $base['lng'],
+			'url'  => $building['maps'],
+		];
+	}
+
+	return $markers;
 }
 
 /**

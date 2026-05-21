@@ -234,28 +234,13 @@
 
 /* ── Suite card: see css/suite-card.css ─────────────────────────────────── */
 
-/* ── Map ─────────────────────────────────────────────────────────────────── */
-
-.home-map {
-	line-height: 0;
-}
-
-.home-map__frame {
-	display: block;
-	width: 100%;
-	height: 380px;
-	border: 0;
-}
+/* ── Map: see css/home-map.css ───────────────────────────────────────────── */
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 
 @media ( max-width: 600px ) {
 	.home-hero {
 		min-height: 420px;
-	}
-
-	.home-map__frame {
-		height: 260px;
 	}
 }
 

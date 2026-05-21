@@ -43,6 +43,7 @@ return [
 	'Thiseos 11'                => 'Θησέως 11',
 	'Thiseos 13'                => 'Θησέως 13',
 	'Chavriou 2'                => 'Χαβρίου 2',
+	'Map of Chic Centre Suites buildings' => 'Χάρτης κτιρίων των Chic Centre Suites',
 	'11 Thiseos, Floor 1, 10562 Athens' => 'Θησέως 11, 1ος Όροφος, 10562 Αθήνα',
 	'13 Thiseos, Floor 4, 10562 Athens' => 'Θησέως 13, 4ος Όροφος, 10562 Αθήνα',
 	'2 Chavriou, Floor 2, 10562 Athens' => 'Χαβρίου 2, 2ος Όροφος, 10562 Αθήνα',
