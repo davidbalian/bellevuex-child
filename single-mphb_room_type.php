@@ -73,10 +73,8 @@ while ( have_posts() ) :
 		</div>
 
 		<div class="home-hero__overlay">
-			<div class="home-hero__inner">
-				<div class="home-hero__content home-hero__content--centered fade-in fade-in-delay-0">
-					<h1 class="home-hero__title"><?php echo esc_html( $suite_title_caps ); ?></h1>
-				</div>
+			<div class="suite-hero__title-bar fade-in fade-in-delay-0">
+				<h1 class="suite-hero__title"><?php echo esc_html( $suite_title_caps ); ?></h1>
 			</div>
 		</div>
 

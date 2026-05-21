@@ -18,12 +18,34 @@
 	content: none;
 }
 
-.page-accommodation .home-hero__title {
-	margin: 0;
+.page-accommodation .home-hero--static .home-hero__overlay {
+	justify-content: flex-end;
+	align-items: center;
+	padding: 0;
+}
+
+.suite-hero__title-bar {
+	width: fit-content;
+	background: var(--color-primary);
+	color: var(--color-on-primary);
+	border-radius: 12px 12px 0 0;
 	padding: 1rem 1.5rem;
-	background: #fff;
-	border-radius: 12px;
-	color: var(--color-primary);
+}
+
+.suite-hero__title {
+	font-family: var(--home-font-heading);
+	font-weight: 400;
+	text-transform: uppercase;
+	line-height: 1.1;
+	margin: 0;
+	color: var(--color-on-primary);
+	max-width: none;
+}
+
+@media (max-width: 768px) {
+	.suite-hero__title {
+		font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.35rem) !important;
+	}
 }
 
 /* ── Amenities strip ───────────────────────────────────────────────────────── */

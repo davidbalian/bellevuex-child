@@ -241,7 +241,7 @@ function chic_translate_suite_title( string $english_title ): string {
 	return $english_title;
 }
 
-/** Suite title for `.suite-card__title` / `.home-hero__title` (all-caps CSS); keeps tonos in `chic_translate_suite_title()` for other uses. */
+/** Suite title for `.suite-card__title` / `.suite-hero__title` (all-caps CSS); keeps tonos in `chic_translate_suite_title()` for other uses. */
 function chic_translate_suite_title_uc( string $english_title ): string {
 	return chic_el_strip_monotonic_tonos( chic_translate_suite_title( $english_title ) );
 }
