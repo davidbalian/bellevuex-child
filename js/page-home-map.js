@@ -15,9 +15,8 @@
 	};
 	var EN_LABEL_TEXT_FIELD = [
 		'coalesce',
-		[ 'get', 'name_en' ],
+		[ 'get', 'name:en' ],
 		[ 'get', 'name:latin' ],
-		[ 'get', 'name' ],
 	];
 
 	function parseMarkers( root ) {
@@ -102,6 +101,18 @@
 		return /name[_:]?(en|latin|nonlatin|el)/.test( raw );
 	}
 
+	function shouldApplyEnglishLabels( layer ) {
+		if ( layer.type !== 'symbol' || ! layer.layout || ! layer.layout[ 'text-field' ] ) {
+			return false;
+		}
+
+		if ( /^(highway-name-|label_|water)/.test( layer.id ) || layer.id === 'airport' ) {
+			return true;
+		}
+
+		return textFieldUsesPlaceNames( layer.layout[ 'text-field' ] );
+	}
+
 	function applyEnglishLabels( glMap ) {
 		var style = glMap.getStyle();
 		if ( ! style || ! style.layers ) {
@@ -109,16 +120,29 @@
 		}
 
 		style.layers.forEach( function ( layer ) {
-			if (
-				layer.type !== 'symbol' ||
-				! layer.layout ||
-				! layer.layout[ 'text-field' ] ||
-				! textFieldUsesPlaceNames( layer.layout[ 'text-field' ] )
-			) {
+			if ( ! shouldApplyEnglishLabels( layer ) ) {
 				return;
 			}
 
 			glMap.setLayoutProperty( layer.id, 'text-field', EN_LABEL_TEXT_FIELD );
+		} );
+	}
+
+	function bindEnglishLabels( glMap ) {
+		function apply() {
+			applyEnglishLabels( glMap );
+		}
+
+		if ( glMap.isStyleLoaded() ) {
+			apply();
+		} else {
+			glMap.once( 'load', apply );
+		}
+
+		glMap.on( 'styledata', function ( event ) {
+			if ( event.dataType === 'style' && glMap.isStyleLoaded() ) {
+				apply();
+			}
 		} );
 	}
 
@@ -130,9 +154,7 @@
 
 			var glMap = vectorLayer.getMaplibreMap();
 			if ( glMap ) {
-				glMap.on( 'load', function () {
-					applyEnglishLabels( glMap );
-				} );
+				bindEnglishLabels( glMap );
 			}
 
 			return;
