@@ -103,7 +103,16 @@
 		0 6px 14px rgb( 34 65 149 / 0.34 );
 }
 
+.home-map__marker--label-below:hover,
+.home-map__marker--label-below:focus-visible {
+	transform: translateY( 2px );
+}
+
 /* ── Leaflet chrome ──────────────────────────────────────────────────────── */
+
+.home-map__canvas .leaflet-bottom.leaflet-right {
+	display: none !important;
+}
 
 @media ( max-width: 48rem ) {
 	.home-map__canvas {

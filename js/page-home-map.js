@@ -3,10 +3,13 @@
 
 	var SELECTOR = '.js-home-map';
 	var MAP_ZOOM = 20;
+	var MAP_MIN_ZOOM = 16;
+	var MAP_MAX_ZOOM = 20;
+	var LABEL_BELOW_TERM = 'thiseos-11';
 	var TILE_URL = 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 	var TILE_OPTS = {
 		subdomains: 'abcd',
-		maxZoom: 20,
+		maxZoom: MAP_MAX_ZOOM,
 	};
 
 	function parseMarkers( root ) {
@@ -31,14 +34,36 @@
 			.replace( /"/g, '&quot;' );
 	}
 
+	function isLabelBelow( marker ) {
+		return marker.term === LABEL_BELOW_TERM;
+	}
+
 	function markerHtml( marker ) {
 		var name = escapeHtml( marker.name || '' );
+		var below = isLabelBelow( marker );
+		var markerClass = 'home-map__marker' + ( below ? ' home-map__marker--label-below' : '' );
+		var label = '<span class="home-map__label">' + name + '</span>';
+		var dot = '<span class="home-map__dot" aria-hidden="true"></span>';
+
 		return (
-			'<button type="button" class="home-map__marker" aria-label="' + name + '">' +
-				'<span class="home-map__label">' + name + '</span>' +
-				'<span class="home-map__dot" aria-hidden="true"></span>' +
+			'<button type="button" class="' + markerClass + '" aria-label="' + name + '">' +
+				( below ? dot + label : label + dot ) +
 			'</button>'
 		);
+	}
+
+	function markerIconOptions( marker ) {
+		if ( isLabelBelow( marker ) ) {
+			return {
+				iconSize: [ 132, 58 ],
+				iconAnchor: [ 66, 7 ],
+			};
+		}
+
+		return {
+			iconSize: [ 132, 58 ],
+			iconAnchor: [ 66, 52 ],
+		};
 	}
 
 	function openMapsUrl( url ) {
@@ -48,12 +73,13 @@
 		window.open( url, '_blank', 'noopener,noreferrer' );
 	}
 
-	function createMarker( map, marker, reducedMotion ) {
+	function createMarker( map, marker ) {
+		var iconOpts = markerIconOptions( marker );
 		var icon = L.divIcon( {
 			className: 'home-map__pin',
 			html: markerHtml( marker ),
-			iconSize: [ 132, 58 ],
-			iconAnchor: [ 66, 52 ],
+			iconSize: iconOpts.iconSize,
+			iconAnchor: iconOpts.iconAnchor,
 		} );
 
 		var leafletMarker = L.marker( [ marker.lat, marker.lng ], {
@@ -76,9 +102,47 @@
 		return leafletMarker;
 	}
 
-	function setMapView( map, group, reducedMotion ) {
-		var center = group.getBounds().getCenter();
-		map.setView( center, MAP_ZOOM, { animate: ! reducedMotion } );
+	function getGroupCenter( group ) {
+		return group.getBounds().getCenter();
+	}
+
+	function finalizeMapView( map, group ) {
+		map.invalidateSize( { animate: false } );
+		map.setView( getGroupCenter( group ), MAP_ZOOM, { animate: false } );
+	}
+
+	function bindViewFinalizers( map, group, root ) {
+		var finalized = false;
+
+		function runFinalize() {
+			finalizeMapView( map, group );
+		}
+
+		runFinalize();
+
+		map.whenReady( runFinalize );
+
+		if ( 'ResizeObserver' in window ) {
+			var resizeObserver = new ResizeObserver( function ( entries ) {
+				var entry = entries[ 0 ];
+				if ( ! entry || entry.contentRect.width <= 0 || entry.contentRect.height <= 0 ) {
+					return;
+				}
+
+				runFinalize();
+
+				if ( ! finalized ) {
+					finalized = true;
+					resizeObserver.disconnect();
+				}
+			} );
+
+			resizeObserver.observe( root );
+		}
+
+		requestAnimationFrame( function () {
+			requestAnimationFrame( runFinalize );
+		} );
 	}
 
 	function initMap( root ) {
@@ -100,25 +164,27 @@
 			scrollWheelZoom: false,
 			zoomControl: false,
 			attributionControl: false,
+			minZoom: MAP_MIN_ZOOM,
+			maxZoom: MAP_MAX_ZOOM,
 			fadeAnimation: ! reducedMotion,
 			zoomAnimation: ! reducedMotion,
 		} );
 
-		L.tileLayer( TILE_URL, TILE_OPTS ).addTo( map );
+		L.control.zoom( { position: 'bottomright' } ).addTo( map );
+
+		var tileLayer = L.tileLayer( TILE_URL, TILE_OPTS ).addTo( map );
 
 		var leafletMarkers = markers.map( function ( marker ) {
-			return createMarker( map, marker, reducedMotion );
+			return createMarker( map, marker );
 		} );
 
 		var group = L.featureGroup( leafletMarkers );
 
-		// Fixed street-level zoom — fitBounds was too conservative for three adjacent buildings.
-		setMapView( map, group, reducedMotion );
-
-		requestAnimationFrame( function () {
-			map.invalidateSize();
-			setMapView( map, group, reducedMotion );
+		tileLayer.on( 'load', function () {
+			finalizeMapView( map, group );
 		} );
+
+		bindViewFinalizers( map, group, root );
 	}
 
 	function observeMap( root ) {

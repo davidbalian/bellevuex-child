@@ -159,7 +159,7 @@ function chic_site_buildings(): array {
 /**
  * Marker payload for the homepage buildings map.
  *
- * @return array<int, array{name: string, lat: float, lng: float, url: string}>
+ * @return array<int, array{term: string, name: string, lat: float, lng: float, url: string}>
  */
 function chic_home_map_markers(): array {
 	$defaults = [];
@@ -180,6 +180,7 @@ function chic_home_map_markers(): array {
 		}
 
 		$markers[] = [
+			'term' => $building['term'],
 			'name' => $name,
 			'lat'  => (float) $base['lat'],
 			'lng'  => (float) $base['lng'],
