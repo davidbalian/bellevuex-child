@@ -106,11 +106,17 @@
 		} );
 
 		var group = L.featureGroup( leafletMarkers );
-		map.fitBounds( group.getBounds(), {
-			padding: [ 48, 48 ],
-			maxZoom: 17,
+		var bounds = group.getBounds();
+		map.fitBounds( bounds, {
+			padding: [ 16, 16 ],
+			maxZoom: 19,
 			animate: ! reducedMotion,
 		} );
+
+		// Buildings sit on the same block — nudge one level closer when fitBounds caps out.
+		if ( map.getZoom() < 19 ) {
+			map.setView( bounds.getCenter(), 19, { animate: ! reducedMotion } );
+		}
 
 		requestAnimationFrame( function () {
 			map.invalidateSize();
