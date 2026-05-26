@@ -42,8 +42,9 @@
 	max-width: none;
 }
 
-.page-accommodation h1 {
-	font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.5rem) !important;
+/* Hero title tracks global h2 + 0.25rem (see tokens.css h2). */
+.page-accommodation .suite-hero__title {
+	font-size: calc(clamp(1.75rem, 2.2vw + 0.75rem, 2.5rem) + 0.25rem) !important;
 }
 
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
