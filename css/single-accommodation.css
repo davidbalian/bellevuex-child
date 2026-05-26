@@ -42,10 +42,8 @@
 	max-width: none;
 }
 
-@media (max-width: 768px) {
-	.page-accommodation h1 {
-		font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.5rem) !important;
-	}
+.page-accommodation h1 {
+	font-size: calc(clamp(2.5rem, 4vw, 3.5rem) - 0.5rem) !important;
 }
 
 /* ── Amenities strip ───────────────────────────────────────────────────────── */
