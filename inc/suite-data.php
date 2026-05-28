@@ -506,17 +506,48 @@ function _chic_suite_legacy_features_from_acf( int $post_id ): array {
 }
 
 /**
+ * Whether chic_suite_features has been saved on this post (ACF field reference exists).
+ */
+function chic_suite_features_field_saved( int $post_id ): bool {
+	return metadata_exists( 'post', $post_id, '_chic_suite_features' );
+}
+
+/**
+ * Read chic_suite_features from ACF / post meta.
+ *
+ * @return string[]
+ */
+function _chic_suite_read_features_acf( int $post_id ): array {
+	if ( function_exists( 'get_field' ) ) {
+		$acf = get_field( 'chic_suite_features', $post_id );
+		if ( is_array( $acf ) ) {
+			return $acf;
+		}
+	}
+
+	$raw = get_post_meta( $post_id, 'chic_suite_features', true );
+	if ( is_array( $raw ) ) {
+		return $raw;
+	}
+	if ( is_string( $raw ) && '' !== $raw ) {
+		$maybe = maybe_unserialize( $raw );
+		if ( is_array( $maybe ) ) {
+			return $maybe;
+		}
+	}
+
+	return [];
+}
+
+/**
  * Returns checked suite feature slugs for a post.
- * ACF chic_suite_features → legacy ACF fields → PHP map fallback.
+ * Saved chic_suite_features (even empty) wins over legacy / PHP map fallbacks.
  *
  * @return string[]
  */
 function chic_suite_features_for( int $post_id ): array {
-	if ( function_exists( 'get_field' ) ) {
-		$acf = get_field( 'chic_suite_features', $post_id );
-		if ( is_array( $acf ) && ! empty( $acf ) ) {
-			return _chic_suite_order_features( $acf );
-		}
+	if ( chic_suite_features_field_saved( $post_id ) ) {
+		return _chic_suite_order_features( _chic_suite_read_features_acf( $post_id ) );
 	}
 
 	$legacy = _chic_suite_legacy_features_from_acf( $post_id );
