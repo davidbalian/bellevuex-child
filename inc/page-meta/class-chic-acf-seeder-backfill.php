@@ -52,6 +52,10 @@ class Chic_Acf_Seeder_Backfill {
 
 		$updated += self::backfill_suite_posts();
 
+		if ( $seed_version >= 3 ) {
+			$updated += self::backfill_suite_features();
+		}
+
 		update_option(
 			'chic_acf_seed_backfill_log',
 			[
@@ -180,9 +184,50 @@ class Chic_Acf_Seeder_Backfill {
 		foreach ( $posts as $post ) {
 			$n += self::backfill_suite_description( $post, $all_data );
 			$n += self::backfill_bilingual_pair( 'chic_suite_capacity', $post->ID );
-			$n += self::backfill_bilingual_pair( 'chic_suite_sofa', $post->ID );
 		}
 		return $n;
+	}
+
+	/** @return int */
+	private static function backfill_suite_features(): int {
+		if ( ! function_exists( '_chic_suite_legacy_features_from_acf' ) ) {
+			require_once dirname( __DIR__ ) . '/suite-data.php';
+		}
+
+		$posts = get_posts( [
+			'post_type'      => 'mphb_room_type',
+			'posts_per_page' => -1,
+			'post_status'    => 'any',
+			'no_found_rows'  => true,
+		] );
+
+		$all_data = function_exists( '_chic_suite_all_data' ) ? _chic_suite_all_data() : [];
+		$count    = 0;
+
+		foreach ( $posts as $post ) {
+			$current = get_field( 'chic_suite_features', $post->ID );
+			if ( is_array( $current ) && ! empty( $current ) ) {
+				continue;
+			}
+
+			$features = _chic_suite_legacy_features_from_acf( $post->ID );
+			if ( empty( $features ) ) {
+				$key  = strtolower( trim( $post->post_title ) );
+				$data = $all_data[ $key ] ?? null;
+				if ( $data ) {
+					$features = _chic_suite_map_to_features( $data );
+				}
+			}
+
+			if ( empty( $features ) ) {
+				continue;
+			}
+
+			update_field( 'chic_suite_features', $features, $post->ID );
+			++$count;
+		}
+
+		return $count;
 	}
 
 	/** @return int */

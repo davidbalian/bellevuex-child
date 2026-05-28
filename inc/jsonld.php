@@ -510,7 +510,7 @@ function chic_jsonld_node_hotel_room( int $post_id ): array {
 		}
 	}
 
-	// Amenity features: shared facilities + per-suite highlight + sofa
+	// Amenity features: shared facilities + per-suite feature checkboxes.
 	$amenity_features = array_map(
 		fn( $f ) => [ '@type' => 'LocationFeatureSpecification', 'name' => t( $f ), 'value' => true ],
 		chic_jsonld_suite_facilities()
@@ -521,29 +521,16 @@ function chic_jsonld_node_hotel_room( int $post_id ): array {
 		'value' => true,
 	];
 
-	if ( $data ) {
-		static $highlight_labels = [
-			'jacuzzi' => 'Jacuzzi',
-			'balcony' => 'Balcony',
-			'terrace' => 'Terrace',
-			'shower'  => 'Shower',
+	foreach ( chic_suite_features_for( $post_id ) as $slug ) {
+		$label = chic_suite_feature_label( $slug );
+		if ( '' === $label ) {
+			continue;
+		}
+		$amenity_features[] = [
+			'@type' => 'LocationFeatureSpecification',
+			'name'  => $label,
+			'value' => true,
 		];
-		$hl = $data['highlight'] ?? '';
-		if ( isset( $highlight_labels[ $hl ] ) ) {
-			$amenity_features[] = [
-				'@type' => 'LocationFeatureSpecification',
-				'name'  => t( $highlight_labels[ $hl ] ),
-				'value' => true,
-			];
-		}
-		$sofa = $data['sofa'] ?? '';
-		if ( '' !== $sofa && 'Jacuzzi' !== $sofa ) {
-			$amenity_features[] = [
-				'@type' => 'LocationFeatureSpecification',
-				'name'  => t( $sofa ),
-				'value' => true,
-			];
-		}
 	}
 
 	$contained_in = $building

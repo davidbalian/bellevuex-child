@@ -6,10 +6,9 @@ defined( 'ABSPATH' ) || exit;
 Chic_Page_Meta_Schema::register( 'suite', [
 
 	'description'    => [ 'type' => 'wysiwyg', 'label' => 'Suite Description', 'default' => '' ],
-	'capacity'       => [ 'type' => 'text',    'label' => 'Capacity Label',    'default' => 'Up to 2 guests' ],
-	'sofa'           => [ 'type' => 'text',    'label' => 'Sofa / Feature Label', 'default' => 'Sofa' ],
-	'size'           => [ 'type' => 'number',  'label' => 'Size (m²)',          'default' => '' ],
-	'highlight'      => [ 'type' => 'select',  'label' => 'Highlight Feature',  'default' => 'shower' ],
+	'capacity'       => [ 'type' => 'text',    'label' => 'Capacity Label',       'default' => 'Up to 2 guests' ],
+	'features'       => [ 'type' => 'array',   'label' => 'Suite Features',       'default' => [] ],
+	'size'           => [ 'type' => 'number',  'label' => 'Size (m²)',            'default' => '' ],
 	'booking_url'    => [ 'type' => 'url',     'label' => 'Booking URL Override', 'default' => '' ],
 
 ] );

@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Chic_Acf_Seeder {
 
-	const SEED_VERSION = 2;
+	const SEED_VERSION = 3;
 
 	public static function maybe_run(): void {
 		if ( ! function_exists( 'get_field' ) || ! function_exists( 'update_field' ) ) return;
@@ -405,9 +405,8 @@ class Chic_Acf_Seeder {
 			self::seed_field( 'chic_suite_description_el', $html_el, $pid );
 
 			self::seed_bilingual( 'chic_suite_capacity', $data['capacity'], $pid );
-			self::seed_bilingual( 'chic_suite_sofa',     $data['sofa'],     $pid );
-			self::seed_field(     'chic_suite_highlight', $data['highlight'], $pid );
-			self::seed_field(     'chic_suite_size',      (int) $data['size'], $pid );
+			self::seed_field( 'chic_suite_features', _chic_suite_map_to_features( $data ), $pid );
+			self::seed_field( 'chic_suite_size',      (int) $data['size'], $pid );
 		}
 	}
 

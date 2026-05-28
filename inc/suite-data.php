@@ -3,7 +3,7 @@
 /**
  * Single accommodation template helpers.
  *
- * chic_suite_amenities() uses the per-suite data map first.
+ * chic_suite_amenities() is ACF-first (capacity, features, size) with PHP map fallbacks.
  * Other helpers (capacity, bed type, size) keep MPHB-driven fallbacks for
  * any suite not in the map.
  */
@@ -374,6 +374,210 @@ function chic_suite_size( int $post_id ): string {
 }
 
 /**
+ * Known suite feature slugs in amenities-strip display order.
+ *
+ * @return string[]
+ */
+function _chic_suite_feature_order(): array {
+	return [ 'sofa', 'sofa_bed', 'jacuzzi', 'balcony', 'terrace', 'shower' ];
+}
+
+/**
+ * Icon + English label for each suite feature slug.
+ *
+ * @return array<string, array{0: string, 1: string}>
+ */
+function _chic_suite_feature_map(): array {
+	return [
+		'sofa'     => [ 'fas fa-couch',                                  'Sofa' ],
+		'sofa_bed' => [ 'fas fa-couch',                                  'Sofa / Bed' ],
+		'jacuzzi'  => [ 'fas fa-hot-tub',                                'Jacuzzi' ],
+		'balcony'  => [ 'th-linea icon th-linea icon-arrows-circle-check', 'Balcony' ],
+		'terrace'  => [ 'th-linea icon th-linea icon-arrows-circle-check', 'Terrace' ],
+		'shower'   => [ 'fas fa-shower',                                 'Shower' ],
+	];
+}
+
+/**
+ * Sort and filter feature slugs to the canonical display order.
+ *
+ * @param  string[] $features
+ * @return string[]
+ */
+function _chic_suite_order_features( array $features ): array {
+	$allowed = array_flip( _chic_suite_feature_order() );
+	$unique  = [];
+	foreach ( $features as $slug ) {
+		if ( ! is_string( $slug ) || ! isset( $allowed[ $slug ] ) ) {
+			continue;
+		}
+		$unique[ $slug ] = true;
+	}
+
+	$ordered = [];
+	foreach ( _chic_suite_feature_order() as $slug ) {
+		if ( isset( $unique[ $slug ] ) ) {
+			$ordered[] = $slug;
+		}
+	}
+	return $ordered;
+}
+
+/**
+ * Map legacy sofa label text to a feature slug.
+ */
+function _chic_suite_sofa_text_to_feature( string $sofa ): string {
+	$sofa = trim( $sofa );
+	if ( '' === $sofa ) {
+		return '';
+	}
+	if ( 0 === strcasecmp( $sofa, 'Jacuzzi' ) ) {
+		return 'jacuzzi';
+	}
+	if ( 0 === strcasecmp( $sofa, 'Sofa / Bed' ) ) {
+		return 'sofa_bed';
+	}
+	if ( 0 === strcasecmp( $sofa, 'Sofa' ) ) {
+		return 'sofa';
+	}
+
+	static $greek_map = [
+		'Τζακούζι'             => 'jacuzzi',
+		'Καναπές / Κρεβάτι'    => 'sofa_bed',
+		'Καναπές'              => 'sofa',
+	];
+	return $greek_map[ $sofa ] ?? '';
+}
+
+/**
+ * Convert legacy PHP map sofa + highlight keys to feature slugs.
+ *
+ * @param  array{sofa?: string, highlight?: string} $data
+ * @return string[]
+ */
+function _chic_suite_map_to_features( array $data ): array {
+	$features = [];
+
+	$sofa_slug = _chic_suite_sofa_text_to_feature( (string) ( $data['sofa'] ?? '' ) );
+	if ( '' !== $sofa_slug ) {
+		$features[] = $sofa_slug;
+	}
+
+	$highlight = (string) ( $data['highlight'] ?? '' );
+	if ( '' !== $highlight ) {
+		$features[] = $highlight;
+	}
+
+	return _chic_suite_order_features( $features );
+}
+
+/**
+ * Derive feature slugs from legacy ACF highlight + sofa fields.
+ *
+ * @return string[]
+ */
+function _chic_suite_legacy_features_from_acf( int $post_id ): array {
+	$features = [];
+
+	if ( function_exists( 'get_field' ) ) {
+		$highlight = get_field( 'chic_suite_highlight', $post_id );
+		if ( is_string( $highlight ) && '' !== $highlight ) {
+			$features[] = $highlight;
+		}
+
+		$sofa = get_field( 'chic_suite_sofa_en', $post_id );
+		if ( ! is_string( $sofa ) || '' === $sofa ) {
+			$sofa = (string) get_post_meta( $post_id, 'chic_suite_sofa_en', true );
+		}
+		$sofa_slug = _chic_suite_sofa_text_to_feature( $sofa );
+		if ( '' === $sofa_slug ) {
+			$sofa_el = get_field( 'chic_suite_sofa_el', $post_id );
+			if ( ! is_string( $sofa_el ) || '' === $sofa_el ) {
+				$sofa_el = (string) get_post_meta( $post_id, 'chic_suite_sofa_el', true );
+			}
+			$sofa_slug = _chic_suite_sofa_text_to_feature( $sofa_el );
+		}
+		if ( '' !== $sofa_slug ) {
+			$features[] = $sofa_slug;
+		}
+	}
+
+	return _chic_suite_order_features( $features );
+}
+
+/**
+ * Returns checked suite feature slugs for a post.
+ * ACF chic_suite_features → legacy ACF fields → PHP map fallback.
+ *
+ * @return string[]
+ */
+function chic_suite_features_for( int $post_id ): array {
+	if ( function_exists( 'get_field' ) ) {
+		$acf = get_field( 'chic_suite_features', $post_id );
+		if ( is_array( $acf ) && ! empty( $acf ) ) {
+			return _chic_suite_order_features( $acf );
+		}
+	}
+
+	$legacy = _chic_suite_legacy_features_from_acf( $post_id );
+	if ( ! empty( $legacy ) ) {
+		return $legacy;
+	}
+
+	$data = _chic_suite_data_for( $post_id );
+	if ( $data ) {
+		return _chic_suite_map_to_features( $data );
+	}
+
+	return [];
+}
+
+/**
+ * Returns the translated label for a suite feature slug.
+ */
+function chic_suite_feature_label( string $slug ): string {
+	$map = _chic_suite_feature_map();
+	return isset( $map[ $slug ] ) ? t( $map[ $slug ][1] ) : '';
+}
+
+/**
+ * Returns one amenities-strip row for a feature slug.
+ *
+ * @return array{icon: string, label: string}|null
+ */
+function _chic_suite_feature_row( string $slug ): ?array {
+	$map = _chic_suite_feature_map();
+	if ( ! isset( $map[ $slug ] ) ) {
+		return null;
+	}
+	return [
+		'icon'  => $map[ $slug ][0],
+		'label' => t( $map[ $slug ][1] ),
+	];
+}
+
+/**
+ * Returns the display size label (e.g. "37m²") for the amenities strip.
+ * ACF chic_suite_size → PHP map → MPHB meta fallback.
+ */
+function chic_suite_size_label( int $post_id ): string {
+	if ( function_exists( 'get_field' ) ) {
+		$acf_size = get_field( 'chic_suite_size', $post_id );
+		if ( is_numeric( $acf_size ) && (int) $acf_size > 0 ) {
+			return (int) $acf_size . 'm²';
+		}
+	}
+
+	$data = _chic_suite_data_for( $post_id );
+	if ( $data && ! empty( $data['size'] ) ) {
+		return $data['size'] . 'm²';
+	}
+
+	$size = chic_suite_size( $post_id );
+	return $size ? $size . 'm²' : '-';
+}
+
+/**
  * Returns the first bed type term name for the suite.
  */
 function chic_suite_bed_type( int $post_id ): string {
@@ -385,48 +589,30 @@ function chic_suite_bed_type( int $post_id ): string {
 }
 
 /**
- * Returns the 6 amenity rows for the amenities strip.
- * Driven by the per-suite data map; falls back to MPHB meta lookups.
+ * Returns amenity rows for the amenities strip.
+ * Fixed rows: capacity, bed, kitchen, size. Middle rows from chic_suite_features_for().
  * Each row: [ 'icon' => string, 'label' => string ]
  */
 function chic_suite_amenities( int $post_id ): array {
-	static $highlight_map = [
-		'jacuzzi' => [ 'fas fa-hot-tub',                                       'Jacuzzi' ],
-		'balcony' => [ 'th-linea icon th-linea icon-arrows-circle-check',      'Balcony' ],
-		'terrace' => [ 'th-linea icon th-linea icon-arrows-circle-check',      'Terrace' ],
-		'shower'  => [ 'fas fa-shower',                                        'Shower'  ],
+	$in_map = (bool) _chic_suite_data_for( $post_id );
+	$bed    = $in_map ? t( 'King Size Bed' ) : t( chic_suite_bed_type( $post_id ) );
+
+	$rows = [
+		[ 'icon' => 'fas fa-user-plus',                       'label' => chic_suite_capacity_label( $post_id ) ],
+		[ 'icon' => 'fas fa-bed',                             'label' => $bed ],
+		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife', 'label' => t( 'Equipped Kitchen' ) ],
 	];
-	// Translate highlight labels at runtime.
-	$translated_highlight_map = array_map( fn( $v ) => [ $v[0], t( $v[1] ) ], $highlight_map );
 
-	$data = _chic_suite_data_for( $post_id );
-
-	if ( $data ) {
-		$sofa_icon  = ( 'jacuzzi' === strtolower( $data['sofa'] ) ) ? 'fas fa-hot-tub' : 'fas fa-couch';
-		$hl         = $translated_highlight_map[ $data['highlight'] ] ?? $translated_highlight_map['shower'];
-
-		return [
-			[ 'icon' => 'fas fa-user-plus',                               'label' => chic_suite_capacity_label( $post_id ) ],
-			[ 'icon' => 'fas fa-bed',                                     'label' => t( 'King Size Bed' ) ],
-			[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
-			[ 'icon' => $sofa_icon,                                       'label' => t( $data['sofa'] ) ],
-			[ 'icon' => $hl[0],                                           'label' => $hl[1] ],
-			[ 'icon' => 'fas fa-home',                                    'label' => $data['size'] . 'm²' ],
-		];
+	foreach ( chic_suite_features_for( $post_id ) as $slug ) {
+		$row = _chic_suite_feature_row( $slug );
+		if ( $row ) {
+			$rows[] = $row;
+		}
 	}
 
-	// MPHB fallback for suites not in the map
-	$size = chic_suite_size( $post_id );
-	$bed  = chic_suite_bed_type( $post_id );
+	$rows[] = [ 'icon' => 'fas fa-home', 'label' => chic_suite_size_label( $post_id ) ];
 
-	return [
-		[ 'icon' => 'fas fa-user-plus',                               'label' => chic_suite_capacity_label( $post_id ) ],
-		[ 'icon' => 'fas fa-bed',                                     'label' => t( $bed ) ],
-		[ 'icon' => 'fasth-trip travelpack-fork-plate-knife',         'label' => t( 'Equipped Kitchen' ) ],
-		[ 'icon' => 'fas fa-couch',                                   'label' => t( 'Sofa' ) ],
-		[ 'icon' => 'fas fa-shower',                                  'label' => t( 'Shower' ) ],
-		[ 'icon' => 'fas fa-home',                                    'label' => $size ? $size . 'm²' : '-' ],
-	];
+	return $rows;
 }
 
 /**
