@@ -251,6 +251,10 @@ html.is-header-scrolled {
 		display: flex;
 	}
 
+	.site-header__tools {
+		gap: 0;
+	}
+
 	.nav-menu {
 		display: none;
 	}
