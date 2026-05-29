@@ -50,6 +50,14 @@
 		display: flex;
 		align-items: center;
 	}
+
+	.site-header__lang-bar .site-header__lang-btn {
+		font-size: 1.1rem;
+	}
+
+	.site-header__lang-bar .site-header__lang-flag {
+		height: 0.9rem;
+	}
 }
 
 
