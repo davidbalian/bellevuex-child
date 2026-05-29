@@ -266,6 +266,21 @@ function chic_output_custom_header(): void {
 			</a>
 
 			<div class="site-header__tools">
+				<?php
+				$_chic_cur_lang   = chic_get_current_lang();
+				$_chic_other_lang = 'en' === $_chic_cur_lang ? 'el' : 'en';
+				$_chic_desk_label = [ 'en' => 'EN', 'el' => 'ΕΛ' ][ $_chic_other_lang ];
+				$_chic_flag_code  = [ 'en' => 'gb', 'el' => 'gr' ][ $_chic_other_lang ];
+				$_chic_uploads    = wp_upload_dir();
+				$_chic_flag_url   = empty( $_chic_uploads['error'] ) ? trailingslashit( $_chic_uploads['baseurl'] ) . 'flag-' . $_chic_flag_code . '.png' : '';
+				?>
+				<div class="site-header__lang-bar" role="navigation" aria-label="Language">
+					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
+					   class="site-header__lang-bar-btn"
+					   hreflang="<?php echo esc_attr( $_chic_other_lang ); ?>">
+						<?php echo esc_html( $_chic_desk_label ); ?>
+					</a>
+				</div>
 				<nav class="primary-navigation" aria-label="<?php echo ta( 'Primary' ); ?>">
 					<ul class="nav-menu" role="list">
 						<?php chic_header_render_items( false ); ?>
@@ -282,14 +297,6 @@ function chic_output_custom_header(): void {
 						<span class="mobile-nav-toggle__bar"></span>
 					</button>
 				</nav>
-				<?php
-				$_chic_cur_lang   = chic_get_current_lang();
-				$_chic_other_lang = 'en' === $_chic_cur_lang ? 'el' : 'en';
-				$_chic_desk_label = [ 'en' => 'EN', 'el' => 'ΕΛ' ][ $_chic_other_lang ];
-				$_chic_flag_code  = [ 'en' => 'gb', 'el' => 'gr' ][ $_chic_other_lang ];
-				$_chic_uploads    = wp_upload_dir();
-				$_chic_flag_url   = empty( $_chic_uploads['error'] ) ? trailingslashit( $_chic_uploads['baseurl'] ) . 'flag-' . $_chic_flag_code . '.png' : '';
-				?>
 				<div class="site-header__lang" role="navigation" aria-label="Language">
 					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
 					   class="site-header__lang-btn"
