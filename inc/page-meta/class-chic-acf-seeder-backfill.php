@@ -56,6 +56,10 @@ class Chic_Acf_Seeder_Backfill {
 			$updated += self::backfill_suite_features();
 		}
 
+		if ( $seed_version >= 4 ) {
+			$updated += self::remove_facilities_item( 'Cosmetics' );
+		}
+
 		update_option(
 			'chic_acf_seed_backfill_log',
 			[
@@ -228,6 +232,30 @@ class Chic_Acf_Seeder_Backfill {
 		}
 
 		return $count;
+	}
+
+	/**
+	 * Removes all rows from the chic_ss_facilities option repeater whose
+	 * label_en matches the given English label. Used to retire a facility.
+	 *
+	 * @return int Number of rows removed.
+	 */
+	private static function remove_facilities_item( string $label_en ): int {
+		$rows = get_field( 'chic_ss_facilities', 'option' );
+		if ( empty( $rows ) || ! is_array( $rows ) ) {
+			return 0;
+		}
+
+		$filtered = array_values(
+			array_filter( $rows, static fn( $row ) => ( $row['label_en'] ?? '' ) !== $label_en )
+		);
+
+		if ( count( $filtered ) === count( $rows ) ) {
+			return 0; // nothing matched, no update needed
+		}
+
+		update_field( 'chic_ss_facilities', $filtered, 'option' );
+		return count( $rows ) - count( $filtered );
 	}
 
 	/** @return int */

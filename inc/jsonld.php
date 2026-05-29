@@ -213,7 +213,6 @@ function chic_jsonld_suite_facilities(): array {
 			'Ambient lighting',
 			'First Aid Kit',
 			'Linen',
-			'Cosmetics',
 			'Soap, shampoo, shower gel',
 		];
 		$list = $keys;

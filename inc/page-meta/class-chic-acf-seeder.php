@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class Chic_Acf_Seeder {
 
-	const SEED_VERSION = 3;
+	const SEED_VERSION = 4;
 
 	public static function maybe_run(): void {
 		if ( ! function_exists( 'get_field' ) || ! function_exists( 'update_field' ) ) return;
@@ -193,7 +193,6 @@ class Chic_Acf_Seeder {
 			'Ambient lighting',
 			'First Aid Kit',
 			'Linen',
-			'Cosmetics',
 			'Soap, shampoo, shower gel',
 		];
 		$rows = array_map( static fn( $f ) => [

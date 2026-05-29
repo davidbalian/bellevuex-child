@@ -199,7 +199,6 @@ while ( have_posts() ) :
 				<li><?php te( 'Ambient lighting' ); ?></li>
 				<li><?php te( 'First Aid Kit' ); ?></li>
 				<li><?php te( 'Linen' ); ?></li>
-				<li><?php te( 'Cosmetics' ); ?></li>
 				<li><?php te( 'Soap, shampoo, shower gel' ); ?></li>
 			</ul>
 			<?php endif; ?>

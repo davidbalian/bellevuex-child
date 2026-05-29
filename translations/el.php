@@ -121,8 +121,7 @@ return [
 	'Ambient lighting'          => 'Διακριτικός φωτισμός περιβάλλοντος',
 	'First Aid Kit'             => 'Κουτί Πρώτων Βοηθειών',
 	'Linen'                     => 'Λευκά είδη',
-	'Cosmetics'                 => 'Προϊόντα περιποίησης',
-	'Soap, shampoo, shower gel'     => 'Σαπούνι, σαμπουάν, αφρόλουτρο',
+'Soap, shampoo, shower gel'     => 'Σαπούνι, σαμπουάν, αφρόλουτρο',
 	'Hygiene:'                  => 'Καθαριότητα:',
 	'Fully cleaned and disinfected suite upon your arrival.'
 		=> 'Η σουίτα παραδίδεται πλήρως καθαρή και απολυμασμένη κατά την άφιξή σας.',
