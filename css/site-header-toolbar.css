@@ -53,10 +53,13 @@
 
 	.site-header__lang-bar .site-header__lang-btn {
 		font-size: 1.1rem;
+		min-width: 5rem;
 	}
 
 	.site-header__lang-bar .site-header__lang-flag {
 		height: 0.9rem;
+		width: calc(0.9rem * 4 / 3);
+		flex-shrink: 0;
 	}
 }
 
