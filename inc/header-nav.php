@@ -276,7 +276,7 @@ function chic_output_custom_header(): void {
 				?>
 				<div class="site-header__lang-bar" role="navigation" aria-label="Language">
 					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
-					   class="site-header__lang-bar-btn"
+					   class="site-header__lang-btn"
 					   hreflang="<?php echo esc_attr( $_chic_other_lang ); ?>">
 						<?php if ( $_chic_flag_url ) : ?>
 							<img class="site-header__lang-flag" src="<?php echo esc_url( $_chic_flag_url ); ?>" alt="" aria-hidden="true">
