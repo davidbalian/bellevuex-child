@@ -6,9 +6,14 @@
 	flex-shrink: 0;
 }
 
-@media (max-width: 48rem) {
+/* DOM order is lang → nav (mobile: flag left of menu toggle). Desktop: flex order puts nav first. */
+@media (min-width: 48.0625rem) {
+	.primary-navigation {
+		order: 1;
+	}
+
 	.site-header__lang {
-		display: none;
+		order: 2;
 	}
 }
 
@@ -39,24 +44,13 @@
 	flex-shrink: 0;
 }
 
-/* Mobile header bar compact language switcher */
-.site-header__lang-bar {
-	display: none;
-	flex-shrink: 0;
-}
-
 @media (max-width: 48rem) {
-	.site-header__lang-bar {
-		display: flex;
-		align-items: center;
-	}
-
-	.site-header__lang-bar .site-header__lang-btn {
+	.site-header__lang .site-header__lang-btn {
 		font-size: 1.1rem;
 		min-width: 5rem;
 	}
 
-	.site-header__lang-bar .site-header__lang-flag {
+	.site-header__lang .site-header__lang-flag {
 		height: 0.9rem;
 		width: calc(0.9rem * 4 / 3);
 		flex-shrink: 0;

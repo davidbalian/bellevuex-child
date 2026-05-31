@@ -274,7 +274,7 @@ function chic_output_custom_header(): void {
 				$_chic_uploads    = wp_upload_dir();
 				$_chic_flag_url   = empty( $_chic_uploads['error'] ) ? trailingslashit( $_chic_uploads['baseurl'] ) . 'flag-' . $_chic_flag_code . '.png' : '';
 				?>
-				<div class="site-header__lang-bar" role="navigation" aria-label="Language">
+				<div class="site-header__lang" role="navigation" aria-label="Language">
 					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
 					   class="site-header__lang-btn"
 					   hreflang="<?php echo esc_attr( $_chic_other_lang ); ?>">
@@ -300,16 +300,6 @@ function chic_output_custom_header(): void {
 						<span class="mobile-nav-toggle__bar"></span>
 					</button>
 				</nav>
-				<div class="site-header__lang" role="navigation" aria-label="Language">
-					<a href="<?php echo esc_url( chic_lang_switch_url( $_chic_other_lang ) ); ?>"
-					   class="site-header__lang-btn"
-					   hreflang="<?php echo esc_attr( $_chic_other_lang ); ?>">
-						<?php if ( $_chic_flag_url ) : ?>
-							<img class="site-header__lang-flag" src="<?php echo esc_url( $_chic_flag_url ); ?>" alt="" aria-hidden="true">
-						<?php endif; ?>
-						<?php echo esc_html( $_chic_desk_label ); ?>
-					</a>
-				</div>
 			</div>
 
 		</div>

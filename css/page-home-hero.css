@@ -15,9 +15,9 @@
 	background: #0e0e0e;
 }
 
-@media (min-width: 1921px) {
+@media (min-width: 1920px) {
 	.home-hero {
-		--hero-viewport: calc(min(98svh, 1920px) - var(--site-header-height-initial) - 10vh);
+		--hero-viewport: min(900px, calc(98svh - var(--site-header-height-initial)));
 	}
 }
 
