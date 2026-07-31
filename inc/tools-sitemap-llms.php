@@ -100,14 +100,18 @@ function chic_sitemap_llms_run( bool $dry_run ): void {
 	echo '<h2 style="margin-top:1.5rem;">' . ( $dry_run ? 'Dry Run — Preview' : 'Results' ) . '</h2>';
 
 	// Ensure el/ directory exists before writing el/llms.txt.
-	// Also drop an .htaccess so Apache doesn't 403 /el/ — the real directory
-	// would otherwise satisfy !-d and bypass WordPress's rewrite rules.
+	// The real directory satisfies !-d and bypasses WordPress's rewrite rules,
+	// so /el/ would 403. Two guards against that:
+	//   1. .htaccess routes back to index.php (Apache with AllowOverride only).
+	//   2. index.php shim boots WP directly (works on Apache, Nginx, LiteSpeed).
+	// See chic_el_ensure_dir_shim() in inc/i18n.php.
 	if ( ! $dry_run ) {
 		wp_mkdir_p( ABSPATH . 'el' );
 		$htaccess = ABSPATH . 'el/.htaccess';
 		if ( ! file_exists( $htaccess ) ) {
 			file_put_contents( $htaccess, "Options -Indexes\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase /\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteRule ^ /index.php [L]\n</IfModule>\n", LOCK_EX );
 		}
+		chic_el_ensure_dir_shim();
 	}
 
 	// Results table.
