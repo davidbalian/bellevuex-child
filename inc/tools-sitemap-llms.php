@@ -57,16 +57,11 @@ function chic_sitemap_llms_render_page(): void {
 		sanitize_text_field( wp_unslash( $_GET['_wpnonce'] ) ),
 		'chic_sitemap_llms_run'
 	);
-	$do_probe  = $verified && ! empty( $_GET['probe'] );
-	$do_repair = $verified && ! empty( $_GET['fix_shim'] );
-	$repaired  = null;
-
-	if ( $do_repair ) {
-		$repaired = chic_el_ensure_dir_shim();
-	}
+	$do_probe = $verified && ! empty( $_GET['probe'] );
+	$removed  = ( $verified && ! empty( $_GET['remove_el'] ) ) ? chic_el_remove_dir() : null;
 
 	$probe_url  = esc_url( add_query_arg( [ 'page' => 'chic-sitemap-llms', 'probe' => '1', '_wpnonce' => $nonce ] ) );
-	$repair_url = esc_url( add_query_arg( [ 'page' => 'chic-sitemap-llms', 'fix_shim' => '1', 'probe' => '1', '_wpnonce' => $nonce ] ) );
+	$remove_url = esc_url( add_query_arg( [ 'page' => 'chic-sitemap-llms', 'remove_el' => '1', 'probe' => '1', '_wpnonce' => $nonce ] ) );
 	?>
 	<div class="wrap">
 		<h1>Sitemap &amp; LLMs.txt</h1>
@@ -92,11 +87,9 @@ function chic_sitemap_llms_render_page(): void {
 			<?php chic_sitemap_llms_run( '1' === $dry_run ); ?>
 		<?php endif; ?>
 
-		<?php if ( null !== $repaired ) : ?>
-			<div class="notice notice-<?php echo $repaired ? 'success' : 'error'; ?>" style="margin-top:1.5rem;">
-				<p><?php echo $repaired
-					? '&#10003; Wrote <code>el/index.php</code>. Open <code>/el</code> in a new tab to confirm.'
-					: '&#10007; Could not write <code>el/index.php</code>. See the directory row below for why.'; ?></p>
+		<?php if ( null !== $removed ) : ?>
+			<div class="notice notice-<?php echo $removed['ok'] ? 'success' : 'error'; ?>" style="margin-top:1.5rem;">
+				<p><?php echo ( $removed['ok'] ? '&#10003; ' : '&#10007; ' ) . esc_html( $removed['msg'] ); ?></p>
 			</div>
 		<?php endif; ?>
 
@@ -104,11 +97,12 @@ function chic_sitemap_llms_render_page(): void {
 
 		<p style="margin-top:1rem;">
 			<a class="button button-secondary" href="<?php echo $probe_url; ?>">
-				&#128260; Test <code>/el</code> now
+				&#128260; Test now
 			</a>
 			&nbsp;
-			<a class="button button-secondary" href="<?php echo $repair_url; ?>">
-				&#128295; Repair <code>el/index.php</code>
+			<a class="button button-primary" href="<?php echo $remove_url; ?>"
+				onclick="return confirm('Delete the el/ directory and its generated files? Greek llms.txt is already served from the database, so nothing is lost.');">
+				&#128465; Remove <code>el/</code> directory
 			</a>
 			&nbsp;
 			<a class="button button-secondary" href="<?php echo esc_url( home_url( '/el' ) ); ?>" target="_blank" rel="noopener">
@@ -147,29 +141,43 @@ function chic_el_shim_status(): array {
 }
 
 /**
- * Request /el over HTTP from the server itself and report the status code.
- * Note that some hosts block loopback requests, in which case this reports a
- * transport error rather than a real result. Always confirm in a browser too.
+ * Request a URL over HTTP from the server itself and report what came back.
  *
- * @return array{url:string,code:int,error:string}
+ * Sends a real browser user agent because host firewalls (SiteGround, Cloudflare,
+ * Wordfence) routinely 403 the default WordPress user agent on loopback requests.
+ * Without this the probe reports a 403 that real visitors never see.
+ *
+ * Captures the Server header and a body snippet so a firewall block can be told
+ * apart from a genuine server-level directory refusal.
+ *
+ * @return array{url:string,code:int,error:string,server:string,snippet:string}
  */
-function chic_el_probe_route(): array {
-	$url = home_url( '/el' );
+function chic_el_probe_route( string $path = '/el' ): array {
+	$url = home_url( $path );
 	$res = wp_remote_get( $url, [
 		'timeout'     => 10,
 		'redirection' => 3,
 		'sslverify'   => false,
-		'headers'     => [ 'Cache-Control' => 'no-cache' ],
+		'user-agent'  => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0 Safari/537.36',
+		'headers'     => [
+			'Cache-Control' => 'no-cache',
+			'Accept'        => 'text/html,application/xhtml+xml',
+		],
 	] );
 
 	if ( is_wp_error( $res ) ) {
-		return [ 'url' => $url, 'code' => 0, 'error' => $res->get_error_message() ];
+		return [ 'url' => $url, 'code' => 0, 'error' => $res->get_error_message(), 'server' => '', 'snippet' => '' ];
 	}
 
+	$body    = (string) wp_remote_retrieve_body( $res );
+	$snippet = trim( preg_replace( '/\s+/', ' ', wp_strip_all_tags( $body ) ) );
+
 	return [
-		'url'   => $url,
-		'code'  => (int) wp_remote_retrieve_response_code( $res ),
-		'error' => '',
+		'url'     => $url,
+		'code'    => (int) wp_remote_retrieve_response_code( $res ),
+		'error'   => '',
+		'server'  => (string) wp_remote_retrieve_header( $res, 'server' ),
+		'snippet' => mb_substr( $snippet, 0, 300 ),
 	];
 }
 
@@ -196,73 +204,69 @@ function chic_el_render_status( bool $probe ): void {
 	echo '<table class="widefat striped" style="margin-top:.5rem;max-width:720px;">';
 	echo '<thead><tr><th style="width:200px;">Check</th><th>Result</th><th>Meaning</th></tr></thead><tbody>';
 
-	// Row 1: the directory itself.
+	// Row 1: the directory. Its mere existence is the whole problem.
 	echo '<tr><td><code>el/</code> directory</td>';
 	if ( ! $s['dir_exists'] ) {
 		echo chic_el_status_cell( 'ok', 'Not present' );
-		echo '<td>Nothing shadows the rewrite rule. No shim needed.</td>';
-	} elseif ( $s['dir_writable'] ) {
-		echo chic_el_status_cell( 'warn', 'Exists, writable' );
-		echo '<td>Shadows the <code>^el/?$</code> rewrite rule. Needs a guard below.</td>';
+		echo '<td>Correct. <code>/el/</code> routes through WordPress normally.</td>';
 	} else {
-		echo chic_el_status_cell( 'bad', 'Exists, NOT writable' );
-		echo '<td>PHP cannot write the shim here. Fix permissions on <code>' . esc_html( ABSPATH . 'el' ) . '</code>.</td>';
+		echo chic_el_status_cell( 'bad', 'Exists' );
+		echo '<td>This is the cause of the 403. WordPress skips existing directories '
+			. '(<code>RewriteCond !-d</code>), so Apache serves the folder and refuses. '
+			. 'Use <strong>Remove <code>el/</code> directory</strong> below.</td>';
 	}
 	echo '</tr>';
 
-	// Row 2: the index.php shim, the guard that works on every server.
-	echo '<tr><td><code>el/index.php</code> shim</td>';
-	if ( ! $s['dir_exists'] ) {
-		echo chic_el_status_cell( 'info', 'Not applicable' );
-		echo '<td>Only written when the directory exists.</td>';
-	} elseif ( $s['shim_ours'] ) {
-		echo chic_el_status_cell( 'ok', 'Present' );
-		echo '<td>Boots WordPress for <code>/el/</code>. Works on Apache, Nginx and LiteSpeed.</td>';
-	} elseif ( $s['shim_exists'] ) {
-		echo chic_el_status_cell( 'warn', 'Present, not ours' );
-		echo '<td>A hand-written <code>index.php</code> is here. Left untouched.</td>';
+	// Row 2: Greek llms.txt, now served from an option rather than disk.
+	echo '<tr><td><code>el/llms.txt</code> content</td>';
+	$len = strlen( (string) get_option( 'chic_llms_el', '' ) );
+	if ( $len > 0 ) {
+		echo chic_el_status_cell( 'ok', number_format( $len ) . ' bytes stored' );
+		echo '<td>Served virtually from option <code>chic_llms_el</code>. No file on disk needed.</td>';
 	} else {
-		echo chic_el_status_cell( 'bad', 'Missing' );
-		echo '<td>This is the likely cause of a 403. Use Repair below.</td>';
+		echo chic_el_status_cell( 'warn', 'Not generated' );
+		echo '<td>Press <strong>Run Live</strong> above to generate it.</td>';
 	}
 	echo '</tr>';
 
-	// Row 3: the Apache-only fallback.
-	echo '<tr><td><code>el/.htaccess</code></td>';
-	if ( ! $s['dir_exists'] ) {
-		echo chic_el_status_cell( 'info', 'Not applicable' );
-		echo '<td>Only written when the directory exists.</td>';
-	} elseif ( $s['ht_exists'] ) {
-		echo chic_el_status_cell( 'ok', 'Present' );
-		echo '<td>Secondary guard. Ignored by Nginx and by Apache with <code>AllowOverride None</code>.</td>';
-	} else {
-		echo chic_el_status_cell( 'warn', 'Missing' );
-		echo '<td>Optional. The shim above covers more servers.</td>';
-	}
-	echo '</tr>';
+	// Rows 3 and 4: what the server actually returns for each Greek URL.
+	foreach ( [ '/el', '/el/llms.txt' ] as $path ) {
+		echo '<tr><td>Live <code>' . esc_html( $path ) . '</code> response</td>';
 
-	// Row 4: what the server actually returns.
-	echo '<tr><td>Live <code>/el</code> response</td>';
-	if ( ! $probe ) {
-		echo chic_el_status_cell( 'info', 'Not tested' );
-		echo '<td>Use Test <code>/el</code> now below.</td>';
-	} else {
-		$p = chic_el_probe_route();
+		if ( ! $probe ) {
+			echo chic_el_status_cell( 'info', 'Not tested' );
+			echo '<td>Use <strong>Test now</strong> below.</td></tr>';
+			continue;
+		}
+
+		$p    = chic_el_probe_route( $path );
+		$meta = '';
+		if ( '' !== $p['server'] ) {
+			$meta .= '<br><span style="color:#646970;font-size:11px;">Served by: '
+				. esc_html( $p['server'] ) . '</span>';
+		}
+		if ( '' !== $p['snippet'] && 200 !== $p['code'] ) {
+			$meta .= '<br><span style="color:#646970;font-size:11px;">Body: '
+				. esc_html( mb_substr( $p['snippet'], 0, 160 ) ) . '</span>';
+		}
+
 		if ( 0 === $p['code'] ) {
 			echo chic_el_status_cell( 'warn', 'No response' );
-			echo '<td>Loopback request failed: ' . esc_html( $p['error'] ) . '. Check <code>/el</code> in a browser instead.</td>';
+			echo '<td>Loopback request failed: ' . esc_html( $p['error'] )
+				. '. Check the URL in a browser instead.</td>';
 		} elseif ( 200 === $p['code'] ) {
 			echo chic_el_status_cell( 'ok', 'HTTP 200' );
-			echo '<td><code>/el</code> is serving correctly.</td>';
+			echo '<td>Serving correctly.' . $meta . '</td>';
 		} elseif ( 403 === $p['code'] ) {
 			echo chic_el_status_cell( 'bad', 'HTTP 403' );
-			echo '<td>Still forbidden. The server is serving the folder, not WordPress.</td>';
+			echo '<td>Forbidden. If the body mentions cPanel or WebPros the origin server '
+				. 'is refusing the directory, so removing <code>el/</code> is the fix.' . $meta . '</td>';
 		} else {
 			echo chic_el_status_cell( 'bad', 'HTTP ' . $p['code'] );
-			echo '<td>Unexpected status from <code>' . esc_html( $p['url'] ) . '</code>.</td>';
+			echo '<td>Unexpected status from <code>' . esc_html( $p['url'] ) . '</code>.' . $meta . '</td>';
 		}
+		echo '</tr>';
 	}
-	echo '</tr>';
 
 	echo '</tbody></table>';
 }
@@ -282,24 +286,16 @@ function chic_sitemap_llms_run( bool $dry_run ): void {
 		ABSPATH . 'sitemap.xml' => $xml,
 		ABSPATH . 'sitemap.xsl' => $xsl,
 		ABSPATH . 'llms.txt'    => $txt_en,
-		ABSPATH . 'el/llms.txt' => $txt_el,
 	];
 
 	echo '<h2 style="margin-top:1.5rem;">' . ( $dry_run ? 'Dry Run — Preview' : 'Results' ) . '</h2>';
 
-	// Ensure el/ directory exists before writing el/llms.txt.
-	// The real directory satisfies !-d and bypasses WordPress's rewrite rules,
-	// so /el/ would 403. Two guards against that:
-	//   1. .htaccess routes back to index.php (Apache with AllowOverride only).
-	//   2. index.php shim boots WP directly (works on Apache, Nginx, LiteSpeed).
-	// See chic_el_ensure_dir_shim() in inc/i18n.php.
+	// Greek llms.txt is stored in an option and served virtually at /el/llms.txt
+	// by the route in inc/i18n.php. It is deliberately NOT written to disk: a real
+	// el/ directory makes Apache refuse every request under /el/ with a 403,
+	// because WordPress's root .htaccess skips existing directories (!-d).
 	if ( ! $dry_run ) {
-		wp_mkdir_p( ABSPATH . 'el' );
-		$htaccess = ABSPATH . 'el/.htaccess';
-		if ( ! file_exists( $htaccess ) ) {
-			file_put_contents( $htaccess, "Options -Indexes\n<IfModule mod_rewrite.c>\nRewriteEngine On\nRewriteBase /\nRewriteCond %{REQUEST_FILENAME} !-f\nRewriteRule ^ /index.php [L]\n</IfModule>\n", LOCK_EX );
-		}
-		chic_el_ensure_dir_shim();
+		update_option( 'chic_llms_el', $txt_el, false );
 	}
 
 	// Results table.
@@ -329,6 +325,15 @@ function chic_sitemap_llms_run( bool $dry_run ): void {
 		echo '</tr>';
 	}
 
+	// Greek llms.txt lives in an option, not on disk.
+	echo '<tr>';
+	echo '<td><code>el/llms.txt</code><br><span style="color:#646970;font-size:11px;">virtual, served by WordPress</span></td>';
+	echo '<td>' . esc_html( number_format( strlen( $txt_el ) ) . ' bytes' ) . '</td>';
+	echo '<td>' . ( $dry_run
+		? '<span style="color:#2271b1;">&#9432; Preview only, not saved</span>'
+		: '<span style="color:#1d7a1d;">&#10003; Saved to option <code>chic_llms_el</code></span>' );
+	echo '</td></tr>';
+
 	echo '</tbody></table>';
 
 	if ( ! $dry_run ) {
@@ -341,7 +346,7 @@ function chic_sitemap_llms_run( bool $dry_run ): void {
 
 	// Dry-run: show generated content in collapsible <details> blocks.
 	if ( $dry_run ) {
-		foreach ( $files as $path => $content ) {
+		foreach ( $files + [ ABSPATH . 'el/llms.txt' => $txt_el ] as $path => $content ) {
 			$rel = str_replace( ABSPATH, '', $path );
 			echo '<details style="margin-top:1.5rem;">';
 			echo '<summary style="cursor:pointer;font-weight:600;">' . esc_html( $rel ) . '</summary>';

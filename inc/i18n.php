@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 define( 'CHIC_DEFAULT_LANG',    'en' );
 define( 'CHIC_SUPPORTED_LANGS', [ 'en', 'el' ] );
-define( 'CHIC_I18N_VERSION',    '2' );
+define( 'CHIC_I18N_VERSION',    '3' );
 
 /* ── Language detection ──────────────────────────────────────────────────── */
 
@@ -46,10 +46,14 @@ add_action( 'init', function () {
 		'index.php?lang=el&post_type=mphb_room_type&name=$matches[1]',
 		'top'
 	);
+	// Registered after the rules above so it is checked before them. Otherwise
+	// `^el/(.+?)/?$` swallows it as pagename=llms.txt and returns a 404.
+	add_rewrite_rule( '^el/llms\.txt$',  'index.php?chic_llms=el',                     'top' );
 }, 1 );
 
 add_filter( 'query_vars', function ( array $vars ): array {
 	$vars[] = 'lang';
+	$vars[] = 'chic_llms';
 	return $vars;
 } );
 
@@ -174,6 +178,85 @@ add_action( 'admin_init', function () {
 	chic_el_ensure_dir_shim();
 	update_option( 'chic_el_shim_version', CHIC_EL_SHIM_VERSION );
 } );
+
+/**
+ * Files the theme itself put inside el/. Anything else in there is a signal
+ * that a human or another plugin owns the directory, so removal must abort.
+ */
+const CHIC_EL_OWNED_FILES = [ 'index.php', '.htaccess', 'llms.txt' ];
+
+/**
+ * Delete the physical el/ directory so /el/ falls through to the rewrite rules.
+ *
+ * On the live host (GoDaddy cPanel behind Cloudflare) Apache refuses the whole
+ * directory with a cPanel 403 page, including static files inside it, so the
+ * index.php shim never executes. Removing the directory is the only fix that
+ * does not require server access. Greek llms.txt is served virtually instead,
+ * see chic_llms_virtual_route() below.
+ *
+ * Refuses to run if the directory holds anything the theme did not create.
+ *
+ * @return array{ok:bool,msg:string}
+ */
+function chic_el_remove_dir(): array {
+	$dir = ABSPATH . 'el';
+
+	if ( ! is_dir( $dir ) ) {
+		return [ 'ok' => true, 'msg' => 'Directory does not exist. Nothing to remove.' ];
+	}
+
+	$entries = array_values( array_diff( (array) scandir( $dir ), [ '.', '..' ] ) );
+	$unknown = array_diff( $entries, CHIC_EL_OWNED_FILES );
+
+	if ( ! empty( $unknown ) ) {
+		return [
+			'ok'  => false,
+			'msg' => 'Aborted. Unexpected files present: ' . implode( ', ', $unknown ) . '. Remove them by hand first.',
+		];
+	}
+
+	foreach ( $entries as $entry ) {
+		if ( ! @unlink( $dir . '/' . $entry ) ) {
+			return [ 'ok' => false, 'msg' => 'Could not delete el/' . $entry . '. Check file permissions.' ];
+		}
+	}
+
+	if ( ! @rmdir( $dir ) ) {
+		return [ 'ok' => false, 'msg' => 'Files deleted but the directory itself would not remove. Check permissions.' ];
+	}
+
+	delete_option( 'chic_el_shim_version' );
+	flush_rewrite_rules();
+
+	return [ 'ok' => true, 'msg' => 'Removed el/ directory. /el/ now routes through WordPress.' ];
+}
+
+/* ── Virtual /el/llms.txt ────────────────────────────────────────────────── */
+
+/**
+ * Serves Greek llms.txt from an option instead of a file on disk, so the
+ * el/ directory never needs to exist. The Sitemap tool fills the option.
+ */
+add_action( 'template_redirect', function () {
+	if ( 'el' !== get_query_var( 'chic_llms' ) ) {
+		return;
+	}
+
+	$txt = (string) get_option( 'chic_llms_el', '' );
+
+	if ( '' === $txt ) {
+		status_header( 404 );
+		header( 'Content-Type: text/plain; charset=utf-8' );
+		echo "Not generated yet. Run Tools then Sitemap and LLMs.txt.\n";
+		exit;
+	}
+
+	status_header( 200 );
+	header( 'Content-Type: text/plain; charset=utf-8' );
+	header( 'X-Robots-Tag: noindex' );
+	echo $txt;
+	exit;
+}, 0 );
 
 /* ── Canonical redirect guard ────────────────────────────────────────────── */
 
