@@ -4,9 +4,6 @@
 	function init() {
 		if ( typeof Swiper === 'undefined' ) return;
 
-		var reduced = window.matchMedia &&
-			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-
 		document.querySelectorAll( SELECTOR ).forEach( function ( root ) {
 			var controls = root.closest( '.home-suites__inner' ) &&
 				root.closest( '.home-suites__inner' ).querySelector( '.home-suites__controls' );
@@ -17,9 +14,9 @@
 				slidesPerView: 1.25,
 				spaceBetween: 16,
 				loop: true,
-				speed: reduced ? 0 : 400,
+				speed: 400,
 				grabCursor: true,
-				autoplay: reduced ? false : {
+				autoplay: {
 					delay: 3000,
 					disableOnInteraction: false,
 				},

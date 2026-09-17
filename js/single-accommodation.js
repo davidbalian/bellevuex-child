@@ -1,6 +1,5 @@
 /* ── Parallax (static hero image) ────────────────────────────────────────── */
 ( function () {
-	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) return;
 
 	var FACTOR    = 0.25;
 	var MOBILE_BP = 768;
@@ -61,9 +60,6 @@ document.addEventListener( 'DOMContentLoaded', function () {
 	function init() {
 		if ( typeof Swiper === 'undefined' ) return;
 
-		var reduced = window.matchMedia &&
-			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-
 		document.querySelectorAll( '.js-gallery-swiper' ).forEach( function ( root ) {
 			var inner    = root.closest( '.home-suites__inner' );
 			var controls = inner && inner.querySelector( '.home-suites__controls' );
@@ -74,9 +70,9 @@ document.addEventListener( 'DOMContentLoaded', function () {
 				slidesPerView: 'auto',
 				spaceBetween:  16,
 				loop:          true,
-				speed:         reduced ? 0 : 400,
+				speed:         400,
 				grabCursor:    true,
-				autoplay:      reduced ? false : {
+				autoplay:      {
 					delay:                3000,
 					disableOnInteraction: false,
 				},

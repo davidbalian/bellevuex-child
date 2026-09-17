@@ -245,8 +245,6 @@
 
 		root.dataset.mapReady = '1';
 
-		var reducedMotion = window.matchMedia &&
-			window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
 		var bounds = getMarkerBounds( markers );
 		var center = bounds.getCenter();
 
@@ -257,8 +255,8 @@
 			zoomControl: false,
 			minZoom: MAP_MIN_ZOOM,
 			maxZoom: MAP_MAX_ZOOM,
-			fadeAnimation: ! reducedMotion,
-			zoomAnimation: ! reducedMotion,
+			fadeAnimation: true,
+			zoomAnimation: true,
 		} );
 
 		L.control.zoom( { position: 'bottomright' } ).addTo( map );

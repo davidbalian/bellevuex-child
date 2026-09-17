@@ -1,6 +1,5 @@
 /* ── Parallax (static hero image) — same behavior as single-accommodation ─── */
 ( function () {
-	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) return;
 
 	var FACTOR    = 0.25;
 	var MOBILE_BP = 768;

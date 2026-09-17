@@ -10,11 +10,8 @@
 
 	var targets = document.querySelectorAll( '.fade-in' );
 
-	// Reduced motion or no IntersectionObserver: show everything immediately
-	if (
-		window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ||
-		typeof IntersectionObserver === 'undefined'
-	) {
+	// No IntersectionObserver: show everything immediately.
+	if ( typeof IntersectionObserver === 'undefined' ) {
 		targets.forEach( function ( el ) { el.classList.add( 'visible' ); } );
 		return;
 	}

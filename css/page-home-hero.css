@@ -106,12 +106,6 @@
 	will-change: transform;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.home-hero__carousel.is-ready .swiper-slide-active .home-hero__slide img {
-		will-change: auto;
-	}
-}
-
 /* ── Overlay layer (copy + chevron) ──────────────────────────────────────── */
 
 .home-hero__overlay {

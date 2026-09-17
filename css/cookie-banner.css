@@ -94,9 +94,3 @@
 		width: auto;
 	}
 }
-
-@media (prefers-reduced-motion: reduce) {
-	.cookie-banner {
-		transition: none;
-	}
-}

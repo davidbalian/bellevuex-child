@@ -9,7 +9,6 @@ This theme ships a global scroll-triggered fade-in system (`css/scroll-fade-in.c
 - `data-fade-stagger` on a parent auto-adds `fade-in` + capped delay to direct children (index 0→delay-0, 1→delay-1, 2+→delay-2).
 - For hand-written markup: add `fade-in-delay-0/1/2` manually; 4th+ elements share delay-2.
 - Animation auto-cleans on `animationend` (classes stripped), so hover/transform effects on the same element work normally after reveal.
-- `prefers-reduced-motion`: content shows immediately, no animation.
 - No-JS safety: `fade-in-ready` is added to `<html>` via an inline `wp_head` script; without it the `.fade-in` selectors don't match and content stays visible.
 
 **Treat this as default.** Building a new template or section without `fade-in` is a regression of the site's motion language.

@@ -281,13 +281,6 @@ html.is-header-scrolled {
 	}
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.site-header,
-	.site-header__brand img {
-		transition: none;
-	}
-}
-
 /* Lock document scroll while mobile drawer or desktop mega menu is open */
 html.is-menu-scroll-lock,
 html.is-menu-scroll-lock body {

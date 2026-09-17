@@ -8,10 +8,6 @@
 	var KB_KEYFRAMES      = [ { transform: 'scale(1)' }, { transform: 'scale(1.02)' } ];
 	var KB_ANIM_KEY       = '_kenBurnsAnim';
 
-	function prefersReducedMotion() {
-		return window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches;
-	}
-
 	function clearKenBurns( img ) {
 		if ( ! img ) return;
 		var anim = img[ KB_ANIM_KEY ];
@@ -58,8 +54,8 @@
 		} );
 	}
 
-	function buildConfig( reducedMotion ) {
-		var on = reducedMotion ? {} : {
+	function buildConfig() {
+		var on = {
 			afterInit: function () {
 				startKenBurns( getImg( this.slides[ this.activeIndex ] ) );
 			},
@@ -85,7 +81,7 @@
 			allowTouchMove: false,
 			simulateTouch: false,
 			preventInteractionOnTransition: true,
-			autoplay: reducedMotion ? false : {
+			autoplay: {
 				delay: AUTOPLAY_DELAY_MS,
 				disableOnInteraction: false,
 			},
@@ -95,10 +91,9 @@
 
 	function initSlider( root ) {
 		if ( typeof Swiper === 'undefined' ) { reveal( root ); return; }
-		var reducedMotion = prefersReducedMotion();
 		var firstImg = root.querySelector( 'img' );
 		whenImageReady( firstImg, DECODE_TIMEOUT_MS ).then( function () {
-			new Swiper( root, buildConfig( reducedMotion ) );
+			new Swiper( root, buildConfig() );
 			reveal( root );
 		} );
 	}
@@ -114,7 +109,6 @@
 
 /* ── Parallax (slider only) ──────────────────────────────────────────────── */
 ( function () {
-	if ( window.matchMedia( '(prefers-reduced-motion: reduce)' ).matches ) return;
 
 	var FACTOR    = 0.25;
 	var MOBILE_BP = 768;

@@ -85,7 +85,6 @@ class SiteMegaNavController {
 		this._mq        = window.matchMedia('(min-width: 48.0625rem)');
 		this._openItem  = null;
 		this._ro        = null;
-		this._reduced   = window.matchMedia('(prefers-reduced-motion: reduce)');
 		this._megaSpacer        = null;
 		this._megaScrollLockY   = null;
 
@@ -240,7 +239,7 @@ class SiteMegaNavController {
 		const surface  = li.querySelector('.mega-panel__surface');
 		if ( ! heightEl || ! surface ) return;
 
-		if ( this._reduced.matches || instant ) {
+		if ( instant ) {
 			heightEl.style.height = closing ? '0' : surface.scrollHeight + 'px';
 			return;
 		}

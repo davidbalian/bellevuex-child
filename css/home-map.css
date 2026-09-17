@@ -175,11 +175,3 @@
 		padding: 0.3125rem 0.625rem;
 	}
 }
-
-@media ( prefers-reduced-motion: reduce ) {
-	.home-map__marker,
-	.home-map__label,
-	.home-map__dot {
-		transition: none;
-	}
-}
